@@ -269,16 +269,9 @@ export default function EitcPage() {
         </div>
 
         <section>
-          <div className="flex flex-col items-center gap-2 text-center">
-            <span className="type-subsection-title block w-full text-center">
-              PA TAX CREDIT SCHOLARSHIP PROGRAM
-            </span>
-            <span className="block font-heading text-sm font-normal uppercase tracking-[0.25em] text-gray-500 sm:text-base md:text-lg md:tracking-[0.3em]">
-              FAQ&apos;S
-            </span>
-          </div>
+          <h3 className="type-section-title text-center text-gray-800">FAQ&apos;S</h3>
           <div className="mx-auto mt-8 w-full">
-            <EitcFaqAccordion items={eitcFaqItems} />
+            <EitcFaqAccordion items={eitcFaqItems} title="PA TAX CREDIT SCHOLARSHIP PROGRAM" />
           </div>
         </section>
 

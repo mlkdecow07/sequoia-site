@@ -10,11 +10,18 @@ type FaqItem = {
 
 type EitcFaqAccordionProps = {
   items: FaqItem[];
+  title?: string;
 };
 
-export default function EitcFaqAccordion({ items }: EitcFaqAccordionProps) {
+export default function EitcFaqAccordion({
+  items,
+  title = "FAQ'S",
+}: EitcFaqAccordionProps) {
   return (
     <div className="overflow-hidden rounded-xl border border-teal/15 bg-white shadow-sm">
+      <div className="border-b border-teal/10 bg-teal/5 px-5 py-4">
+        <p className="font-heading font-semibold tracking-wide text-teal">{title}</p>
+      </div>
       <Accordion
         titleClassName="font-heading text-left text-sm font-semibold uppercase tracking-wide text-teal sm:text-base"
         contentClassName="type-body"
