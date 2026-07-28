@@ -142,7 +142,7 @@ export default function ContactForm({ variant = "default" }: ContactFormProps) {
           disabled={status === "sending"}
           className={`inline-flex items-center gap-2 font-semibold uppercase tracking-widest transition disabled:cursor-wait disabled:opacity-70 ${
             isFooter
-              ? "bg-white px-4 py-2 text-[10px] text-teal hover:bg-cream"
+              ? "rounded bg-white px-4 py-2 text-[10px] text-teal hover:bg-cream"
               : "rounded bg-teal px-5 py-2.5 text-xs text-white hover:bg-teal-dark"
           }`}
         >

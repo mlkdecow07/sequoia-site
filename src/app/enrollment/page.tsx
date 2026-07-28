@@ -69,7 +69,7 @@ export default function EnrollmentPage() {
             href={siteConfig.applyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center gap-2 bg-teal px-6 py-2.5 text-xs font-semibold tracking-wide text-white transition hover:bg-teal-dark sm:px-8 sm:py-3 sm:text-sm"
+            className="mt-6 inline-flex items-center gap-2 rounded bg-teal px-6 py-2.5 text-xs font-semibold tracking-wide text-white transition hover:bg-teal-dark sm:px-8 sm:py-3 sm:text-sm"
           >
             START YOUR APPLICATION
             <svg

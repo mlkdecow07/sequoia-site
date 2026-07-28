@@ -22,7 +22,7 @@ export default function ApplyPage() {
         href={siteConfig.applyUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-10 inline-flex items-center gap-2 bg-teal px-8 py-3 text-xs font-semibold tracking-wide text-white transition hover:bg-teal-dark sm:px-10 sm:py-4 sm:text-sm md:text-base"
+        className="mt-10 inline-flex items-center gap-2 rounded bg-teal px-8 py-3 text-xs font-semibold tracking-wide text-white transition hover:bg-teal-dark sm:px-10 sm:py-4 sm:text-sm md:text-base"
       >
         START YOUR APPLICATION
         <svg

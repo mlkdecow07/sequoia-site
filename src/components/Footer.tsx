@@ -68,7 +68,7 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-start md:justify-between md:gap-12">
+        <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-12">
           <div className="contents md:flex md:max-w-md md:flex-col">
             <div className="order-1 w-full">
               <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start sm:gap-4">
@@ -76,7 +76,7 @@ export default function Footer() {
                   href={siteConfig.applyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex w-auto shrink-0 items-center justify-center gap-2 bg-white px-5 py-2.5 text-[10px] font-semibold uppercase tracking-widest text-teal transition hover:bg-cream sm:px-6 sm:py-3 sm:text-xs"
+                  className="inline-flex w-auto shrink-0 items-center justify-center gap-2 rounded bg-white px-5 py-2.5 text-[10px] font-semibold uppercase tracking-widest text-teal transition hover:bg-cream sm:px-6 sm:py-3 sm:text-xs"
                 >
                   Join Sequoia Christian School
                   <svg
@@ -97,7 +97,7 @@ export default function Footer() {
                   href={siteConfig.donateUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex w-auto shrink-0 items-center justify-center gap-1.5 border-2 border-cream bg-transparent px-5 py-2.5 text-[10px] font-semibold uppercase tracking-widest text-cream transition hover:bg-cream hover:text-teal sm:px-6 sm:py-3 sm:text-xs"
+                  className="inline-flex w-auto shrink-0 items-center justify-center gap-1.5 rounded border-2 border-cream bg-transparent px-5 py-2.5 text-[10px] font-semibold uppercase tracking-widest text-cream transition hover:bg-cream hover:text-teal sm:px-6 sm:py-3 sm:text-xs"
                 >
                   Donate
                   <svg
@@ -116,7 +116,7 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="order-3 mt-6 flex w-full items-start gap-3 sm:gap-6 md:order-2">
+            <div className="order-3 mt-6 flex w-full items-end gap-3 sm:gap-6 md:order-2">
               <div className="shrink-0">
                 <Image
                   src="/images/crest-white.png"
@@ -141,7 +141,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="order-2 w-full md:max-w-sm md:shrink-0 md:self-end">
+          <div className="order-2 w-full md:max-w-sm md:shrink-0">
             <ContactForm variant="footer" />
           </div>
         </div>

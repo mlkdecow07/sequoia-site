@@ -8,7 +8,7 @@ import { navigation, pagesWithFullHero } from "@/lib/site-config";
 import { HERO_SCROLL_END_SELECTOR } from "@/lib/hero-config";
 
 const desktopNavItemClass =
-  "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap border-b border-transparent pb-px font-nav text-[19px] font-bold uppercase tracking-[0.06em] text-white transition-colors duration-300 ease-out hover:border-white/80 hover:text-white/80 md:text-xl";
+  "inline-flex shrink-0 items-center gap-1 whitespace-nowrap border-b border-transparent pb-px font-nav text-[11px] font-bold uppercase tracking-[0.06em] text-white transition-colors duration-300 ease-out hover:border-white/80 hover:text-white/80 lg:text-xs";
 
 const mobileNavItemClass =
   "inline-flex items-center gap-2 whitespace-nowrap border-b border-transparent pb-px font-nav text-[22px] font-bold uppercase tracking-[0.06em] text-gray-700 transition-colors duration-300 ease-out hover:border-teal hover:text-teal";

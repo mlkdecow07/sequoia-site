@@ -44,7 +44,7 @@ type FormLibraryListProps = {
 
 export default function FormLibraryList({ categories }: FormLibraryListProps) {
   return (
-    <div className="mx-auto mt-12 max-w-3xl space-y-8">
+    <div className="mt-12 space-y-8">
       {categories.map((category) => (
         <section
           key={category.title}

@@ -27,7 +27,7 @@ export default function HeroGallery() {
           <button
             type="button"
             onClick={() => setVideoOpen(true)}
-            className="inline-flex w-48 items-center justify-center gap-2 border-2 border-white/80 bg-black/20 px-6 py-2.5 text-xs font-semibold tracking-wide text-white backdrop-blur-sm transition hover:border-white hover:bg-black/35 sm:px-8 sm:py-3 sm:text-sm"
+            className="inline-flex w-48 items-center justify-center gap-2 rounded border-2 border-white/80 bg-black/20 px-6 py-2.5 text-xs font-semibold tracking-wide text-white backdrop-blur-sm transition hover:border-white hover:bg-black/35 sm:px-8 sm:py-3 sm:text-sm"
           >
             <svg
               viewBox="0 0 24 24"
@@ -43,7 +43,7 @@ export default function HeroGallery() {
             href={siteConfig.applyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-48 items-center justify-center gap-2 border-2 border-transparent bg-teal px-6 py-2.5 text-xs font-semibold tracking-wide text-white transition hover:bg-teal-dark sm:px-8 sm:py-3 sm:text-sm"
+            className="inline-flex w-48 items-center justify-center gap-2 rounded border-2 border-transparent bg-teal px-6 py-2.5 text-xs font-semibold tracking-wide text-white transition hover:bg-teal-dark sm:px-8 sm:py-3 sm:text-sm"
           >
             JOIN SCS
             <svg

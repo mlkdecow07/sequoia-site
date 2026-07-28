@@ -14,19 +14,23 @@ export default function CalendarPage() {
       <h2 className="type-page-title">SCHOOL CALENDAR</h2>
 
       <p className="type-body mx-auto mt-8 max-w-3xl text-center">
-        Important dates for the {schoolYear} school year at Sequoia Christian School.
+        Important dates for the {schoolYear} school year.
       </p>
 
       <SchoolCalendarView months={schoolCalendar} />
 
-      <p className="type-caption mx-auto mt-12 max-w-3xl text-center italic">
-        Dates are subject to change. For the most current information, please contact the school
-        office at{" "}
-        <a href={`tel:+1${siteConfig.phone.replace(/\D/g, "")}`} className="text-teal underline">
-          {siteConfig.phone}
-        </a>
-        .
-      </p>
+      <div className="mx-auto mt-12 max-w-3xl space-y-2 text-center">
+        <p className="text-[10px] uppercase tracking-wide text-gray-400 sm:text-xs">
+          Dates are subject to change.
+        </p>
+        <p className="type-caption italic">
+          For the most current information, please contact the school office at{" "}
+          <a href={`tel:+1${siteConfig.phone.replace(/\D/g, "")}`} className="text-teal underline">
+            {siteConfig.phone}
+          </a>
+          .
+        </p>
+      </div>
     </article>
   );
 }

@@ -172,7 +172,7 @@ export default function EitcPage() {
         </div>
       </div>
 
-      <div className="mx-auto mt-16 max-w-3xl space-y-10">
+      <div className="mx-auto mt-16 max-w-xl space-y-10">
         <section className="rounded-xl border border-teal/20 bg-white/95 p-6 shadow-sm md:p-8">
           <h4 className="type-subsection-title">HOW CAN I PARTICIPATE?</h4>
           <p className="type-body mt-2 font-semibold text-gray-800">IT&apos;S SIMPLE!!</p>
@@ -216,7 +216,7 @@ export default function EitcPage() {
                 </p>
                 <a
                   href="mailto:catherine_long@acsi.org,eitc@sequoiachristian.com?subject=EITC%20Reservation%20Form%3A%20Sequoia%20Christian%20School"
-                  className="mt-4 inline-flex items-center gap-2 border-2 border-teal bg-white/95 px-5 py-2.5 text-sm font-semibold tracking-wide text-teal transition hover:bg-teal/5"
+                  className="mt-4 inline-flex items-center gap-2 rounded border-2 border-teal bg-white/95 px-5 py-2.5 text-sm font-semibold tracking-wide text-teal transition hover:bg-teal/5"
                 >
                   SEND RESERVATION FORM
                   <svg
@@ -253,7 +253,7 @@ export default function EitcPage() {
           </div>
         </section>
 
-        <div className="mx-auto w-full max-w-xl overflow-hidden rounded-2xl shadow-md">
+        <div className="w-full overflow-hidden rounded-2xl shadow-md">
           <div className="relative aspect-video w-full">
             <iframe
               className="absolute inset-0 h-full w-full"

@@ -182,7 +182,7 @@ export default function TuitionPage() {
               href={siteConfig.applyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-full max-w-xs items-center justify-center gap-2 border-2 border-teal bg-white/95 px-6 py-2.5 text-xs font-semibold tracking-wide text-teal transition hover:bg-teal/5 sm:max-w-sm sm:px-8 sm:py-3 sm:text-sm"
+              className="inline-flex w-full max-w-xs items-center justify-center gap-2 rounded border-2 border-teal bg-white/95 px-6 py-2.5 text-xs font-semibold tracking-wide text-teal transition hover:bg-teal/5 sm:max-w-sm sm:px-8 sm:py-3 sm:text-sm"
             >
             FINANCIAL AID APPLICATION
             <svg
