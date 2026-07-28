@@ -11,7 +11,7 @@ const desktopNavItemClass =
   "inline-flex shrink-0 items-center gap-1 whitespace-nowrap border-b border-transparent pb-px font-nav text-[11px] font-bold uppercase tracking-[0.06em] text-white transition-colors duration-300 ease-out hover:border-white/80 hover:text-white/80 lg:text-xs";
 
 const mobileNavItemClass =
-  "inline-flex items-center gap-2 whitespace-nowrap border-b border-transparent pb-px font-nav text-[22px] font-bold uppercase tracking-[0.06em] text-gray-700 transition-colors duration-300 ease-out hover:border-teal hover:text-teal";
+  "inline-flex items-center gap-2 whitespace-nowrap border-b border-transparent pb-px font-nav text-[15px] font-bold uppercase tracking-[0.06em] text-gray-700 transition-colors duration-300 ease-out hover:border-teal hover:text-teal";
 
 const HEADER_FADE_DISTANCE = 96;
 
@@ -264,17 +264,27 @@ export default function Header() {
                 aria-controls="site-menu-mobile"
                 aria-label={menuOpen ? "Close menu" : "Open menu"}
                 onClick={() => setMenuOpen((open) => !open)}
-                className="flex h-[3.75rem] w-[3.75rem] flex-col items-center justify-center gap-1.5 border border-white/30 bg-white/10 transition hover:bg-white/20 md:hidden"
+                className="flex h-[3.75rem] w-[3.75rem] items-center justify-center border border-white/30 bg-white/10 transition hover:bg-white/20 md:hidden"
               >
-                <span
-                  className={`block h-0.5 w-8 bg-white transition ${menuOpen ? "translate-y-2.5 rotate-45" : ""}`}
-                />
-                <span
-                  className={`block h-0.5 w-8 bg-white transition ${menuOpen ? "opacity-0" : ""}`}
-                />
-                <span
-                  className={`block h-0.5 w-8 bg-white transition ${menuOpen ? "-translate-y-2.5 -rotate-45" : ""}`}
-                />
+                {menuOpen ? (
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    className="h-8 w-8 text-white"
+                    aria-hidden
+                  >
+                    <path d="M6 6l12 12M18 6 6 18" />
+                  </svg>
+                ) : (
+                  <span className="flex flex-col items-center justify-center gap-1.5" aria-hidden>
+                    <span className="block h-0.5 w-8 bg-white" />
+                    <span className="block h-0.5 w-8 bg-white" />
+                    <span className="block h-0.5 w-8 bg-white" />
+                  </span>
+                )}
               </button>
             </div>
 
@@ -312,7 +322,7 @@ export default function Header() {
                         type="button"
                         aria-expanded={!!openSections[item.label]}
                         onClick={() => toggleSection(item.label)}
-                        className="w-full px-5 py-5 text-left transition hover:bg-cream"
+                        className="flex w-full items-center gap-1.5 px-5 py-3.5 text-left transition hover:bg-cream"
                       >
                         <span
                           className={`${mobileNavItemClass} ${
@@ -320,13 +330,21 @@ export default function Header() {
                           }`}
                         >
                           {item.label}
-                          <span
-                            className={`text-xs text-teal transition ${openSections[item.label] ? "rotate-180" : ""}`}
-                            aria-hidden
-                          >
-                            ▾
-                          </span>
                         </span>
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className={`h-4 w-4 shrink-0 text-teal transition ${
+                            openSections[item.label] ? "rotate-180" : ""
+                          }`}
+                          aria-hidden
+                        >
+                          <path d="m6 9 6 6 6-6" />
+                        </svg>
                       </button>
                       {openSections[item.label] ? (
                         <ul className="border-t border-gray-100 bg-cream/40 pb-2">
@@ -335,7 +353,7 @@ export default function Header() {
                               <NavAnchor
                                 href={child.href}
                                 onClick={() => setMenuOpen(false)}
-                                className="block px-7 py-4 font-nav text-xl font-bold uppercase tracking-[0.06em] text-gray-700 transition hover:bg-cream hover:text-teal hover:underline hover:underline-offset-4"
+                                className="block px-7 py-2.5 font-nav text-sm font-bold uppercase tracking-[0.06em] text-gray-700 transition hover:bg-cream hover:text-teal hover:underline hover:underline-offset-4"
                               >
                                 {child.label}
                               </NavAnchor>
@@ -349,7 +367,7 @@ export default function Header() {
                       <NavAnchor
                         href={item.href}
                         onClick={() => setMenuOpen(false)}
-                        className="block px-5 py-5 font-nav text-[22px] font-bold uppercase tracking-[0.06em] text-gray-700 transition hover:bg-cream hover:text-teal"
+                        className="block px-5 py-3.5 transition hover:bg-cream hover:text-teal"
                       >
                         <span className={`${mobileNavItemClass} hover:border-teal`}>
                           {item.label}
