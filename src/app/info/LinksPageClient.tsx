@@ -163,7 +163,7 @@ export default function LinksPageClient() {
             href="/"
             className="text-xs font-semibold uppercase tracking-widest text-white/70 transition hover:text-white"
           >
-            sequoiachristianschool.org
+            sequoiachristian.com
           </Link>
           <p className="mt-3 text-[10px] uppercase tracking-wider text-white/55">
             © {new Date().getFullYear()} Sequoia Christian School

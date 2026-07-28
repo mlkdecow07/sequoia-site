@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 
 type ContactFormProps = {
   variant?: "footer" | "default";
@@ -8,9 +8,21 @@ type ContactFormProps = {
 
 export default function ContactForm({ variant = "default" }: ContactFormProps) {
   const isFooter = variant === "footer";
+  const idPrefix = useId();
+  const nameId = `${idPrefix}-name`;
+  const emailId = `${idPrefix}-email`;
+  const messageId = `${idPrefix}-message`;
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const labelClassName = isFooter
+    ? "mb-1 block text-[10px] font-semibold uppercase tracking-widest text-white/80"
+    : "mb-1.5 block text-xs font-semibold uppercase tracking-widest text-teal";
+
+  const fieldClassName = isFooter
+    ? "w-full rounded border border-white/25 bg-white/10 px-3 py-2 text-xs text-white outline-none focus:border-white/60"
+    : "w-full rounded border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 outline-none focus:border-teal";
 
   const adjustMessageHeight = () => {
     const textarea = messageRef.current;
@@ -84,46 +96,51 @@ export default function ContactForm({ variant = "default" }: ContactFormProps) {
       className={isFooter ? "space-y-2" : "space-y-4"}
       onSubmit={handleSubmit}
     >
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
+      <div className={`grid grid-cols-1 sm:grid-cols-2 ${isFooter ? "gap-2" : "gap-4"}`}>
+        <div>
+          <label htmlFor={nameId} className={labelClassName}>
+            Name
+          </label>
+          <input
+            id={nameId}
+            type="text"
+            name="name"
+            required
+            autoComplete="name"
+            disabled={status === "sending"}
+            className={fieldClassName}
+          />
+        </div>
+        <div>
+          <label htmlFor={emailId} className={labelClassName}>
+            Email Address
+          </label>
+          <input
+            id={emailId}
+            type="email"
+            name="email"
+            required
+            autoComplete="email"
+            disabled={status === "sending"}
+            className={fieldClassName}
+          />
+        </div>
+      </div>
+      <div>
+        <label htmlFor={messageId} className={labelClassName}>
+          Message
+        </label>
+        <textarea
+          id={messageId}
+          ref={messageRef}
+          name="message"
+          rows={isFooter ? 2 : 3}
           required
           disabled={status === "sending"}
-          className={`w-full outline-none ${
-            isFooter
-              ? "border border-white/25 bg-white/10 px-3 py-2 text-xs text-white placeholder:text-white/60 focus:border-white/60"
-              : "rounded border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-teal"
-          }`}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email Address"
-          required
-          disabled={status === "sending"}
-          className={`w-full outline-none ${
-            isFooter
-              ? "border border-white/25 bg-white/10 px-3 py-2 text-xs text-white placeholder:text-white/60 focus:border-white/60"
-              : "rounded border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-teal"
-          }`}
+          onInput={adjustMessageHeight}
+          className={`${fieldClassName} resize-none`}
         />
       </div>
-      <textarea
-        ref={messageRef}
-        name="message"
-        placeholder="Message"
-        rows={isFooter ? 2 : 3}
-        required
-        disabled={status === "sending"}
-        onInput={adjustMessageHeight}
-        className={`w-full resize-none outline-none ${
-          isFooter
-            ? "border border-white/25 bg-white/10 px-3 py-2 text-xs text-white placeholder:text-white/60 focus:border-white/60"
-            : "rounded border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-teal"
-        }`}
-      />
       {errorMessage ? (
         <p
           className={

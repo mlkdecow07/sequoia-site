@@ -22,7 +22,7 @@ const eitcFaqs = [
   {
     question: "WHAT IS A SPECIAL PURPOSE ENTITY (SPE)?",
     answer:
-      "An SPE is a legal entity, in which individuals and businesses may participate, that is established to fulfill a narrow, specific, or temporary objective. Life Center Ministries is currently partnering with ACSI (Association of Christian Schools International) Children's Tuition Fund of PA (CTF). The requirement is now $2,000 (a combined income of $65,147 to participate. CTF awards 95% of the contribution to the school and retains 5% to support their legal and legislative efforts to promote the state tax credit program and to protect religious liberty.",
+      "An SPE is a legal entity, in which individuals and businesses may participate, that is established to fulfill a narrow, specific, or temporary objective. Life Center Ministries is currently partnering with ACSI (Association of Christian Schools International) Children's Tuition Fund of PA (CTF). The requirement is now $2,000 (a combined income of $65,147 to participate). CTF awards 95% of the contribution to the school and retains 5% to support their legal and legislative efforts to promote the state tax credit program and to protect religious liberty.",
   },
   {
     question: "HOW MUCH CAN I CONTRIBUTE?",
@@ -46,11 +46,14 @@ const eitcFaqItems = [
         <a href="mailto:catherine_long@acsi.org" className="text-teal underline">
           catherine_long@acsi.org
         </a>
-        . (For tracking and projecting purposes, we ask that a copy also be sent to{" "}
-        <a href="mailto:eitc@sequoiachristian.com" className="text-teal underline">
-          eitc@sequoiachristian.com
-        </a>
-        ).
+        .{" "}
+        <span className="mt-2 block text-[10px] tracking-wide text-gray-400 sm:text-xs">
+          (For tracking and projecting purposes, we ask that a copy also be sent to{" "}
+          <a href="mailto:eitc@sequoiachristian.com" className="text-teal underline">
+            eitc@sequoiachristian.com
+          </a>
+          ).
+        </span>
       </>
     ),
   },
@@ -186,7 +189,7 @@ export default function EitcPage() {
                 <p className="mt-2">
                   Complete a{" "}
                   <Link
-                    href="https://www.acsi.org"
+                    href="https://secure.rightsignature.com/signers/6e354775-4a76-45a6-b67e-4cecb6a833b8/sign?access_token=Ca1cTtXYmLAWxviQF7kk"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-teal underline"
@@ -274,7 +277,7 @@ export default function EitcPage() {
               FAQ&apos;S
             </span>
           </div>
-          <div className="mx-auto mt-8 w-full max-w-xl sm:max-w-2xl">
+          <div className="mx-auto mt-8 w-full">
             <EitcFaqAccordion items={eitcFaqItems} />
           </div>
         </section>
