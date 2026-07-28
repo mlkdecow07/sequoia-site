@@ -306,7 +306,7 @@ export default function EitcPage() {
             Please don&apos;t hesitate to reach out if you have questions or need assistance as you
             explore redirecting your state income taxes to Sequoia Christian School.
           </p>
-          <div className="mx-auto mt-8 max-w-md">
+          <div className="mx-auto mt-8 max-w-md text-left">
             <ContactForm />
           </div>
         </section>

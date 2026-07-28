@@ -153,7 +153,7 @@ export default function ContactForm({ variant = "default" }: ContactFormProps) {
           {errorMessage}
         </p>
       ) : null}
-      <div className={isFooter ? "text-center" : undefined}>
+      <div className="text-center">
         <button
           type="submit"
           disabled={status === "sending"}
