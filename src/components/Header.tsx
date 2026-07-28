@@ -8,12 +8,12 @@ import { navigation, pagesWithFullHero } from "@/lib/site-config";
 import { HERO_SCROLL_END_SELECTOR } from "@/lib/hero-config";
 
 const desktopNavItemClass =
-  "inline-flex shrink-0 items-center gap-1 whitespace-nowrap border-b border-transparent pb-px font-nav text-[13px] font-bold uppercase tracking-[0.06em] text-white transition-colors duration-300 ease-out hover:border-white/80 hover:text-white/80 sm:text-sm";
+  "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap border-b border-transparent pb-px font-nav text-[19px] font-bold uppercase tracking-[0.06em] text-white transition-colors duration-300 ease-out hover:border-white/80 hover:text-white/80 md:text-xl";
 
 const mobileNavItemClass =
-  "inline-flex items-center gap-2 whitespace-nowrap border-b border-transparent pb-px font-nav text-[15px] font-bold uppercase tracking-[0.06em] text-gray-700 transition-colors duration-300 ease-out hover:border-teal hover:text-teal";
+  "inline-flex items-center gap-2 whitespace-nowrap border-b border-transparent pb-px font-nav text-[22px] font-bold uppercase tracking-[0.06em] text-gray-700 transition-colors duration-300 ease-out hover:border-teal hover:text-teal";
 
-const HEADER_FADE_DISTANCE = 72;
+const HEADER_FADE_DISTANCE = 96;
 
 function isExternalHref(href: string) {
   return href.startsWith("http://") || href.startsWith("https://");
@@ -192,14 +192,14 @@ export default function Header() {
             style={{ opacity: hasFullHero ? 0 : 1 }}
           />
           <div className="relative">
-            <div className="flex items-center justify-between gap-6 px-6 py-1.5 md:px-10 md:py-2">
+            <div className="flex items-center justify-between gap-6 px-5 py-[1.1rem] sm:px-6 sm:py-5 md:px-10 md:py-5">
               <Link href="/" className="shrink-0" onClick={() => setMenuOpen(false)} prefetch={false}>
                 <Image
                   src="/images/combo-logo.png"
                   alt="Sequoia Christian School"
                   width={280}
                   height={80}
-                  className="h-10 w-auto md:h-12"
+                  className="h-[3.75rem] w-auto sm:h-[4.375rem] md:h-[4.375rem]"
                   priority
                 />
               </Link>
@@ -264,16 +264,16 @@ export default function Header() {
                 aria-controls="site-menu-mobile"
                 aria-label={menuOpen ? "Close menu" : "Open menu"}
                 onClick={() => setMenuOpen((open) => !open)}
-                className="flex h-9 w-9 flex-col items-center justify-center gap-1 border border-white/30 bg-white/10 transition hover:bg-white/20 md:hidden"
+                className="flex h-[3.75rem] w-[3.75rem] flex-col items-center justify-center gap-1.5 border border-white/30 bg-white/10 transition hover:bg-white/20 md:hidden"
               >
                 <span
-                  className={`block h-0.5 w-6 bg-white transition ${menuOpen ? "translate-y-2 rotate-45" : ""}`}
+                  className={`block h-0.5 w-8 bg-white transition ${menuOpen ? "translate-y-2.5 rotate-45" : ""}`}
                 />
                 <span
-                  className={`block h-0.5 w-6 bg-white transition ${menuOpen ? "opacity-0" : ""}`}
+                  className={`block h-0.5 w-8 bg-white transition ${menuOpen ? "opacity-0" : ""}`}
                 />
                 <span
-                  className={`block h-0.5 w-6 bg-white transition ${menuOpen ? "-translate-y-2 -rotate-45" : ""}`}
+                  className={`block h-0.5 w-8 bg-white transition ${menuOpen ? "-translate-y-2.5 -rotate-45" : ""}`}
                 />
               </button>
             </div>
@@ -312,7 +312,7 @@ export default function Header() {
                         type="button"
                         aria-expanded={!!openSections[item.label]}
                         onClick={() => toggleSection(item.label)}
-                        className="w-full px-5 py-3.5 text-left transition hover:bg-cream"
+                        className="w-full px-5 py-5 text-left transition hover:bg-cream"
                       >
                         <span
                           className={`${mobileNavItemClass} ${
@@ -335,7 +335,7 @@ export default function Header() {
                               <NavAnchor
                                 href={child.href}
                                 onClick={() => setMenuOpen(false)}
-                                className="block px-7 py-2.5 font-nav text-[14px] font-bold uppercase tracking-[0.06em] text-gray-700 transition hover:bg-cream hover:text-teal hover:underline hover:underline-offset-4"
+                                className="block px-7 py-4 font-nav text-xl font-bold uppercase tracking-[0.06em] text-gray-700 transition hover:bg-cream hover:text-teal hover:underline hover:underline-offset-4"
                               >
                                 {child.label}
                               </NavAnchor>
@@ -349,7 +349,7 @@ export default function Header() {
                       <NavAnchor
                         href={item.href}
                         onClick={() => setMenuOpen(false)}
-                        className="block px-5 py-3.5 font-nav text-[15px] font-bold uppercase tracking-[0.06em] text-gray-700 transition hover:bg-cream hover:text-teal"
+                        className="block px-5 py-5 font-nav text-[22px] font-bold uppercase tracking-[0.06em] text-gray-700 transition hover:bg-cream hover:text-teal"
                       >
                         <span className={`${mobileNavItemClass} hover:border-teal`}>
                           {item.label}

@@ -134,7 +134,7 @@ export default function HeroSection({
               <div aria-hidden="true" />
             </div>
             <div className="absolute inset-0 hidden flex-col md:flex">
-              <div className="h-[3.25rem] shrink-0 md:h-16" aria-hidden="true" />
+              <div className="h-[6.25rem] shrink-0 sm:h-[6.875rem] md:h-[7.5rem]" aria-hidden="true" />
               <div className="hero-content flex flex-1 flex-col items-center justify-center gap-4 px-6 pb-6 md:gap-5">
                 {children}
               </div>
@@ -159,7 +159,7 @@ export default function HeroSection({
               <div aria-hidden="true" />
             </div>
             <div className="absolute inset-0 hidden flex-col md:flex">
-              <div className="h-[3.25rem] shrink-0 md:h-16" aria-hidden="true" />
+              <div className="h-[6.25rem] shrink-0 sm:h-[6.875rem] md:h-[7.5rem]" aria-hidden="true" />
               <div className="hero-content flex flex-1 flex-col items-center justify-center gap-4 px-6 pb-6 md:gap-5">
                 {children}
               </div>
@@ -176,7 +176,7 @@ export default function HeroSection({
           </>
         ) : (
           <div className="absolute inset-0 flex flex-col">
-            <div className="h-[3.25rem] shrink-0 md:h-16" aria-hidden="true" />
+            <div className="h-[6.25rem] shrink-0 sm:h-[6.875rem] md:h-[7.5rem]" aria-hidden="true" />
             <div className="hero-content flex flex-1 flex-col items-center justify-center gap-4 px-6 pb-6 md:gap-5">
               {children}
             </div>

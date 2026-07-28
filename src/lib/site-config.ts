@@ -77,16 +77,16 @@ export const schoolCalendar: SchoolCalendarMonth[] = [
     name: "August 2026",
     events: [
       {
-        dates: "August 21",
+        dates: "August 27",
         title: "Meet the Teacher",
         description: "9AM–11AM.",
-        startDate: "2026-08-21",
+        startDate: "2026-08-27",
       },
       {
-        dates: "August 24",
+        dates: "August 31",
         title: "First Day of School",
         description: "Classes begin for the 2026–2027 school year.",
-        startDate: "2026-08-24",
+        startDate: "2026-08-31",
       },
     ],
   },

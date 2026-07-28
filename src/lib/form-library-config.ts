@@ -12,7 +12,7 @@ export type FormLibraryCategory = {
 export function getFormLibraryCategories(): FormLibraryCategory[] {
   return [
     {
-      title: "For Enrollment Requirements",
+      title: "Enrollment Requirements",
       items: [
         {
           label: "Physical Exam Form",
@@ -29,7 +29,7 @@ export function getFormLibraryCategories(): FormLibraryCategory[] {
       ],
     },
     {
-      title: "For Medication Administration",
+      title: "Medication Administration",
       items: [
         {
           label: "Medication Administration Form",

@@ -14,7 +14,7 @@ export default function FormLibraryPage() {
     <article className="mx-auto max-w-6xl px-6 py-16">
       <h2 className="type-page-title">FORM LIBRARY</h2>
 
-      <p className="type-body mx-auto mt-8 max-w-2xl text-center">
+      <p className="type-body mt-8 max-w-2xl text-left">
         Download enrollment and medication forms for Sequoia Christian School. Contact the school
         office at{" "}
         <a href={`tel:+1${siteConfig.phone.replace(/\D/g, "")}`} className="text-teal underline">
