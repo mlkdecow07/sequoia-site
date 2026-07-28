@@ -18,11 +18,34 @@ const sourceSans3 = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.sequoiachristian.com"),
   title: {
     default: "Sequoia Christian School",
     template: "%s - Sequoia Christian School",
   },
   description: "Where Giant Dreamers Are Nurtured — Sequoia Christian School in Harrisburg, PA",
+  openGraph: {
+    title: "Sequoia Christian School",
+    description: "Where Giant Dreamers Are Nurtured — Sequoia Christian School in Harrisburg, PA",
+    url: "https://www.sequoiachristian.com",
+    siteName: "Sequoia Christian School",
+    images: [
+      {
+        url: "/images/og-share.png",
+        width: 646,
+        height: 1024,
+        alt: "Where Giant Dreamers Are Nurtured — Sequoia Christian School",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sequoia Christian School",
+    description: "Where Giant Dreamers Are Nurtured — Sequoia Christian School in Harrisburg, PA",
+    images: ["/images/og-share.png"],
+  },
 };
 
 export default function RootLayout({
