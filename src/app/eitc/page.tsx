@@ -98,8 +98,8 @@ export default function EitcPage() {
         <div className="relative aspect-video w-full">
           <iframe
             className="absolute inset-0 h-full w-full"
-            src="https://www.youtube.com/embed/k39rZzZ2Ryk?rel=0"
-            title="Educational Improvement Tax Credit Program"
+            src="https://www.youtube.com/embed/zf-3g2IMzqQ?rel=0"
+            title="What is Variable Tuition?"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
@@ -252,6 +252,18 @@ export default function EitcPage() {
             </div>
           </div>
         </section>
+
+        <div className="mx-auto w-full max-w-xl overflow-hidden rounded-2xl shadow-md">
+          <div className="relative aspect-video w-full">
+            <iframe
+              className="absolute inset-0 h-full w-full"
+              src="https://www.youtube.com/embed/k39rZzZ2Ryk?rel=0"
+              title="Funding through EITC"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
 
         <section>
           <div className="flex flex-col items-center gap-2 text-center">

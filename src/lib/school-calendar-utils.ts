@@ -7,6 +7,21 @@ export type FlatCalendarEvent = SchoolCalendarEvent & {
 
 const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
 
+const MONTH_NAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+] as const;
+
 export function flattenSchoolCalendar(months: SchoolCalendarMonth[]): FlatCalendarEvent[] {
   return months.flatMap((month) =>
     month.events.map((event) => ({
@@ -16,9 +31,23 @@ export function flattenSchoolCalendar(months: SchoolCalendarMonth[]): FlatCalend
   );
 }
 
+/** Parse labels like "August 2026" without Date string parsing (Safari-safe). */
 export function parseMonthName(name: string): { year: number; month: number } {
-  const parsed = new Date(`${name} 1`);
-  return { year: parsed.getFullYear(), month: parsed.getMonth() };
+  const match = name.trim().match(/^([A-Za-z]+)\s+(\d{4})$/);
+  if (!match) {
+    throw new Error(`Unrecognized calendar month label: ${name}`);
+  }
+
+  const monthIndex = MONTH_NAMES.findIndex(
+    (monthName) => monthName.toLowerCase() === match[1].toLowerCase(),
+  );
+  const year = Number(match[2]);
+
+  if (monthIndex < 0 || Number.isNaN(year)) {
+    throw new Error(`Unrecognized calendar month label: ${name}`);
+  }
+
+  return { year, month: monthIndex };
 }
 
 function toDateKey(date: Date): string {
@@ -26,11 +55,6 @@ function toDateKey(date: Date): string {
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
-}
-
-function dateFromKey(key: string): Date {
-  const [year, month, day] = key.split("-").map(Number);
-  return new Date(year, month - 1, day);
 }
 
 export function eventsOnDate(dateKey: string, events: FlatCalendarEvent[]): FlatCalendarEvent[] {
@@ -78,10 +102,7 @@ export function buildMonthGrid(
 }
 
 export function monthLabel(year: number, month: number): string {
-  return dateFromKey(toDateKey(new Date(year, month, 1))).toLocaleDateString("en-US", {
-    month: "long",
-    year: "numeric",
-  });
+  return `${MONTH_NAMES[month]} ${year}`;
 }
 
 export function formatYearMonth(year: number, month: number): string {

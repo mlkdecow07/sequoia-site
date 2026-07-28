@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Aleo, Open_Sans } from "next/font/google";
+import { Aleo, Source_Sans_3 } from "next/font/google";
 import SiteChrome from "@/components/SiteChrome";
 import "./globals.css";
 
@@ -9,10 +9,11 @@ const aleo = Aleo({
   display: "swap",
 });
 
-const openSans = Open_Sans({
+const sourceSans3 = Source_Sans_3({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
 });
 
@@ -31,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${aleo.variable} ${openSans.variable} antialiased`}>
+      <body className={`${aleo.variable} ${sourceSans3.variable} antialiased`}>
         <div className="site-shell min-h-screen bg-cream/95">
           <SiteChrome>{children}</SiteChrome>
         </div>

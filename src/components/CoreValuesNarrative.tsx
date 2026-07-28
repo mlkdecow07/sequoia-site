@@ -76,16 +76,18 @@ export default function CoreValuesNarrative({
         }}
       />
       <div className="relative flex min-h-[36vh] items-center justify-center px-6 py-16 text-center sm:min-h-[40vh] sm:px-10 sm:py-20">
-        <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 sm:gap-6">
-          <p className="text-lg font-semibold uppercase leading-relaxed tracking-widest text-white sm:text-xl md:text-2xl lg:text-3xl">
-            The DNA of the magnificent Sequoia tree is coded in every tiny seed…
-            <br />
-            And within the seed contains the holy capacity of giant dreams.
-          </p>
-          <p className="text-sm font-semibold uppercase leading-snug tracking-widest text-white sm:text-base md:text-lg">
+        <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 sm:gap-10">
+          <div className="space-y-4 sm:space-y-5">
+            <p className="font-heading text-xl font-semibold uppercase leading-snug tracking-[0.12em] text-white sm:text-2xl md:text-3xl md:leading-snug lg:text-4xl">
+              The DNA of the magnificent Sequoia tree is coded in every tiny seed…
+            </p>
+            <p className="font-heading text-xl font-semibold uppercase leading-snug tracking-[0.12em] text-white sm:text-2xl md:text-3xl md:leading-snug lg:text-4xl">
+              And within the seed contains the holy capacity of giant dreams.
+            </p>
+          </div>
+          <p className="font-heading text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-white/90 sm:text-base md:text-lg">
             Sequoia Christian School
-            <br />
-            Where Giant Dreamers Are Nurtured.
+            <span className="mt-2 block tracking-[0.14em]">Where Giant Dreamers Are Nurtured.</span>
           </p>
         </div>
       </div>
