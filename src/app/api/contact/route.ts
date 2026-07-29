@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { emailFrom, emailTo, escapeHtml, formatMultiline, resend } from "@/lib/resend";
+import { emailTo, escapeHtml, formatMultiline, resend } from "@/lib/resend";
 
 type ContactPayload = {
   name?: string;
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     }
 
     const { data, error } = await resend.emails.send({
-      from: `Sequoia Christian School <${emailFrom}>`,
+      from: "info@sequoiachristian.com",
       to: emailTo,
       replyTo: email,
       subject: `Website contact from ${name}`,

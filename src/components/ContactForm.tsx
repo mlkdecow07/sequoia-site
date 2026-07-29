@@ -3,11 +3,12 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 
 type ContactFormProps = {
-  variant?: "footer" | "default";
+  variant?: "footer" | "default" | "inset";
 };
 
 export default function ContactForm({ variant = "default" }: ContactFormProps) {
   const isFooter = variant === "footer";
+  const isInset = variant === "inset";
   const idPrefix = useId();
   const nameId = `${idPrefix}-name`;
   const emailId = `${idPrefix}-email`;
@@ -22,7 +23,9 @@ export default function ContactForm({ variant = "default" }: ContactFormProps) {
 
   const fieldClassName = isFooter
     ? "w-full rounded border border-white/25 bg-white/10 px-3 py-2 text-xs text-white outline-none focus:border-white/60"
-    : "w-full rounded border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 outline-none focus:border-teal";
+    : isInset
+      ? "w-full rounded border border-teal/20 bg-cream px-4 py-2.5 text-sm text-gray-800 outline-none focus:border-teal focus:bg-white"
+      : "w-full rounded border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 outline-none focus:border-teal";
 
   const adjustMessageHeight = () => {
     const textarea = messageRef.current;

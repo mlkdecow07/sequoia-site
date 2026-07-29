@@ -183,12 +183,33 @@ h6 {
   }
 }
 
+@keyframes eitc-now-attention {
+  0%,
+  100% {
+    transform: scale(1);
+    text-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+
+  50% {
+    transform: scale(1.04);
+    text-shadow: 0 0 28px rgba(255, 255, 255, 0.35);
+  }
+}
+
+@layer utilities {
+  .eitc-now-attention {
+    animation: eitc-now-attention 2.4s ease-in-out infinite;
+    will-change: transform;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .photo-reveal-drift,
   .hero-ken-burns,
   .hero-content > *,
   .testimonial-enter-next,
-  .testimonial-enter-prev {
+  .testimonial-enter-prev,
+  .eitc-now-attention {
     animation: none;
     opacity: 1;
     transform: none;

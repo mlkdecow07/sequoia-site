@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
 import EitcFaqAccordion from "@/components/EitcFaqAccordion";
+import EitcParticipateTabs from "@/components/EitcParticipateTabs";
 
 export const metadata: Metadata = {
   title: "EITC",
@@ -57,42 +58,28 @@ const eitcFaqItems = [
       </>
     ),
   },
-];
-
-const stepIconClassName = "mt-0.5 shrink-0 text-gray-900";
-
-const stepIcons = [
-  (
-    <span key="step-1" className={stepIconClassName} aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    </span>
-  ),
-  (
-    <span key="step-2" className={stepIconClassName} aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="m22 6-10 7L2 6" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    </span>
-  ),
-  (
-    <span key="step-3" className={stepIconClassName} aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M22 4 12 14.01l-3-3" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    </span>
-  ),
+  {
+    question: "WHAT IF I HAVE MORE QUESTIONS?",
+    answer: (
+      <div className="space-y-6">
+        <p>
+          Please don&apos;t hesitate to reach out if you have questions or need assistance as you
+          explore redirecting your state income taxes to Sequoia Christian School.
+        </p>
+        <div className="max-w-md">
+          <ContactForm variant="inset" />
+        </div>
+      </div>
+    ),
+  },
 ];
 
 export default function EitcPage() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <article className="mx-auto max-w-6xl px-6 py-16">
+    <article className="py-16">
+      <div className="mx-auto max-w-6xl px-6">
       <h2 className="type-page-title">
         WHAT IS EITC?
       </h2>
@@ -175,132 +162,72 @@ export default function EitcPage() {
         </div>
       </div>
 
-      <div className="mx-auto mt-16 max-w-xl space-y-10">
-        <section className="rounded-xl border border-teal/20 bg-white/95 p-6 shadow-sm md:p-8">
-          <h4 className="type-subsection-title">HOW CAN I PARTICIPATE?</h4>
-          <p className="type-body mt-2 font-semibold text-gray-800">IT&apos;S SIMPLE!!</p>
-          <div className="type-body mt-4 space-y-5">
-            <div className="flex items-start gap-4">
-              {stepIcons[0]}
-              <div>
-                <p>
-                  <strong>STEP 1: RESERVE YOUR CREDITS</strong>
-                </p>
-                <p className="mt-2">
-                  Complete a{" "}
-                  <Link
-                    href="https://secure.rightsignature.com/signers/6e354775-4a76-45a6-b67e-4cecb6a833b8/sign?access_token=Ca1cTtXYmLAWxviQF7kk"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-teal underline"
-                  >
-                    Children&apos;s Tuition Fund Reservation Form
-                  </Link>
-                  .
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              {stepIcons[1]}
-              <div>
-                <p>
-                  <strong>STEP 2: CONTRIBUTE YOUR TAXES</strong>
-                </p>
-                <p className="mt-2">
-                  Scan and email reservation form to Catherine Long{" "}
-                  <em>(Manager, ACSI Children&apos;s Tuition Fund).</em>
-                </p>
-                <p className="type-caption mt-3 border-l-2 border-teal/30 pl-3 italic">
-                  Please copy{" "}
-                  <a href="mailto:eitc@sequoiachristian.com" className="text-teal underline not-italic">
-                    eitc@sequoiachristian.com
-                  </a>{" "}
-                  for purpose of record keeping and helping to ensure you receive your credits.
-                </p>
-                <a
-                  href="mailto:catherine_long@acsi.org,eitc@sequoiachristian.com?subject=EITC%20Reservation%20Form%3A%20Sequoia%20Christian%20School"
-                  className="mt-4 inline-flex items-center gap-2 rounded border-2 border-teal bg-white/95 px-5 py-2.5 text-sm font-semibold tracking-wide text-teal transition hover:bg-teal/5"
-                >
-                  SEND RESERVATION FORM
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-4 w-4 shrink-0"
-                    aria-hidden="true"
-                  >
-                    <path d="M22 2 11 13" />
-                    <path d="M22 2 15 22 11 13 2 9 22 2" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              {stepIcons[2]}
-              <div>
-                <p>
-                  <strong>STEP 3: RECEIVE A 90% TAX CREDIT</strong>
-                </p>
-                <p className="mt-2">
-                  After CTF receives your reservation form and the credits from the state of
-                  Pennsylvania, you will receive an email asking you to complete a similar form{" "}
-                  <em>(called a &ldquo;joinder&rdquo;)</em> online. This can be several days to several months after
-                  you complete your reservation form. Once you complete the online joinder, you will
-                  have 15 to 20 days to make your contribution either by secure ACH or check.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+      <div className="mx-auto mt-16 max-w-xl">
+        <EitcParticipateTabs />
+      </div>
+      </div>
 
-        <div className="w-full overflow-hidden rounded-2xl shadow-md">
-          <div className="relative aspect-video w-full">
-            <iframe
-              className="absolute inset-0 h-full w-full"
-              src="https://www.youtube.com/embed/k39rZzZ2Ryk?rel=0"
-              title="Funding through EITC"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        </div>
-
-        <section>
-          <h3 className="type-section-title text-center text-gray-800">FAQ&apos;S</h3>
-          <div className="mx-auto mt-8 w-full">
-            <EitcFaqAccordion items={eitcFaqItems} title="PA TAX CREDIT SCHOLARSHIP PROGRAM" />
-          </div>
-        </section>
-
-        <div className="mx-auto max-w-xl rounded-xl bg-teal px-6 py-8 text-center text-white shadow-xl ring-1 ring-black/5 md:px-10 md:py-10">
-          <p className="font-heading text-xs font-semibold uppercase tracking-[0.2em] text-white/80 sm:text-sm">
+      <aside
+        aria-label="Call to action"
+        className="relative mt-16 w-full overflow-hidden bg-teal px-6 py-12 text-center text-white shadow-2xl md:py-14"
+      >
+        <div
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.18),transparent_65%)]"
+          aria-hidden="true"
+        />
+        <div className="relative mx-auto max-w-6xl">
+          <p className="font-heading text-sm font-semibold uppercase tracking-[0.28em] text-white/85 sm:text-base">
             Opportunity in {currentYear}
           </p>
-          <p className="mt-2 font-heading text-2xl font-bold uppercase tracking-wide sm:text-3xl md:text-4xl">
+          <p className="eitc-now-attention mt-3 font-heading text-4xl font-bold uppercase tracking-wide sm:text-5xl md:text-6xl">
             Is NOW!
           </p>
+          <div className="mx-auto mt-8 w-full max-w-xl overflow-hidden rounded-xl shadow-lg ring-1 ring-white/20">
+            <div className="relative aspect-video w-full bg-black">
+              <iframe
+                className="absolute inset-0 h-full w-full"
+                src="https://www.youtube.com/embed/k39rZzZ2Ryk?rel=0"
+                title="Funding through EITC"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </div>
           <div className="type-body mx-auto mt-6 max-w-xl space-y-3 text-white/95">
             <p>
               ACSI Children&apos;s Tuition Fund currently has $8.3 million in tax credits.
             </p>
             <p>There is a tremendous opportunity to participate this year.</p>
-            <p className="pt-2 text-base font-bold uppercase tracking-wide text-white sm:text-lg">
-              Reserve your credits today!
-            </p>
           </div>
+          <Link
+            href="https://secure.rightsignature.com/signers/6e354775-4a76-45a6-b67e-4cecb6a833b8/sign?access_token=Ca1cTtXYmLAWxviQF7kk"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8 inline-flex items-center gap-2 rounded bg-white px-6 py-3 text-sm font-bold uppercase tracking-widest text-teal shadow-md transition hover:bg-cream"
+          >
+            Reserve your credits today
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-4 w-4 shrink-0"
+              aria-hidden="true"
+            >
+              <path d="M7 17 17 7" />
+              <path d="M7 7h10v10" />
+            </svg>
+          </Link>
         </div>
+      </aside>
 
-        <section className="text-center">
-          <h4 className="type-subsection-title">WHAT IF I HAVE MORE QUESTIONS?</h4>
-          <p className="type-body mx-auto mt-4 max-w-xl">
-            Please don&apos;t hesitate to reach out if you have questions or need assistance as you
-            explore redirecting your state income taxes to Sequoia Christian School.
-          </p>
-          <div className="mx-auto mt-8 max-w-md text-left">
-            <ContactForm />
+      <div className="mx-auto mt-16 max-w-xl px-6">
+        <section>
+          <h3 className="type-section-title text-center text-gray-800">FAQ&apos;S</h3>
+          <div className="mx-auto mt-8 w-full">
+            <EitcFaqAccordion items={eitcFaqItems} title="PA TAX CREDIT SCHOLARSHIP PROGRAM" />
           </div>
         </section>
       </div>

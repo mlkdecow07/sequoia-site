@@ -236,6 +236,26 @@ export default function EmployeeApplicationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [stepError, setStepError] = useState<string | null>(null);
 
+  const MAX_FILE_BYTES = 4 * 1024 * 1024;
+
+  const assignUpload = (
+    setter: (file: File | null) => void,
+    file: File | undefined,
+    label: string,
+  ) => {
+    if (!file) {
+      setter(null);
+      return;
+    }
+    if (file.size > MAX_FILE_BYTES) {
+      setter(null);
+      setStepError(`${label} must be 4MB or smaller.`);
+      return;
+    }
+    setStepError(null);
+    setter(file);
+  };
+
   const update = <K extends keyof EmployeeApplicationData>(
     key: K,
     value: EmployeeApplicationData[K],
@@ -373,8 +393,8 @@ export default function EmployeeApplicationForm() {
     try {
       const formData = new FormData();
       formData.append("application", JSON.stringify(data));
-      if (headshot) formData.append("headshot", headshot);
-      if (resume) formData.append("resume", resume);
+      if (headshot) formData.append("headshot", headshot, headshot.name);
+      if (resume) formData.append("resume", resume, resume.name);
 
       const response = await fetch("/api/employment", {
         method: "POST",
@@ -672,10 +692,13 @@ export default function EmployeeApplicationForm() {
               type="file"
               accept="image/*"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setHeadshot(e.target.files?.[0] ?? null)
+                assignUpload(setHeadshot, e.target.files?.[0], "Headshot")
               }
               className="block w-full text-sm text-gray-600 file:mr-4 file:rounded file:border-0 file:bg-teal file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-teal-dark"
             />
+            {headshot ? (
+              <p className="mt-2 text-sm text-gray-600">Selected: {headshot.name}</p>
+            ) : null}
           </div>
         </div>
       )}
@@ -816,10 +839,13 @@ export default function EmployeeApplicationForm() {
               type="file"
               accept=".pdf,.doc,.docx"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setResume(e.target.files?.[0] ?? null)
+                assignUpload(setResume, e.target.files?.[0], "Resume")
               }
               className="block w-full text-sm text-gray-600 file:mr-4 file:rounded file:border-0 file:bg-teal file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-teal-dark"
             />
+            {resume ? (
+              <p className="mt-2 text-sm text-gray-600">Selected: {resume.name}</p>
+            ) : null}
           </div>
         </div>
       )}

@@ -23,6 +23,7 @@ export default function EitcFaqAccordion({
         <p className="font-heading font-semibold tracking-wide text-teal">{title}</p>
       </div>
       <Accordion
+        singleOpen
         titleClassName="font-heading text-left text-sm font-semibold uppercase tracking-wide text-teal sm:text-base"
         contentClassName="type-body"
         itemClassName="!mb-0 border-b border-teal/10 bg-white last:border-b-0"

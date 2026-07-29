@@ -3,7 +3,7 @@ import { Resend } from "resend";
 export const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const emailFrom =
-  process.env.RESEND_FROM_EMAIL ?? "noreply@sequoiachristian.com";
+  process.env.RESEND_FROM_EMAIL ?? "info@sequoiachristian.com";
 
 export const emailTo = process.env.EMAIL_TO ?? "info@sequoiachristian.com";
 

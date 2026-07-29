@@ -17,6 +17,7 @@ type AccordionProps = {
   variant?: "default" | "belief";
   wrapTitles?: boolean;
   singleColumn?: boolean;
+  singleOpen?: boolean;
 };
 
 function AccordionIcon({ isOpen, compact = false }: { isOpen: boolean; compact?: boolean }) {
@@ -52,6 +53,7 @@ export default function Accordion({
   variant = "default",
   wrapTitles = false,
   singleColumn = false,
+  singleOpen = false,
 }: AccordionProps) {
   const isBelief = variant === "belief";
   const beliefTitleClassName = `min-w-0 flex-1 font-heading text-[11px] font-semibold uppercase tracking-wide text-teal sm:text-xs md:text-[10px] md:tracking-normal lg:text-[11px] xl:text-xs${
@@ -65,10 +67,16 @@ export default function Accordion({
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
 
   const toggleItem = (id: string) => {
-    setOpenItems((current) => ({
-      ...current,
-      [id]: !current[id],
-    }));
+    setOpenItems((current) => {
+      const nextOpen = !current[id];
+      if (singleOpen) {
+        return nextOpen ? { [id]: true } : {};
+      }
+      return {
+        ...current,
+        [id]: nextOpen,
+      };
+    });
   };
 
   return (

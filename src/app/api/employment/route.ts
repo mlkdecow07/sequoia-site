@@ -116,12 +116,35 @@ function buildApplicationHtml(data: EmployeeApplicationData) {
   `;
 }
 
-async function fileToAttachment(file: File | null) {
-  if (!file || file.size === 0) return null;
-  const buffer = Buffer.from(await file.arrayBuffer());
+const MAX_ATTACHMENT_BYTES = 4 * 1024 * 1024; // 4MB per file (Vercel body limit ~4.5MB total)
+
+async function fileToAttachment(
+  entry: FormDataEntryValue | null,
+  label: string,
+) {
+  if (!entry || typeof entry === "string") {
+    throw new Error(`${label} is required.`);
+  }
+
+  if (!(entry instanceof Blob) || entry.size === 0) {
+    throw new Error(`${label} is required.`);
+  }
+
+  if (entry.size > MAX_ATTACHMENT_BYTES) {
+    throw new Error(`${label} must be 4MB or smaller.`);
+  }
+
+  const buffer = Buffer.from(await entry.arrayBuffer());
+  const filename =
+    "name" in entry && typeof entry.name === "string" && entry.name.trim()
+      ? entry.name.trim()
+      : label.toLowerCase().replace(/\s+/g, "-");
+
   return {
-    filename: file.name,
-    content: buffer,
+    filename,
+    // Resend JSON API requires base64 strings — raw Buffers serialize incorrectly.
+    content: buffer.toString("base64"),
+    contentType: entry.type || undefined,
   };
 }
 
@@ -146,11 +169,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const headshot = await fileToAttachment(formData.get("headshot") as File | null);
-    const resume = await fileToAttachment(formData.get("resume") as File | null);
-    const attachments = [headshot, resume].filter(
-      (attachment): attachment is NonNullable<typeof attachment> => Boolean(attachment),
-    );
+    const headshot = await fileToAttachment(formData.get("headshot"), "Headshot");
+    const resume = await fileToAttachment(formData.get("resume"), "Resume");
 
     const { data: result, error } = await resend.emails.send({
       from: `Sequoia Christian School <${emailFrom}>`,
@@ -158,7 +178,7 @@ export async function POST(request: Request) {
       replyTo: data.email,
       subject: `Employee application: ${data.fullName}`,
       html: buildApplicationHtml(data),
-      attachments,
+      attachments: [headshot, resume],
     });
 
     if (error) {
@@ -166,10 +186,10 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ data: result });
-  } catch {
-    return NextResponse.json(
-      { error: "Unable to submit your application right now." },
-      { status: 500 },
-    );
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Unable to submit your application right now.";
+    const status = message.includes("required") || message.includes("smaller") ? 400 : 500;
+    return NextResponse.json({ error: message }, { status });
   }
 }

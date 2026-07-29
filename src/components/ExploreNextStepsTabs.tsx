@@ -105,16 +105,16 @@ export default function ExploreNextStepsTabs() {
             Enrollment Process
           </p>
           <ol className="space-y-2">
-            <li className="font-heading text-sm font-semibold tracking-wide text-teal sm:text-base">
+            <li className="font-heading text-sm font-semibold tracking-wide text-black sm:text-base">
               Step 1: Apply Online
             </li>
-            <li className="font-heading text-sm font-semibold tracking-wide text-teal sm:text-base">
+            <li className="font-heading text-sm font-semibold tracking-wide text-black sm:text-base">
               Step 2: Family Interview
             </li>
-            <li className="font-heading text-sm font-semibold tracking-wide text-teal sm:text-base">
+            <li className="font-heading text-sm font-semibold tracking-wide text-black sm:text-base">
               Step 3: Acceptance
             </li>
-            <li className="font-heading text-sm font-semibold tracking-wide text-teal sm:text-base">
+            <li className="font-heading text-sm font-semibold tracking-wide text-black sm:text-base">
               Step 4: Enrollment
             </li>
           </ol>
@@ -131,10 +131,13 @@ export default function ExploreNextStepsTabs() {
           id={`${baseId}-panel-apply`}
           aria-labelledby={`${baseId}-tab-apply`}
           aria-hidden={activeIndex !== 2}
-          className={`col-start-1 row-start-1 px-5 py-6 text-center sm:px-6 sm:py-8 ${
+          className={`col-start-1 row-start-1 space-y-4 px-5 py-5 text-center sm:px-6 sm:py-6 ${
             activeIndex === 2 ? "visible" : "invisible"
           }`}
         >
+          <p className="font-heading text-sm font-semibold tracking-wide text-teal sm:text-base">
+            Application
+          </p>
           <p className="font-heading text-base font-semibold uppercase leading-relaxed tracking-wide text-teal sm:text-lg">
             Ready to become a giant dreamer?
           </p>
@@ -142,7 +145,7 @@ export default function ExploreNextStepsTabs() {
             href={siteConfig.applyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center gap-2 rounded bg-teal px-6 py-2.5 text-xs font-semibold tracking-wide text-white transition hover:bg-teal-dark sm:px-8 sm:py-3 sm:text-sm"
+            className="inline-flex items-center gap-2 rounded bg-teal px-6 py-2.5 text-xs font-semibold tracking-wide text-white transition hover:bg-teal-dark sm:px-8 sm:py-3 sm:text-sm"
           >
             START YOUR APPLICATION
             <svg
@@ -159,10 +162,10 @@ export default function ExploreNextStepsTabs() {
               <path d="M7 7h10v10" />
             </svg>
           </Link>
-          <p className="type-caption mx-auto mt-4 max-w-sm italic">
+          <p className="type-caption mx-auto max-w-sm italic">
             A non-refundable application fee of $50 is required with each application.
           </p>
-          <p className="type-body-sm mx-auto mt-4 max-w-sm text-gray-600">
+          <p className="type-body-sm mx-auto max-w-sm text-gray-600">
             Please Note: New students will be charged a $100 enrollment fee per student.
           </p>
         </div>
