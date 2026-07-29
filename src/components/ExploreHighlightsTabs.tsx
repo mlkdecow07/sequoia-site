@@ -30,7 +30,9 @@ const highlights = [
 
 export default function ExploreHighlightsTabs() {
   const baseId = useId();
-  const [activeId, setActiveId] = useState(highlights[0].id);
+  const [activeId, setActiveId] = useState<(typeof highlights)[number]["id"]>(
+    highlights[0].id,
+  );
   const activeIndex = Math.max(
     0,
     highlights.findIndex((item) => item.id === activeId),
