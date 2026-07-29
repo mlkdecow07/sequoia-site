@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
+import InfoPageViewTracker from "@/components/InfoPageViewTracker";
 import { getCurrentSchoolYear, siteConfig } from "@/lib/site-config";
 
 const links = [
@@ -36,6 +37,7 @@ const socialLinks = [
 export default function LinksPageClient() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-teal">
+      <InfoPageViewTracker />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.35]"

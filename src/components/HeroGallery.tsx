@@ -4,7 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 import HeroSection from "@/components/HeroSection";
+import SiteAlertBanner from "@/components/SiteAlertBanner";
 import VideoModal from "@/components/VideoModal";
+import type { SiteAlert } from "@/lib/supabase/types";
 
 const heroImages = [
   { src: "/images/hero/hero-1.png", alt: "Students building with blocks in the classroom" },
@@ -12,7 +14,7 @@ const heroImages = [
   { src: "/images/hero/hero-2.png", alt: "Students learning together at school" },
 ];
 
-export default function HeroGallery() {
+export default function HeroGallery({ siteAlert }: { siteAlert?: SiteAlert | null }) {
   const [videoOpen, setVideoOpen] = useState(false);
   const [bannerOpen, setBannerOpen] = useState(true);
 
@@ -75,6 +77,8 @@ export default function HeroGallery() {
             PSALM 1:3
           </p>
         </div>
+
+        {siteAlert ? <SiteAlertBanner alert={siteAlert} /> : null}
 
         {bannerOpen ? (
           <div className="enrollment-banner-enter relative mx-auto mt-8 w-full max-w-3xl px-2 sm:mt-10 sm:max-w-4xl sm:px-0 md:mt-12 lg:max-w-5xl">

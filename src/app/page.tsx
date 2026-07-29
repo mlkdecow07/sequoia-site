@@ -2,6 +2,9 @@ import HeroGallery from "@/components/HeroGallery";
 import HomeHighlightSlider from "@/components/HomeHighlightSlider";
 import CoreValuesCard from "@/components/CoreValuesCard";
 import CoreValuesNarrative from "@/components/CoreValuesNarrative";
+import { getActiveSiteAlert } from "@/lib/site-alert-data";
+
+export const revalidate = 60;
 
 const pillars = [
   {
@@ -84,10 +87,12 @@ const highlightSlides = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const siteAlert = await getActiveSiteAlert();
+
   return (
     <>
-      <HeroGallery />
+      <HeroGallery siteAlert={siteAlert} />
 
       <div className="relative z-10 bg-cream">
         <section className="mx-auto max-w-6xl px-4 pb-6 pt-12 sm:px-6 sm:pb-8 sm:pt-20">

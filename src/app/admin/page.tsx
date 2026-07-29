@@ -11,12 +11,22 @@ function formatDate(value: string) {
 export default async function AdminDashboardPage() {
   const supabase = await createClient();
 
+  const since7 = (() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() - 6);
+    return d.toISOString();
+  })();
+
   const [
     { count: contactNew },
     { count: contactTotal },
     { count: employmentNew },
     { count: employmentTotal },
     { count: calendarTotal },
+    { count: alertActive },
+    { count: alertTotal },
+    { count: infoViews7 },
     { data: recentContact },
     { data: recentEmployment },
   ] = await Promise.all([
@@ -38,6 +48,15 @@ export default async function AdminDashboardPage() {
       .from("calendar_events")
       .select("*", { count: "exact", head: true }),
     supabase
+      .from("site_alerts")
+      .select("*", { count: "exact", head: true })
+      .eq("is_active", true),
+    supabase.from("site_alerts").select("*", { count: "exact", head: true }),
+    supabase
+      .from("info_page_views")
+      .select("*", { count: "exact", head: true })
+      .gte("created_at", since7),
+    supabase
       .from("contact_submissions")
       .select("id, created_at, name, email, status, source")
       .order("created_at", { ascending: false })
@@ -54,11 +73,11 @@ export default async function AdminDashboardPage() {
       <div>
         <h1 className="font-heading text-3xl text-teal">Dashboard</h1>
         <p className="mt-2 text-sm text-gray-600">
-          Review contact messages, employment applications, and the school calendar.
+          Review submissions, calendar, homepage alerts, and /info traffic.
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Link
           href="/admin/contact"
           className="rounded border border-teal/15 bg-white px-5 py-4 transition hover:border-teal/40"
@@ -97,6 +116,32 @@ export default async function AdminDashboardPage() {
           <p className="mt-2 font-heading text-3xl text-gray-800">
             {calendarTotal ?? 0}
             <span className="ml-2 text-base font-normal text-gray-500">events</span>
+          </p>
+        </Link>
+        <Link
+          href="/admin/alerts"
+          className="rounded border border-teal/15 bg-white px-5 py-4 transition hover:border-teal/40"
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest text-teal">
+            Alerts
+          </p>
+          <p className="mt-2 font-heading text-3xl text-gray-800">
+            {alertActive ?? 0}
+            <span className="ml-2 text-base font-normal text-gray-500">
+              active / {alertTotal ?? 0} total
+            </span>
+          </p>
+        </Link>
+        <Link
+          href="/admin/info-stats"
+          className="rounded border border-teal/15 bg-white px-5 py-4 transition hover:border-teal/40"
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest text-teal">
+            Info traffic
+          </p>
+          <p className="mt-2 font-heading text-3xl text-gray-800">
+            {infoViews7 ?? 0}
+            <span className="ml-2 text-base font-normal text-gray-500">last 7 days</span>
           </p>
         </Link>
       </div>

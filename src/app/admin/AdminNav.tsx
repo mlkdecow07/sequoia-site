@@ -28,6 +28,18 @@ export default function AdminNav({ email }: { email?: string | null }) {
             >
               Calendar
             </Link>
+            <Link
+              href="/admin/alerts"
+              className="text-gray-700 underline-offset-2 hover:text-teal hover:underline"
+            >
+              Alerts
+            </Link>
+            <Link
+              href="/admin/info-stats"
+              className="text-gray-700 underline-offset-2 hover:text-teal hover:underline"
+            >
+              Info traffic
+            </Link>
           </nav>
         </div>
         <div className="flex items-center gap-3 text-sm text-gray-600">

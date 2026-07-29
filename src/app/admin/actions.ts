@@ -186,3 +186,85 @@ export async function deleteCalendarEvent(id: string) {
   revalidatePath("/admin");
   redirect("/admin/calendar");
 }
+
+function revalidateAlertPaths() {
+  revalidatePath("/");
+  revalidatePath("/admin/alerts");
+}
+
+function readAlertForm(formData: FormData) {
+  const title = String(formData.get("title") ?? "").trim();
+  const message = String(formData.get("message") ?? "").trim();
+  const isActive = formData.get("is_active") === "on";
+  const endsAtRaw = String(formData.get("ends_at") ?? "").trim();
+
+  if (!title || !message) {
+    throw new Error("Title and message are required.");
+  }
+
+  return {
+    title,
+    message,
+    is_active: isActive,
+    ends_at: endsAtRaw ? new Date(endsAtRaw).toISOString() : null,
+  };
+}
+
+export async function createSiteAlert(formData: FormData) {
+  const supabase = await requireAdminUser();
+  const payload = readAlertForm(formData);
+
+  if (payload.is_active) {
+    await supabase.from("site_alerts").update({ is_active: false }).eq("is_active", true);
+  }
+
+  const { error } = await supabase.from("site_alerts").insert(payload);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  revalidateAlertPaths();
+  revalidatePath("/admin");
+  redirect("/admin/alerts");
+}
+
+export async function updateSiteAlert(id: string, formData: FormData) {
+  const supabase = await requireAdminUser();
+  const payload = readAlertForm(formData);
+
+  if (payload.is_active) {
+    await supabase
+      .from("site_alerts")
+      .update({ is_active: false })
+      .eq("is_active", true)
+      .neq("id", id);
+  }
+
+  const { error } = await supabase
+    .from("site_alerts")
+    .update({ ...payload, updated_at: new Date().toISOString() })
+    .eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  revalidateAlertPaths();
+  revalidatePath(`/admin/alerts/${id}`);
+  redirect("/admin/alerts");
+}
+
+export async function deleteSiteAlert(id: string) {
+  const supabase = await requireAdminUser();
+
+  const { error } = await supabase.from("site_alerts").delete().eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  revalidateAlertPaths();
+  revalidatePath("/admin");
+  redirect("/admin/alerts");
+}

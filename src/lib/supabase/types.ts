@@ -32,3 +32,21 @@ export type CalendarEventRow = {
   end_date: string | null;
   sort_order: number | null;
 };
+
+export type InfoPageView = {
+  id: string;
+  created_at: string;
+  path: string;
+  referrer: string | null;
+  user_agent: string | null;
+};
+
+export type SiteAlert = {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  title: string;
+  message: string;
+  is_active: boolean;
+  ends_at: string | null;
+};
