@@ -8,12 +8,23 @@ import {
 } from "@/app/admin/actions";
 import type { SiteAlert } from "@/lib/supabase/types";
 
+function pad(n: number) {
+  return String(n).padStart(2, "0");
+}
+
 function toLocalInputValue(iso: string | null | undefined) {
   if (!iso) return "";
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return "";
-  const pad = (n: number) => String(n).padStart(2, "0");
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+/** Midnight at the start of tomorrow, local time, as datetime-local value. */
+function midnightTomorrowLocal() {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  d.setHours(0, 0, 0, 0);
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T00:00`;
 }
 
 export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
@@ -68,20 +79,49 @@ export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
 
         <div>
           <label
+            htmlFor="created_at"
+            className="text-xs font-semibold uppercase tracking-widest text-teal"
+          >
+            Display date
+          </label>
+          <input
+            id="created_at"
+            name="created_at"
+            type="datetime-local"
+            required
+            defaultValue={
+              isEdit
+                ? toLocalInputValue(alert?.created_at)
+                : toLocalInputValue(new Date().toISOString())
+            }
+            className="mt-1 w-full rounded border border-teal/20 px-3 py-2 text-sm text-gray-800 outline-none focus:border-teal"
+          />
+          <p className="mt-1 text-xs text-gray-500">
+            Shown on the homepage alert (defaults to now; editable).
+          </p>
+        </div>
+
+        <div>
+          <label
             htmlFor="ends_at"
             className="text-xs font-semibold uppercase tracking-widest text-teal"
           >
-            Auto-expire (optional)
+            Auto-expire
           </label>
           <input
             id="ends_at"
             name="ends_at"
             type="datetime-local"
-            defaultValue={toLocalInputValue(alert?.ends_at)}
+            required
+            defaultValue={
+              isEdit && alert?.ends_at
+                ? toLocalInputValue(alert.ends_at)
+                : midnightTomorrowLocal()
+            }
             className="mt-1 w-full rounded border border-teal/20 px-3 py-2 text-sm text-gray-800 outline-none focus:border-teal"
           />
           <p className="mt-1 text-xs text-gray-500">
-            Leave blank to keep showing until you turn it off.
+            Defaults to midnight at the start of tomorrow.
           </p>
         </div>
 

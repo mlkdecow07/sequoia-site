@@ -192,21 +192,42 @@ function revalidateAlertPaths() {
   revalidatePath("/admin/alerts");
 }
 
+function midnightTomorrowIso() {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  d.setHours(0, 0, 0, 0);
+  return d.toISOString();
+}
+
 function readAlertForm(formData: FormData) {
   const title = String(formData.get("title") ?? "").trim();
   const message = String(formData.get("message") ?? "").trim();
   const isActive = formData.get("is_active") === "on";
   const endsAtRaw = String(formData.get("ends_at") ?? "").trim();
+  const createdAtRaw = String(formData.get("created_at") ?? "").trim();
 
   if (!title || !message) {
     throw new Error("Title and message are required.");
+  }
+
+  const createdAt = createdAtRaw
+    ? new Date(createdAtRaw)
+    : new Date();
+  if (Number.isNaN(createdAt.getTime())) {
+    throw new Error("Display date is invalid.");
+  }
+
+  const endsAt = endsAtRaw ? new Date(endsAtRaw) : new Date(midnightTomorrowIso());
+  if (Number.isNaN(endsAt.getTime())) {
+    throw new Error("Auto-expire time is invalid.");
   }
 
   return {
     title,
     message,
     is_active: isActive,
-    ends_at: endsAtRaw ? new Date(endsAtRaw).toISOString() : null,
+    created_at: createdAt.toISOString(),
+    ends_at: endsAt.toISOString(),
   };
 }
 
