@@ -211,7 +211,9 @@ function readAlertForm(formData: FormData) {
   }
 
   const createdAt = createdAtRaw
-    ? new Date(createdAtRaw)
+    ? /^\d{4}-\d{2}-\d{2}$/.test(createdAtRaw)
+      ? new Date(`${createdAtRaw}T12:00:00`)
+      : new Date(createdAtRaw)
     : new Date();
   if (Number.isNaN(createdAt.getTime())) {
     throw new Error("Display date is invalid.");

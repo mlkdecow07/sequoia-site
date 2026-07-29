@@ -12,11 +12,15 @@ function pad(n: number) {
   return String(n).padStart(2, "0");
 }
 
-function toLocalInputValue(iso: string | null | undefined) {
+function toLocalDateValue(iso: string | null | undefined) {
   if (!iso) return "";
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return "";
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+function todayLocalDateValue() {
+  return toLocalDateValue(new Date().toISOString());
 }
 
 /** Midnight at the start of tomorrow, local time, as datetime-local value. */
@@ -25,6 +29,13 @@ function midnightTomorrowLocal() {
   d.setDate(d.getDate() + 1);
   d.setHours(0, 0, 0, 0);
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T00:00`;
+}
+
+function toLocalDateTimeValue(iso: string | null | undefined) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
 export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
@@ -87,17 +98,15 @@ export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
           <input
             id="created_at"
             name="created_at"
-            type="datetime-local"
+            type="date"
             required
             defaultValue={
-              isEdit
-                ? toLocalInputValue(alert?.created_at)
-                : toLocalInputValue(new Date().toISOString())
+              isEdit ? toLocalDateValue(alert?.created_at) : todayLocalDateValue()
             }
             className="mt-1 w-full rounded border border-teal/20 px-3 py-2 text-sm text-gray-800 outline-none focus:border-teal"
           />
           <p className="mt-1 text-xs text-gray-500">
-            Shown on the homepage alert (defaults to now; editable).
+            Shown on the homepage alert (defaults to today; editable).
           </p>
         </div>
 
@@ -115,7 +124,7 @@ export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
             required
             defaultValue={
               isEdit && alert?.ends_at
-                ? toLocalInputValue(alert.ends_at)
+                ? toLocalDateTimeValue(alert.ends_at)
                 : midnightTomorrowLocal()
             }
             className="mt-1 w-full rounded border border-teal/20 px-3 py-2 text-sm text-gray-800 outline-none focus:border-teal"

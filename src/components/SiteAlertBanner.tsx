@@ -53,9 +53,9 @@ export default function SiteAlertBanner({ alert, onOpenChange }: SiteAlertBanner
     <div className="enrollment-banner-enter relative mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center px-3 sm:px-6">
       <div
         role="status"
-        className="relative flex min-h-[min(70vh,36rem)] w-full flex-col items-center justify-center rounded border border-amber-200/80 bg-amber-950/75 px-6 py-10 text-center text-white backdrop-blur-md sm:min-h-[min(72vh,40rem)] sm:px-12 sm:py-14 md:px-16"
+        className="relative flex min-h-[min(70vh,36rem)] w-full flex-col items-center justify-center rounded border border-red-300/90 bg-red-600/85 px-6 py-10 text-center text-white backdrop-blur-md sm:min-h-[min(72vh,40rem)] sm:px-12 sm:py-14 md:px-16"
       >
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-100/90 sm:text-sm">
+        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-red-50 sm:text-sm">
           {formatAlertDate(alert.created_at)}
         </p>
         <p className="mt-4 font-heading text-3xl font-semibold uppercase leading-tight tracking-[0.12em] sm:text-4xl md:text-5xl lg:text-6xl">
