@@ -33,10 +33,10 @@ export default async function AdminEmploymentListPage() {
             Dashboard
           </Link>
           <span className="mx-2">/</span>
-          Employment
+          Employment Forms
         </p>
         <h1 className="mt-2 font-heading text-3xl uppercase tracking-widest text-teal">
-          Employment
+          Employment Forms
         </h1>
       </div>
 

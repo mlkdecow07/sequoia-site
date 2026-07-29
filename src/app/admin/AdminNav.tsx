@@ -26,13 +26,13 @@ export default function AdminNav({ email }: { email?: string | null }) {
               href="/admin/contact"
               className="text-gray-700 underline-offset-2 hover:text-teal hover:underline"
             >
-              Contact
+              Contact Forms
             </Link>
             <Link
               href="/admin/employment"
               className="text-gray-700 underline-offset-2 hover:text-teal hover:underline"
             >
-              Employment
+              Employment Forms
             </Link>
             <Link
               href="/admin/info-stats"

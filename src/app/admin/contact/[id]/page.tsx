@@ -40,7 +40,7 @@ export default async function AdminContactDetailPage({ params }: PageProps) {
             href="/admin/contact"
             className="text-teal underline-offset-2 hover:underline"
           >
-            Contact
+            Contact Forms
           </Link>
         </p>
         <h1 className="mt-2 font-heading text-3xl text-teal">{data.name}</h1>

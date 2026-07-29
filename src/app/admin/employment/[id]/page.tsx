@@ -88,7 +88,7 @@ export default async function AdminEmploymentDetailPage({ params }: PageProps) {
             href="/admin/employment"
             className="text-teal underline-offset-2 hover:underline"
           >
-            Employment
+            Employment Forms
           </Link>
         </p>
         <h1 className="mt-2 font-heading text-3xl text-teal">

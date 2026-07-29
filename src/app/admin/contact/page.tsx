@@ -31,10 +31,10 @@ export default async function AdminContactListPage() {
             Dashboard
           </Link>
           <span className="mx-2">/</span>
-          Contact
+          Contact Forms
         </p>
         <h1 className="mt-2 font-heading text-3xl uppercase tracking-widest text-teal">
-          Contact
+          Contact Forms
         </h1>
       </div>
 

@@ -109,7 +109,7 @@ export default async function AdminDashboardPage() {
           className="rounded border border-teal/15 bg-white px-5 py-4 transition hover:border-teal/40"
         >
           <p className="text-xs font-semibold uppercase tracking-widest text-teal">
-            Contact
+            Contact Forms
           </p>
           <p className="mt-2 font-heading text-3xl text-gray-800">
             {contactNew ?? 0}
@@ -123,7 +123,7 @@ export default async function AdminDashboardPage() {
           className="rounded border border-teal/15 bg-white px-5 py-4 transition hover:border-teal/40"
         >
           <p className="text-xs font-semibold uppercase tracking-widest text-teal">
-            Employment
+            Employment Forms
           </p>
           <p className="mt-2 font-heading text-3xl text-gray-800">
             {employmentNew ?? 0}
