@@ -79,6 +79,32 @@ export default async function AdminDashboardPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Link
+          href="/admin/alerts"
+          className="rounded border border-teal/15 bg-white px-5 py-4 transition hover:border-teal/40"
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest text-teal">
+            Alerts
+          </p>
+          <p className="mt-2 font-heading text-3xl text-gray-800">
+            {alertActive ?? 0}
+            <span className="ml-2 text-base font-normal text-gray-500">
+              active / {alertTotal ?? 0} total
+            </span>
+          </p>
+        </Link>
+        <Link
+          href="/admin/calendar"
+          className="rounded border border-teal/15 bg-white px-5 py-4 transition hover:border-teal/40"
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest text-teal">
+            Calendar
+          </p>
+          <p className="mt-2 font-heading text-3xl text-gray-800">
+            {calendarTotal ?? 0}
+            <span className="ml-2 text-base font-normal text-gray-500">events</span>
+          </p>
+        </Link>
+        <Link
           href="/admin/contact"
           className="rounded border border-teal/15 bg-white px-5 py-4 transition hover:border-teal/40"
         >
@@ -107,37 +133,11 @@ export default async function AdminDashboardPage() {
           </p>
         </Link>
         <Link
-          href="/admin/calendar"
-          className="rounded border border-teal/15 bg-white px-5 py-4 transition hover:border-teal/40"
-        >
-          <p className="text-xs font-semibold uppercase tracking-widest text-teal">
-            Calendar
-          </p>
-          <p className="mt-2 font-heading text-3xl text-gray-800">
-            {calendarTotal ?? 0}
-            <span className="ml-2 text-base font-normal text-gray-500">events</span>
-          </p>
-        </Link>
-        <Link
-          href="/admin/alerts"
-          className="rounded border border-teal/15 bg-white px-5 py-4 transition hover:border-teal/40"
-        >
-          <p className="text-xs font-semibold uppercase tracking-widest text-teal">
-            Alerts
-          </p>
-          <p className="mt-2 font-heading text-3xl text-gray-800">
-            {alertActive ?? 0}
-            <span className="ml-2 text-base font-normal text-gray-500">
-              active / {alertTotal ?? 0} total
-            </span>
-          </p>
-        </Link>
-        <Link
           href="/admin/info-stats"
           className="rounded border border-teal/15 bg-white px-5 py-4 transition hover:border-teal/40"
         >
           <p className="text-xs font-semibold uppercase tracking-widest text-teal">
-            Info traffic
+            Social Traffic
           </p>
           <p className="mt-2 font-heading text-3xl text-gray-800">
             {infoViews7 ?? 0}

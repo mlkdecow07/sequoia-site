@@ -11,7 +11,9 @@ export default function NewSiteAlertPage() {
         >
           ← Alerts
         </Link>
-        <h1 className="mt-3 font-heading text-3xl text-teal">New alert</h1>
+        <h1 className="mt-3 font-heading text-3xl uppercase tracking-widest text-teal">
+          New Alert
+        </h1>
       </div>
       <SiteAlertForm />
     </div>

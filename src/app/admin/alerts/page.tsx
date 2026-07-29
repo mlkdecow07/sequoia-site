@@ -22,7 +22,9 @@ export default async function AdminAlertsPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-heading text-3xl text-teal">Homepage alerts</h1>
+          <h1 className="font-heading text-3xl uppercase tracking-widest text-teal">
+            Alerts
+          </h1>
           <p className="mt-2 text-sm text-gray-600">
             Weather closures and other urgent notices shown on the homepage only.
           </p>

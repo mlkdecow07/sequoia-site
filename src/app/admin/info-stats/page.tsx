@@ -82,7 +82,9 @@ export default async function AdminInfoStatsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-heading text-3xl text-teal">Info page traffic</h1>
+        <h1 className="font-heading text-3xl uppercase tracking-widest text-teal">
+          Social Traffic
+        </h1>
         <p className="mt-2 text-sm text-gray-600">
           Views of{" "}
           <Link href="/info" className="text-teal underline-offset-2 hover:underline">

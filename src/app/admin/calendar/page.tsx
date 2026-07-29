@@ -31,7 +31,9 @@ export default async function AdminCalendarListPage() {
             <span className="mx-2">/</span>
             Calendar
           </p>
-          <h1 className="mt-2 font-heading text-3xl text-teal">School calendar</h1>
+          <h1 className="mt-2 font-heading text-3xl uppercase tracking-widest text-teal">
+            Calendar
+          </h1>
           <p className="mt-1 text-sm text-gray-600">
             Edit events shown on{" "}
             <Link href="/calendar" className="text-teal underline-offset-2 hover:underline">

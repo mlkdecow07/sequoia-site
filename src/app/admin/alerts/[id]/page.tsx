@@ -32,7 +32,9 @@ export default async function EditSiteAlertPage({
         >
           ← Alerts
         </Link>
-        <h1 className="mt-3 font-heading text-3xl text-teal">Edit alert</h1>
+        <h1 className="mt-3 font-heading text-3xl uppercase tracking-widest text-teal">
+          Edit Alert
+        </h1>
       </div>
       <SiteAlertForm alert={alert} />
     </div>

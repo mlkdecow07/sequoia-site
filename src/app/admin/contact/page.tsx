@@ -33,7 +33,9 @@ export default async function AdminContactListPage() {
           <span className="mx-2">/</span>
           Contact
         </p>
-        <h1 className="mt-2 font-heading text-3xl text-teal">Contact submissions</h1>
+        <h1 className="mt-2 font-heading text-3xl uppercase tracking-widest text-teal">
+          Contact
+        </h1>
       </div>
 
       <ul className="divide-y divide-teal/10 overflow-hidden rounded border border-teal/15 bg-white">

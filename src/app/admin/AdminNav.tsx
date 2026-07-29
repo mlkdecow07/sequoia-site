@@ -9,7 +9,19 @@ export default function AdminNav({ email }: { email?: string | null }) {
           <Link href="/admin" className="font-heading text-lg text-teal">
             SCS ADMIN
           </Link>
-          <nav className="flex items-center gap-3 text-sm">
+          <nav className="flex items-center gap-3 text-sm font-semibold uppercase tracking-widest">
+            <Link
+              href="/admin/alerts"
+              className="text-gray-700 underline-offset-2 hover:text-teal hover:underline"
+            >
+              Alerts
+            </Link>
+            <Link
+              href="/admin/calendar"
+              className="text-gray-700 underline-offset-2 hover:text-teal hover:underline"
+            >
+              Calendar
+            </Link>
             <Link
               href="/admin/contact"
               className="text-gray-700 underline-offset-2 hover:text-teal hover:underline"
@@ -23,22 +35,10 @@ export default function AdminNav({ email }: { email?: string | null }) {
               Employment
             </Link>
             <Link
-              href="/admin/calendar"
-              className="text-gray-700 underline-offset-2 hover:text-teal hover:underline"
-            >
-              Calendar
-            </Link>
-            <Link
-              href="/admin/alerts"
-              className="text-gray-700 underline-offset-2 hover:text-teal hover:underline"
-            >
-              Alerts
-            </Link>
-            <Link
               href="/admin/info-stats"
               className="text-gray-700 underline-offset-2 hover:text-teal hover:underline"
             >
-              Info traffic
+              Social Traffic
             </Link>
           </nav>
         </div>

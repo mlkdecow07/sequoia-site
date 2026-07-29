@@ -35,8 +35,8 @@ export default async function AdminEmploymentListPage() {
           <span className="mx-2">/</span>
           Employment
         </p>
-        <h1 className="mt-2 font-heading text-3xl text-teal">
-          Employment applications
+        <h1 className="mt-2 font-heading text-3xl uppercase tracking-widest text-teal">
+          Employment
         </h1>
       </div>
 
