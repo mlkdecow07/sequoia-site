@@ -14,7 +14,6 @@ import {
   parseMonthName,
   type FlatCalendarEvent,
 } from "@/lib/school-calendar-utils";
-import CarouselNavButton from "@/components/CarouselNavButton";
 import CalendarEventModal from "@/components/CalendarEventModal";
 import FullMonthCalendar from "@/components/FullMonthCalendar";
 
@@ -185,7 +184,7 @@ function MonthCalendar({
   return (
     <section className="flex h-full flex-col overflow-hidden rounded-lg border border-teal/15 bg-white shadow-sm">
       <div className="border-b border-teal/10 bg-teal/5 px-3 py-2 text-center">
-        <h3 className="font-heading text-sm font-semibold tracking-wide text-teal">
+        <h3 className="font-heading text-sm font-semibold uppercase tracking-wide text-teal">
           {monthLabel(year, monthIndex)}
         </h3>
       </div>
@@ -248,40 +247,104 @@ function GridView({ months }: { months: SchoolCalendarMonth[] }) {
   const totalPages = Math.ceil(months.length / monthsPerPage);
   const pageStart = page * monthsPerPage;
   const visibleMonths = months.slice(pageStart, pageStart + monthsPerPage);
+  const prevPage = (page - 1 + totalPages) % totalPages;
+  const nextPage = (page + 1) % totalPages;
+  const prevMonths = months.slice(prevPage * monthsPerPage, prevPage * monthsPerPage + monthsPerPage);
+  const nextMonths = months.slice(nextPage * monthsPerPage, nextPage * monthsPerPage + monthsPerPage);
+  const prevLabel = prevMonths.map((month) => month.name.replace(/\s+\d{4}$/, "")).join(" · ");
+  const nextLabel = nextMonths.map((month) => month.name.replace(/\s+\d{4}$/, "")).join(" · ");
 
   return (
-    <div className="mx-auto max-w-6xl space-y-4">
+    <div className="mx-auto max-w-6xl">
       <CalendarEventModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
-      <div className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-3">
-        {visibleMonths.map((month) => (
-          <MonthCalendar
-            key={month.name}
-            month={month}
-            events={events}
-            onEventSelect={setSelectedEvent}
-          />
-        ))}
-      </div>
 
-      {totalPages > 1 ? (
-        <div className="flex items-center justify-center gap-3">
-          <CarouselNavButton
-            direction="prev"
-            label="Previous months"
-            disabled={page === 0}
-            onClick={() => setPage((current) => current - 1)}
-          />
-          <p className="min-w-16 text-center text-xs font-semibold uppercase tracking-widest text-gray-500">
-            {page + 1} / {totalPages}
-          </p>
-          <CarouselNavButton
-            direction="next"
-            label="Next months"
-            disabled={page >= totalPages - 1}
-            onClick={() => setPage((current) => current + 1)}
-          />
+      <div className="overflow-hidden rounded-xl border border-teal/20 bg-white shadow-md">
+        <div className="grid grid-cols-1 items-stretch gap-4 p-4 md:grid-cols-3">
+          {visibleMonths.map((month) => (
+            <MonthCalendar
+              key={month.name}
+              month={month}
+              events={events}
+              onEventSelect={setSelectedEvent}
+            />
+          ))}
         </div>
-      ) : null}
+
+        {totalPages > 1 ? (
+          <div className="flex items-stretch border-t border-teal/15 bg-teal/5">
+            <button
+              type="button"
+              onClick={() => setPage(prevPage)}
+              className="flex min-w-0 flex-1 items-center gap-1.5 px-2 py-1.5 text-left transition hover:bg-teal/10 sm:px-2.5"
+              aria-label={`Previous: ${prevLabel}`}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-3 w-3 shrink-0 text-teal"
+                aria-hidden="true"
+              >
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+              <span className="min-w-0">
+                <span className="block text-[8px] font-semibold uppercase tracking-widest text-teal/50">
+                  Previous
+                </span>
+                <span className="mt-0.5 block truncate font-heading text-[9px] font-semibold uppercase tracking-wide text-teal">
+                  {prevLabel}
+                </span>
+              </span>
+            </button>
+
+            <div className="flex items-center justify-center gap-1 border-x border-teal/15 px-2">
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  aria-label={`Go to page ${index + 1}`}
+                  aria-current={index === page ? "true" : undefined}
+                  onClick={() => setPage(index)}
+                  className={`h-1.5 rounded-full transition-all ${
+                    index === page ? "w-3.5 bg-teal" : "w-1.5 bg-teal/25 hover:bg-teal/40"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setPage(nextPage)}
+              className="flex min-w-0 flex-1 items-center justify-end gap-1.5 px-2 py-1.5 text-right transition hover:bg-teal/10 sm:px-2.5"
+              aria-label={`Next: ${nextLabel}`}
+            >
+              <span className="min-w-0">
+                <span className="block text-[8px] font-semibold uppercase tracking-widest text-teal/50">
+                  Next
+                </span>
+                <span className="mt-0.5 block truncate font-heading text-[9px] font-semibold uppercase tracking-wide text-teal">
+                  {nextLabel}
+                </span>
+              </span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-3 w-3 shrink-0 text-teal"
+                aria-hidden="true"
+              >
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 }

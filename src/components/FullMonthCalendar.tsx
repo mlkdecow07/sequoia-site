@@ -12,7 +12,6 @@ import {
   parseMonthName,
   type FlatCalendarEvent,
 } from "@/lib/school-calendar-utils";
-import CarouselNavButton from "@/components/CarouselNavButton";
 import CalendarEventModal from "@/components/CalendarEventModal";
 
 type FullMonthCalendarProps = {
@@ -52,30 +51,27 @@ export default function FullMonthCalendar({
   const current = monthEntries[monthIndex];
   const cells = buildMonthGrid(current.year, current.month, events);
   const yearMonth = formatYearMonth(current.year, current.month);
+  const total = monthEntries.length;
+  const prevMonth = monthEntries[(monthIndex - 1 + total) % total] ?? current;
+  const nextMonth = monthEntries[(monthIndex + 1) % total] ?? current;
+  const prevLabel = monthLabel(prevMonth.year, prevMonth.month);
+  const nextLabel = monthLabel(nextMonth.year, nextMonth.month);
+
+  function goToMonth(nextIndex: number) {
+    setMonthIndex(nextIndex);
+  }
 
   return (
-    <div className="w-full">
+    <div className="mx-auto w-full max-w-3xl">
       <CalendarEventModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
 
-      <div className="flex items-center justify-center gap-3">
-        <CarouselNavButton
-          direction="prev"
-          label="Previous month"
-          disabled={monthIndex === 0}
-          onClick={() => setMonthIndex((index) => index - 1)}
-        />
-        <h3 className="min-w-[10rem] text-center font-heading text-lg tracking-wide text-teal sm:min-w-[12rem] sm:text-xl">
-          {monthLabel(current.year, current.month)}
-        </h3>
-        <CarouselNavButton
-          direction="next"
-          label="Next month"
-          disabled={monthIndex >= monthEntries.length - 1}
-          onClick={() => setMonthIndex((index) => index + 1)}
-        />
-      </div>
+      <section className="overflow-hidden rounded-xl border border-teal/20 bg-white shadow-md">
+        <div className="border-b border-teal/10 bg-teal/5 px-4 py-3 text-center">
+          <h3 className="font-heading text-lg font-semibold uppercase tracking-wide text-teal sm:text-xl">
+            {monthLabel(current.year, current.month)}
+          </h3>
+        </div>
 
-      <section className="mx-auto mt-5 max-w-3xl overflow-hidden rounded-xl border border-teal/15 bg-white shadow-sm">
         <div className="grid grid-cols-7 border-b border-teal/10 bg-teal/5">
           {WEEKDAY_LABELS.map((label) => (
             <div
@@ -122,6 +118,81 @@ export default function FullMonthCalendar({
             </div>
           ))}
         </div>
+
+        {total > 1 ? (
+          <div className="flex items-stretch border-t border-teal/15 bg-teal/5">
+            <button
+              type="button"
+              onClick={() => goToMonth((monthIndex - 1 + total) % total)}
+              className="flex min-w-0 flex-1 items-center gap-1.5 px-2 py-1.5 text-left transition hover:bg-teal/10 sm:px-2.5"
+              aria-label={`Previous: ${prevLabel}`}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-3 w-3 shrink-0 text-teal"
+                aria-hidden="true"
+              >
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+              <span className="min-w-0">
+                <span className="block text-[8px] font-semibold uppercase tracking-widest text-teal/50">
+                  Previous
+                </span>
+                <span className="mt-0.5 block truncate font-heading text-[9px] font-semibold uppercase tracking-wide text-teal">
+                  {prevLabel}
+                </span>
+              </span>
+            </button>
+
+            <div className="flex items-center justify-center gap-1 border-x border-teal/15 px-2">
+              {monthEntries.map((entry, index) => (
+                <button
+                  key={`${entry.year}-${entry.month}`}
+                  type="button"
+                  aria-label={`Go to ${monthLabel(entry.year, entry.month)}`}
+                  aria-current={index === monthIndex ? "true" : undefined}
+                  onClick={() => goToMonth(index)}
+                  className={`h-1.5 rounded-full transition-all ${
+                    index === monthIndex ? "w-3.5 bg-teal" : "w-1.5 bg-teal/25 hover:bg-teal/40"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => goToMonth((monthIndex + 1) % total)}
+              className="flex min-w-0 flex-1 items-center justify-end gap-1.5 px-2 py-1.5 text-right transition hover:bg-teal/10 sm:px-2.5"
+              aria-label={`Next: ${nextLabel}`}
+            >
+              <span className="min-w-0">
+                <span className="block text-[8px] font-semibold uppercase tracking-widest text-teal/50">
+                  Next
+                </span>
+                <span className="mt-0.5 block truncate font-heading text-[9px] font-semibold uppercase tracking-wide text-teal">
+                  {nextLabel}
+                </span>
+              </span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-3 w-3 shrink-0 text-teal"
+                aria-hidden="true"
+              >
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+        ) : null}
       </section>
     </div>
   );
