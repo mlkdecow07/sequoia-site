@@ -25,7 +25,12 @@ export async function getActiveSiteAlert(): Promise<SiteAlert | null> {
       return alert.ends_at > now;
     });
 
-    return active ?? null;
+    if (!active) return null;
+
+    return {
+      ...active,
+      display_scope: active.display_scope === "all" ? "all" : "home",
+    };
   } catch (error) {
     console.error("Failed to load site alerts:", error);
     return null;

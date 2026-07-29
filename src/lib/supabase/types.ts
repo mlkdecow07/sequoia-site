@@ -41,6 +41,14 @@ export type InfoPageView = {
   user_agent: string | null;
 };
 
+export type InfoLinkClick = {
+  id: string;
+  created_at: string;
+  label: string;
+  href: string;
+  link_type: string;
+};
+
 export type SiteAlert = {
   id: string;
   created_at: string;
@@ -49,4 +57,6 @@ export type SiteAlert = {
   message: string;
   is_active: boolean;
   ends_at: string | null;
+  /** 'home' = homepage only; 'all' = every public page */
+  display_scope: "home" | "all";
 };

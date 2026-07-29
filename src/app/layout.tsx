@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Aleo, Source_Sans_3 } from "next/font/google";
 import SiteChrome from "@/components/SiteChrome";
+import { getActiveSiteAlert } from "@/lib/site-alert-data";
 import "./globals.css";
 
 const aleo = Aleo({
@@ -48,16 +49,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteAlert = await getActiveSiteAlert();
+
   return (
     <html lang="en">
       <body className={`${aleo.variable} ${sourceSans3.variable} antialiased`}>
         <div className="site-shell min-h-screen bg-cream/95">
-          <SiteChrome>{children}</SiteChrome>
+          <SiteChrome siteAlert={siteAlert}>{children}</SiteChrome>
         </div>
       </body>
     </html>

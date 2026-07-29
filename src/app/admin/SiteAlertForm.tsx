@@ -134,6 +134,32 @@ export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
           </p>
         </div>
 
+        <fieldset className="space-y-2">
+          <legend className="text-xs font-semibold uppercase tracking-widest text-teal">
+            Display on
+          </legend>
+          <label className="flex items-center gap-2 text-sm text-gray-800">
+            <input
+              type="radio"
+              name="display_scope"
+              value="home"
+              defaultChecked={(alert?.display_scope ?? "home") === "home"}
+              className="border-teal/30 text-teal focus:ring-teal"
+            />
+            Homepage only
+          </label>
+          <label className="flex items-center gap-2 text-sm text-gray-800">
+            <input
+              type="radio"
+              name="display_scope"
+              value="all"
+              defaultChecked={alert?.display_scope === "all"}
+              className="border-teal/30 text-teal focus:ring-teal"
+            />
+            All pages
+          </label>
+        </fieldset>
+
         <label className="flex items-center gap-2 text-sm text-gray-800">
           <input
             type="checkbox"
@@ -141,7 +167,7 @@ export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
             defaultChecked={alert?.is_active ?? true}
             className="rounded border-teal/30 text-teal focus:ring-teal"
           />
-          Show on homepage
+          Active
         </label>
 
         <button

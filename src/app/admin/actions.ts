@@ -188,7 +188,7 @@ export async function deleteCalendarEvent(id: string) {
 }
 
 function revalidateAlertPaths() {
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   revalidatePath("/admin/alerts");
 }
 
@@ -205,6 +205,9 @@ function readAlertForm(formData: FormData) {
   const isActive = formData.get("is_active") === "on";
   const endsAtRaw = String(formData.get("ends_at") ?? "").trim();
   const createdAtRaw = String(formData.get("created_at") ?? "").trim();
+  const displayScopeRaw = String(formData.get("display_scope") ?? "home").trim();
+  const displayScope =
+    displayScopeRaw === "all" ? ("all" as const) : ("home" as const);
 
   if (!title || !message) {
     throw new Error("Title and message are required.");
@@ -230,6 +233,7 @@ function readAlertForm(formData: FormData) {
     is_active: isActive,
     created_at: createdAt.toISOString(),
     ends_at: endsAt.toISOString(),
+    display_scope: displayScope,
   };
 }
 

@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
@@ -34,6 +36,17 @@ const socialLinks = [
   { label: "YouTube", href: siteConfig.social.youtube, icon: FaYoutube },
 ];
 
+function trackInfoClick(label: string, href: string, linkType: string) {
+  void fetch("/api/info-click", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ label, href, linkType }),
+    keepalive: true,
+  }).catch(() => {
+    // Tracking should never break navigation.
+  });
+}
+
 export default function LinksPageClient() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-teal">
@@ -67,7 +80,12 @@ export default function LinksPageClient() {
 
       <div className="relative mx-auto flex min-h-screen w-full max-w-md flex-col px-5 py-10 sm:px-6 sm:py-12">
         <div className="flex flex-col items-center text-center">
-          <Link href="/" aria-label="Sequoia Christian School home" className="transition hover:opacity-90">
+          <Link
+            href="/"
+            aria-label="Sequoia Christian School home"
+            className="transition hover:opacity-90"
+            onClick={() => trackInfoClick("Crest / Home", "/", "brand")}
+          >
             <Image
               src="/images/crest-white.png"
               alt="Sequoia Christian School"
@@ -133,6 +151,7 @@ export default function LinksPageClient() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={className}
+                  onClick={() => trackInfoClick(link.label, link.href, "button")}
                 >
                   {content}
                 </a>
@@ -140,7 +159,12 @@ export default function LinksPageClient() {
             }
 
             return (
-              <Link key={link.label} href={link.href} className={className}>
+              <Link
+                key={link.label}
+                href={link.href}
+                className={className}
+                onClick={() => trackInfoClick(link.label, link.href, "button")}
+              >
                 {content}
               </Link>
             );
@@ -156,6 +180,7 @@ export default function LinksPageClient() {
               rel="noopener noreferrer"
               aria-label={social.label}
               className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white transition hover:border-white hover:bg-white hover:text-teal"
+              onClick={() => trackInfoClick(social.label, social.href, "social")}
             >
               <social.icon className="h-5 w-5" aria-hidden />
             </a>
@@ -166,6 +191,7 @@ export default function LinksPageClient() {
           <Link
             href="/"
             className="text-xs font-semibold uppercase tracking-widest text-white/70 transition hover:text-white"
+            onClick={() => trackInfoClick("Website footer", "/", "brand")}
           >
             sequoiachristian.com
           </Link>

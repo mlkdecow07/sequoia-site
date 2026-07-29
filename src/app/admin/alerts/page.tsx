@@ -26,7 +26,7 @@ export default async function AdminAlertsPage() {
             Alerts
           </h1>
           <p className="mt-2 text-sm text-gray-600">
-            Weather closures and other urgent notices shown on the homepage only.
+            Weather closures and other urgent notices — homepage only or all pages.
           </p>
         </div>
         <Link
@@ -61,6 +61,9 @@ export default async function AdminAlertsPage() {
                       Active
                     </span>
                   ) : null}
+                  <span className="ml-2 text-xs font-semibold uppercase tracking-widest text-gray-400">
+                    {alert.display_scope === "all" ? "All pages" : "Homepage"}
+                  </span>
                 </span>
                 <span className="text-xs text-gray-500">
                   Updated {formatDate(alert.updated_at)}

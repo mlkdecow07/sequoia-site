@@ -1,10 +1,20 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import type { SiteAlert } from "@/lib/supabase/types";
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en-US", {
     dateStyle: "medium",
     timeStyle: "short",
+  }).format(new Date(value));
+}
+
+function formatDisplayDate(value: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
   }).format(new Date(value));
 }
 
@@ -18,6 +28,8 @@ export default async function AdminDashboardPage() {
     return d.toISOString();
   })();
 
+  const now = new Date().toISOString();
+
   const [
     { count: contactNew },
     { count: contactTotal },
@@ -27,6 +39,7 @@ export default async function AdminDashboardPage() {
     { count: alertActive },
     { count: alertTotal },
     { count: infoViews7 },
+    { data: activeAlertsRaw },
     { data: recentContact },
     { data: recentEmployment },
   ] = await Promise.all([
@@ -57,6 +70,13 @@ export default async function AdminDashboardPage() {
       .select("*", { count: "exact", head: true })
       .gte("created_at", since7),
     supabase
+      .from("site_alerts")
+      .select(
+        "id, title, message, created_at, ends_at, display_scope, is_active, updated_at",
+      )
+      .eq("is_active", true)
+      .order("updated_at", { ascending: false }),
+    supabase
       .from("contact_submissions")
       .select("id, created_at, name, email, status, source")
       .order("created_at", { ascending: false })
@@ -68,14 +88,70 @@ export default async function AdminDashboardPage() {
       .limit(5),
   ]);
 
+  const currentAlerts = ((activeAlertsRaw ?? []) as SiteAlert[]).filter((alert) => {
+    if (!alert.ends_at) return true;
+    return alert.ends_at > now;
+  });
+
   return (
     <div className="space-y-10">
       <div>
         <h1 className="font-heading text-3xl text-teal">Dashboard</h1>
-        <p className="mt-2 text-sm text-gray-600">
-          Review submissions, calendar, homepage alerts, and /info traffic.
-        </p>
       </div>
+
+      <section className="space-y-3">
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="font-heading text-xl uppercase tracking-widest text-teal">
+            Current Alerts
+          </h2>
+          <Link
+            href="/admin/alerts"
+            className="text-sm text-teal underline-offset-2 hover:underline"
+          >
+            Manage
+          </Link>
+        </div>
+        {currentAlerts.length === 0 ? (
+          <div className="rounded border border-teal/15 bg-white px-4 py-6 text-sm text-gray-500">
+            No active alerts right now.{" "}
+            <Link
+              href="/admin/alerts/new"
+              className="text-teal underline-offset-2 hover:underline"
+            >
+              Create one
+            </Link>
+          </div>
+        ) : (
+          <ul className="space-y-3">
+            {currentAlerts.map((alert) => (
+              <li key={alert.id}>
+                <Link
+                  href={`/admin/alerts/${alert.id}`}
+                  className="block rounded border border-red-200/80 bg-red-50/80 px-4 py-4 transition hover:border-red-300 hover:bg-red-50"
+                >
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <p className="font-heading text-lg uppercase tracking-wide text-red-800">
+                      {alert.title}
+                    </p>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-red-700/80">
+                      {alert.display_scope === "all" ? "All pages" : "Homepage"}
+                      {alert.ends_at
+                        ? ` · expires ${formatDate(alert.ends_at)}`
+                        : ""}
+                    </p>
+                  </div>
+                  <p className="mt-1 text-xs uppercase tracking-widest text-red-700/70">
+                    {formatDisplayDate(alert.created_at)}
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-red-950/80">
+                    {alert.message}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Link
