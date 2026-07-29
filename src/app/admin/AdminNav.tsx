@@ -7,7 +7,7 @@ export default function AdminNav({ email }: { email?: string | null }) {
       <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
         <div className="flex flex-wrap items-center gap-4">
           <Link href="/admin" className="font-heading text-lg text-teal">
-            Sequoia Admin
+            SCS ADMIN
           </Link>
           <nav className="flex items-center gap-3 text-sm">
             <Link
