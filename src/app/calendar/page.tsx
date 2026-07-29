@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import SchoolCalendarView from "@/components/SchoolCalendarView";
-import { getCurrentSchoolYear, schoolCalendar, siteConfig } from "@/lib/site-config";
+import { getSchoolCalendarMonths } from "@/lib/calendar-data";
+import { getCurrentSchoolYear, siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "School Calendar",
 };
 
-export default function CalendarPage() {
+export const revalidate = 60;
+
+export default async function CalendarPage() {
   const schoolYear = getCurrentSchoolYear();
+  const months = await getSchoolCalendarMonths();
 
   return (
     <article className="mx-auto max-w-6xl px-6 py-16">
@@ -17,7 +21,7 @@ export default function CalendarPage() {
         Important dates for the {schoolYear} school year.
       </p>
 
-      <SchoolCalendarView months={schoolCalendar} />
+      <SchoolCalendarView months={months} />
 
       <div className="mx-auto mt-12 max-w-3xl space-y-2 text-center">
         <p className="text-[10px] uppercase tracking-wide text-gray-400 sm:text-xs">

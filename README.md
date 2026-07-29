@@ -28,7 +28,9 @@ Open [http://localhost:3000](http://localhost:3000).
 
 1. Use the Sequoia-dedicated project: `https://lxndvssclcbabqkvurbk.supabase.co`.
 2. Copy **Project URL**, **anon/public** key, and **service_role** key from Supabase → Project Settings → API into `.env.local` (and Vercel env for production). Never commit `.env.local`.
-3. Apply schema once: run `supabase/migrations/20260729150000_sequoia_phase1_schema.sql` in the Dashboard SQL Editor (creates `contact_submissions`, `employment_applications`, `admin_users`, `is_allowlisted_admin()`, and private bucket `employment-applications`).
+3. Apply schema once: run these in the Dashboard SQL Editor (or after reconnecting MCP to project `lxndvssclcbabqkvurbk`):
+   - `supabase/migrations/20260729150000_sequoia_phase1_schema.sql` — contact, employment, admin allowlist, storage
+   - `supabase/migrations/20260729160000_calendar_events.sql` — public calendar table + seed events
 4. Create the first staff user in Supabase → Authentication → Users → **Add user** (email + password). Do not commit passwords.
 5. Add that user to `admin_users` (link `user_id` to the Auth user UUID) so RLS allowlists them:
 
@@ -37,9 +39,9 @@ insert into public.admin_users (user_id, email)
 values ('AUTH_USER_UUID', 'staff@example.com');
 ```
 
-6. Sign in at `/admin/login`.
+6. Sign in at `/admin/login`. Manage calendar at `/admin/calendar`.
 
-Form APIs save to Supabase first, then send Resend email as best-effort.
+Form APIs save to Supabase first, then send Resend email as best-effort. Public `/calendar` reads from `calendar_events` (falls back to hardcoded data if the table is empty or unavailable).
 
 ## Pages
 

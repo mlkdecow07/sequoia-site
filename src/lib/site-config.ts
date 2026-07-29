@@ -71,7 +71,7 @@ export type SchoolCalendarMonth = {
   events: SchoolCalendarEvent[];
 };
 
-/** Key dates for the 2026–2027 school year (from official school calendar PDF). */
+/** Key dates for the 2026–2027 school year (fallback if Supabase calendar_events is empty). */
 export const schoolCalendar: SchoolCalendarMonth[] = [
   {
     name: "August 2026",

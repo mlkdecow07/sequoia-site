@@ -20,3 +20,15 @@ export type EmploymentApplication = {
   resume_path: string | null;
   status: SubmissionStatus;
 };
+
+export type CalendarEventRow = {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  title: string;
+  description: string | null;
+  dates: string;
+  start_date: string;
+  end_date: string | null;
+  sort_order: number | null;
+};

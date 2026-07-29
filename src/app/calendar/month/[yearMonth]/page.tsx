@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import FullMonthCalendar from "@/components/FullMonthCalendar";
-import { getCurrentSchoolYear, schoolCalendar, siteConfig } from "@/lib/site-config";
+import { getSchoolCalendarMonths } from "@/lib/calendar-data";
+import { getCurrentSchoolYear, siteConfig } from "@/lib/site-config";
 import {
   formatYearMonth,
   getMonthEntry,
@@ -11,12 +12,15 @@ import {
   parseYearMonth,
 } from "@/lib/school-calendar-utils";
 
+export const revalidate = 60;
+
 type CalendarMonthPageProps = {
   params: Promise<{ yearMonth: string }>;
 };
 
-export function generateStaticParams() {
-  return schoolCalendar.map((month) => {
+export async function generateStaticParams() {
+  const months = await getSchoolCalendarMonths();
+  return months.map((month) => {
     const parsed = parseMonthName(month.name);
     return { yearMonth: formatYearMonth(parsed.year, parsed.month) };
   });
@@ -38,8 +42,9 @@ export async function generateMetadata({ params }: CalendarMonthPageProps): Prom
 export default async function CalendarMonthPage({ params }: CalendarMonthPageProps) {
   const { yearMonth } = await params;
   const parsed = parseYearMonth(yearMonth);
+  const months = await getSchoolCalendarMonths();
 
-  if (!parsed || !getMonthEntry(schoolCalendar, parsed.year, parsed.month)) {
+  if (!parsed || !getMonthEntry(months, parsed.year, parsed.month)) {
     notFound();
   }
 
@@ -65,7 +70,7 @@ export default async function CalendarMonthPage({ params }: CalendarMonthPagePro
 
       <div className="mt-12">
         <FullMonthCalendar
-          months={schoolCalendar}
+          months={months}
           initialYear={parsed.year}
           initialMonth={parsed.month}
         />

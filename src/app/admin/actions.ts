@@ -5,6 +5,12 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { SubmissionStatus } from "@/lib/supabase/types";
 
+function revalidateCalendarPaths() {
+  revalidatePath("/calendar");
+  revalidatePath("/calendar/month", "layout");
+  revalidatePath("/admin/calendar");
+}
+
 export async function signInWithPassword(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
@@ -83,4 +89,100 @@ export async function updateEmploymentStatus(
   revalidatePath("/admin");
   revalidatePath("/admin/employment");
   revalidatePath(`/admin/employment/${id}`);
+}
+
+async function requireAdminUser() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/admin/login");
+  }
+
+  return supabase;
+}
+
+function readCalendarForm(formData: FormData) {
+  const title = String(formData.get("title") ?? "").trim();
+  const dates = String(formData.get("dates") ?? "").trim();
+  const startDate = String(formData.get("start_date") ?? "").trim();
+  const endDateRaw = String(formData.get("end_date") ?? "").trim();
+  const descriptionRaw = String(formData.get("description") ?? "").trim();
+  const sortOrderRaw = String(formData.get("sort_order") ?? "").trim();
+
+  if (!title || !dates || !startDate) {
+    throw new Error("Title, dates display string, and start date are required.");
+  }
+
+  const endDate = endDateRaw || null;
+  if (endDate && endDate < startDate) {
+    throw new Error("End date must be on or after the start date.");
+  }
+
+  let sortOrder: number | null = null;
+  if (sortOrderRaw) {
+    const parsed = Number(sortOrderRaw);
+    if (Number.isNaN(parsed)) {
+      throw new Error("Sort order must be a number.");
+    }
+    sortOrder = parsed;
+  }
+
+  return {
+    title,
+    dates,
+    start_date: startDate,
+    end_date: endDate,
+    description: descriptionRaw || null,
+    sort_order: sortOrder,
+  };
+}
+
+export async function createCalendarEvent(formData: FormData) {
+  const supabase = await requireAdminUser();
+  const payload = readCalendarForm(formData);
+
+  const { error } = await supabase.from("calendar_events").insert(payload);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  revalidateCalendarPaths();
+  revalidatePath("/admin");
+  redirect("/admin/calendar");
+}
+
+export async function updateCalendarEvent(id: string, formData: FormData) {
+  const supabase = await requireAdminUser();
+  const payload = readCalendarForm(formData);
+
+  const { error } = await supabase
+    .from("calendar_events")
+    .update({ ...payload, updated_at: new Date().toISOString() })
+    .eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  revalidateCalendarPaths();
+  revalidatePath(`/admin/calendar/${id}`);
+  redirect("/admin/calendar");
+}
+
+export async function deleteCalendarEvent(id: string) {
+  const supabase = await requireAdminUser();
+
+  const { error } = await supabase.from("calendar_events").delete().eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  revalidateCalendarPaths();
+  revalidatePath("/admin");
+  redirect("/admin/calendar");
 }

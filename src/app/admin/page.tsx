@@ -16,6 +16,7 @@ export default async function AdminDashboardPage() {
     { count: contactTotal },
     { count: employmentNew },
     { count: employmentTotal },
+    { count: calendarTotal },
     { data: recentContact },
     { data: recentEmployment },
   ] = await Promise.all([
@@ -34,6 +35,9 @@ export default async function AdminDashboardPage() {
       .from("employment_applications")
       .select("*", { count: "exact", head: true }),
     supabase
+      .from("calendar_events")
+      .select("*", { count: "exact", head: true }),
+    supabase
       .from("contact_submissions")
       .select("id, created_at, name, email, status, source")
       .order("created_at", { ascending: false })
@@ -50,11 +54,11 @@ export default async function AdminDashboardPage() {
       <div>
         <h1 className="font-heading text-3xl text-teal">Dashboard</h1>
         <p className="mt-2 text-sm text-gray-600">
-          Review saved contact messages and employment applications.
+          Review contact messages, employment applications, and the school calendar.
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-3">
         <Link
           href="/admin/contact"
           className="rounded border border-teal/15 bg-white px-5 py-4 transition hover:border-teal/40"
@@ -81,6 +85,18 @@ export default async function AdminDashboardPage() {
             <span className="ml-2 text-base font-normal text-gray-500">
               new / {employmentTotal ?? 0} total
             </span>
+          </p>
+        </Link>
+        <Link
+          href="/admin/calendar"
+          className="rounded border border-teal/15 bg-white px-5 py-4 transition hover:border-teal/40"
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest text-teal">
+            Calendar
+          </p>
+          <p className="mt-2 font-heading text-3xl text-gray-800">
+            {calendarTotal ?? 0}
+            <span className="ml-2 text-base font-normal text-gray-500">events</span>
           </p>
         </Link>
       </div>

@@ -22,6 +22,12 @@ export default function AdminNav({ email }: { email?: string | null }) {
             >
               Employment
             </Link>
+            <Link
+              href="/admin/calendar"
+              className="text-gray-700 underline-offset-2 hover:text-teal hover:underline"
+            >
+              Calendar
+            </Link>
           </nav>
         </div>
         <div className="flex items-center gap-3 text-sm text-gray-600">
