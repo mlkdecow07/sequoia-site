@@ -4,13 +4,13 @@ import BeliefStatement from "@/components/BeliefStatement";
 import { siteConfig, statementOfFaith } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "Statement of Faith",
+  title: "What We Believe",
 };
 
 export default function StatementOfFaithPage() {
   return (
     <article className="mx-auto max-w-6xl px-6 py-16">
-      <h2 className="type-page-title">STATEMENT OF FAITH</h2>
+      <h2 className="type-page-title">WHAT WE BELIEVE</h2>
 
       <div className="mx-auto mt-12 w-full max-w-md space-y-4 sm:max-w-lg">
         {statementOfFaith.map((belief) => (

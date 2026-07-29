@@ -146,6 +146,23 @@ export function isNoSchoolEvent(event: { title: string; description?: string }):
   );
 }
 
+/** List-view label: red/no-school events always start with "NO SCHOOL - …". */
+export function formatNoSchoolListTitle(event: { title: string; description?: string }): string {
+  if (!isNoSchoolEvent(event)) {
+    return event.title;
+  }
+
+  const stripped = event.title
+    .replace(/^no\s*school\s*[—\-–:]?\s*/i, "")
+    .trim();
+
+  if (!stripped) {
+    return "NO SCHOOL";
+  }
+
+  return `NO SCHOOL - ${stripped.toUpperCase()}`;
+}
+
 function escapeIcsText(value: string): string {
   return value
     .replace(/\\/g, "\\\\")

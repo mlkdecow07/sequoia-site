@@ -65,14 +65,16 @@ export default function LinksPageClient() {
 
       <div className="relative mx-auto flex min-h-screen w-full max-w-md flex-col px-5 py-10 sm:px-6 sm:py-12">
         <div className="flex flex-col items-center text-center">
-          <Image
-            src="/images/crest-white.png"
-            alt="Sequoia Christian School"
-            width={128}
-            height={128}
-            className="h-28 w-28 sm:h-32 sm:w-32"
-            priority
-          />
+          <Link href="/" aria-label="Sequoia Christian School home" className="transition hover:opacity-90">
+            <Image
+              src="/images/crest-white.png"
+              alt="Sequoia Christian School"
+              width={128}
+              height={128}
+              className="h-28 w-28 sm:h-32 sm:w-32"
+              priority
+            />
+          </Link>
           <p className="mt-4 font-heading text-xs font-semibold uppercase tracking-[0.2em] text-white sm:text-sm">
             {siteConfig.tagline}
           </p>

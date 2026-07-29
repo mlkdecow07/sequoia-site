@@ -18,7 +18,7 @@ export default function ExplorePromoVideo() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="group relative mx-auto mt-8 block w-full max-w-xl overflow-hidden rounded-xl border border-teal/15 bg-black shadow-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2"
+        className="group relative mx-auto mt-8 block w-full max-w-xl overflow-hidden rounded-xl shadow-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2"
         aria-label="Watch video: What is Sequoia Christian School?"
       >
         <div className="relative aspect-video w-full">

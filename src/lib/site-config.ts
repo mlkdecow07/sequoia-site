@@ -263,7 +263,12 @@ export const schoolCalendar: SchoolCalendarMonth[] = [
       },
       {
         dates: "May 27",
-        title: "Kindergarten Last Day & Graduation",
+        title: "Kindergarten Last Day",
+        startDate: "2027-05-27",
+      },
+      {
+        dates: "May 27",
+        title: "Kindergarten Graduation",
         description: "Graduation at 6PM.",
         startDate: "2027-05-27",
       },
@@ -310,7 +315,7 @@ export const navigation: NavItem[] = [
     href: "#",
     children: [
       { label: "Welcome Letter", href: "/welcome" },
-      { label: "Statement of Faith", href: "/statementoffaith" },
+      { label: "What We Believe", href: "/statementoffaith" },
       { label: "Faculty", href: "/faculty" },
       { label: "Employment", href: "/employment" },
       { label: "EITC", href: "/eitc" },

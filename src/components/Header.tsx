@@ -308,7 +308,7 @@ export default function Header() {
 
             <nav
               id="site-menu-mobile"
-              className={`absolute right-4 top-full z-50 mt-2 w-[calc(100%-2rem)] overflow-hidden border border-gray-100 bg-white/95 shadow-xl transition-all duration-300 ease-out md:hidden sm:right-6 sm:w-80 ${
+              className={`absolute right-4 top-full z-50 mt-2 w-[calc(100%-2rem)] overflow-hidden rounded-lg border border-gray-100 bg-white/95 shadow-xl transition-all duration-300 ease-out md:hidden sm:right-6 sm:w-80 ${
                 menuOpen
                   ? "visible max-h-[80vh] translate-y-0 opacity-100"
                   : "invisible max-h-0 -translate-y-2 opacity-0 pointer-events-none"

@@ -3,13 +3,13 @@ import Image from "next/image";
 import { faculty } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "Our Faculty",
+  title: "Meet Our Faculty",
 };
 
 export default function FacultyPage() {
   return (
     <article className="mx-auto max-w-6xl px-6 py-16">
-      <h2 className="type-page-title">INTRODUCING THE FACULTY</h2>
+      <h2 className="type-page-title">MEET OUR FACULTY</h2>
       <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {faculty.map((member) => {
           const initial = member.name.replace(/^(Mrs\.|Ms\.|Miss)\s+/i, "").charAt(0);

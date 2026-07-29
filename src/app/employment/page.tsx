@@ -11,8 +11,9 @@ export default function EmploymentPage() {
       <h2 className="type-page-title">JOIN THE SEQUOIA CHRISTIAN SCHOOL TEAM!</h2>
 
       <p className="type-body mx-auto mt-8 max-w-xl text-center">
-        We&apos;re currently accepting applications for those with a desire to teach at Sequoia
-        Christian.
+        While we are not actively hiring at this time, we welcome applications from individuals who
+        are interested in joining our team. We review applications as positions become available and
+        will reach out if a suitable opportunity arises.
       </p>
 
       <div className="mt-10">

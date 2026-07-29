@@ -4,7 +4,7 @@ import PrincipleApproachAccordion from "@/components/PrincipleApproachAccordion"
 import { learningTools, principleApproachSections } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "Educational Approach",
+  title: "How We Approach Education",
 };
 
 const educationalApproachHeroImages = [
@@ -28,7 +28,7 @@ export default function EducationalApproachPage() {
     <>
       <HeroSection images={educationalApproachHeroImages} stackImages>
         <h2 className="max-w-3xl text-center font-heading text-xl leading-snug tracking-wide text-white sm:text-2xl md:text-3xl lg:text-4xl">
-          EDUCATIONAL APPROACH
+          HOW WE APPROACH EDUCATION
         </h2>
       </HeroSection>
 

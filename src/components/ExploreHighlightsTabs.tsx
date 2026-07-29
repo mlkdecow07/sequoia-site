@@ -21,7 +21,7 @@ const highlights = [
   },
   {
     id: "educational-approach",
-    title: "OUR EDUCATIONAL APPROACH",
+    title: "HOW WE APPROACH EDUCATION",
     text: "The Principle Approach is America's historic Christian method of biblical reasoning — making the truths of God's Word the basis of every subject in the curriculum.",
     href: "/educationalapproach",
     linkLabel: "Learn about our approach",

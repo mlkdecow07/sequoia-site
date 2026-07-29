@@ -61,26 +61,52 @@ export default function FullMonthCalendar({
     setMonthIndex(nextIndex);
   }
 
+  const sideButtonClass =
+    "flex h-10 w-8 shrink-0 items-center justify-center self-center rounded border border-teal/20 bg-white text-teal shadow-sm transition hover:bg-teal/5 disabled:cursor-not-allowed disabled:opacity-35 sm:h-12 sm:w-9";
+
   return (
-    <div className="mx-auto w-full max-w-3xl">
+    <div className="mx-auto flex w-full max-w-4xl items-stretch gap-2 sm:gap-3">
       <CalendarEventModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
 
-      <section className="overflow-hidden rounded-xl border border-teal/20 bg-white shadow-md">
-        <div className="border-b border-teal/10 bg-teal/5 px-4 py-3 text-center">
-          <h3 className="font-heading text-lg font-semibold uppercase tracking-wide text-teal sm:text-xl">
+      {total > 1 ? (
+        <button
+          type="button"
+          onClick={() => goToMonth((monthIndex - 1 + total) % total)}
+          className={sideButtonClass}
+          aria-label={`Previous month: ${prevLabel}`}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-4 w-4"
+            aria-hidden="true"
+          >
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+        </button>
+      ) : (
+        <span className="w-8 shrink-0 sm:w-9" aria-hidden="true" />
+      )}
+
+      <section className="min-w-0 flex-1 overflow-hidden rounded-xl border border-teal/20 bg-white shadow-md">
+        <div className="border-b border-teal/15 bg-teal/5 pt-3">
+          <h3 className="px-4 pb-2 text-center font-heading text-lg font-semibold uppercase tracking-wide text-teal sm:text-xl">
             {monthLabel(current.year, current.month)}
           </h3>
-        </div>
-
-        <div className="grid grid-cols-7 border-b border-teal/10 bg-teal/5">
-          {WEEKDAY_LABELS.map((label) => (
-            <div
-              key={label}
-              className="py-1.5 text-center text-[9px] font-semibold uppercase tracking-wide text-gray-500 sm:text-[10px]"
-            >
-              {label}
-            </div>
-          ))}
+          <div className="grid grid-cols-7 pb-1.5">
+            {WEEKDAY_LABELS.map((label) => (
+              <div
+                key={label}
+                className="py-0.5 text-center text-[9px] font-semibold uppercase tracking-wide text-teal/70 sm:text-[10px]"
+              >
+                {label}
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="grid grid-cols-7 grid-rows-6">
@@ -194,6 +220,30 @@ export default function FullMonthCalendar({
           </div>
         ) : null}
       </section>
+
+      {total > 1 ? (
+        <button
+          type="button"
+          onClick={() => goToMonth((monthIndex + 1) % total)}
+          className={sideButtonClass}
+          aria-label={`Next month: ${nextLabel}`}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-4 w-4"
+            aria-hidden="true"
+          >
+            <path d="m9 18 6-6-6-6" />
+          </svg>
+        </button>
+      ) : (
+        <span className="w-8 shrink-0 sm:w-9" aria-hidden="true" />
+      )}
     </div>
   );
 }
