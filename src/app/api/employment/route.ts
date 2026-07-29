@@ -4,6 +4,7 @@ import {
   type EmployeeApplicationData,
 } from "@/lib/employee-application-config";
 import { emailFrom, emailTo, escapeHtml, formatMultiline, resend } from "@/lib/resend";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 function row(label: string, value: string | undefined | null) {
   const display = value?.trim() ? escapeHtml(value.trim()) : "—";
@@ -117,8 +118,28 @@ function buildApplicationHtml(data: EmployeeApplicationData) {
 }
 
 const MAX_ATTACHMENT_BYTES = 4 * 1024 * 1024; // 4MB per file (Vercel body limit ~4.5MB total)
+const STORAGE_BUCKET = "employment-applications";
 
-async function fileToAttachment(
+function fileExtension(filename: string, mimeType?: string) {
+  const fromName = filename.includes(".")
+    ? filename.slice(filename.lastIndexOf(".")).toLowerCase()
+    : "";
+  if (fromName && fromName.length <= 8) return fromName;
+
+  const mimeMap: Record<string, string> = {
+    "image/jpeg": ".jpg",
+    "image/png": ".png",
+    "image/webp": ".webp",
+    "image/gif": ".gif",
+    "application/pdf": ".pdf",
+    "application/msword": ".doc",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+      ".docx",
+  };
+  return mimeMap[mimeType ?? ""] ?? "";
+}
+
+async function parseUpload(
   entry: FormDataEntryValue | null,
   label: string,
 ) {
@@ -142,9 +163,10 @@ async function fileToAttachment(
 
   return {
     filename,
+    buffer,
+    contentType: entry.type || undefined,
     // Resend JSON API requires base64 strings — raw Buffers serialize incorrectly.
     content: buffer.toString("base64"),
-    contentType: entry.type || undefined,
   };
 }
 
@@ -169,8 +191,69 @@ export async function POST(request: Request) {
       );
     }
 
-    const headshot = await fileToAttachment(formData.get("headshot"), "Headshot");
-    const resume = await fileToAttachment(formData.get("resume"), "Resume");
+    const headshot = await parseUpload(formData.get("headshot"), "Headshot");
+    const resume = await parseUpload(formData.get("resume"), "Resume");
+
+    const supabase = createAdminClient();
+    const { data: row, error: insertError } = await supabase
+      .from("employment_applications")
+      .insert({
+        application: data,
+        applicant_name: data.fullName.trim(),
+        applicant_email: data.email.trim(),
+      })
+      .select("id")
+      .single();
+
+    if (insertError || !row) {
+      console.error("employment_applications insert failed:", insertError);
+      return NextResponse.json(
+        { error: "Unable to save your application right now." },
+        { status: 500 },
+      );
+    }
+
+    const applicationId = row.id as string;
+    const headshotPath = `${applicationId}/headshot${fileExtension(headshot.filename, headshot.contentType)}`;
+    const resumePath = `${applicationId}/resume${fileExtension(resume.filename, resume.contentType)}`;
+
+    const [headshotUpload, resumeUpload] = await Promise.all([
+      supabase.storage.from(STORAGE_BUCKET).upload(headshotPath, headshot.buffer, {
+        contentType: headshot.contentType,
+        upsert: true,
+      }),
+      supabase.storage.from(STORAGE_BUCKET).upload(resumePath, resume.buffer, {
+        contentType: resume.contentType,
+        upsert: true,
+      }),
+    ]);
+
+    if (headshotUpload.error || resumeUpload.error) {
+      console.error("employment file upload failed:", {
+        headshot: headshotUpload.error,
+        resume: resumeUpload.error,
+      });
+      return NextResponse.json(
+        { error: "Unable to upload application files right now." },
+        { status: 500 },
+      );
+    }
+
+    const { error: pathUpdateError } = await supabase
+      .from("employment_applications")
+      .update({
+        headshot_path: headshotPath,
+        resume_path: resumePath,
+      })
+      .eq("id", applicationId);
+
+    if (pathUpdateError) {
+      console.error("employment path update failed:", pathUpdateError);
+      return NextResponse.json(
+        { error: "Unable to finalize your application right now." },
+        { status: 500 },
+      );
+    }
 
     const { data: result, error } = await resend.emails.send({
       from: `Sequoia Christian School <${emailFrom}>`,
@@ -178,18 +261,43 @@ export async function POST(request: Request) {
       replyTo: data.email,
       subject: `Employee application: ${data.fullName}`,
       html: buildApplicationHtml(data),
-      attachments: [headshot, resume],
+      attachments: [
+        {
+          filename: headshot.filename,
+          content: headshot.content,
+          contentType: headshot.contentType,
+        },
+        {
+          filename: resume.filename,
+          content: resume.content,
+          contentType: resume.contentType,
+        },
+      ],
     });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      console.error("employment email send failed after save:", error);
+      return NextResponse.json({
+        saved: true,
+        emailSent: false,
+        id: applicationId,
+        warning: "Application saved, but email notification failed.",
+      });
     }
 
-    return NextResponse.json({ data: result });
+    return NextResponse.json({
+      saved: true,
+      emailSent: true,
+      id: applicationId,
+      data: result,
+    });
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Unable to submit your application right now.";
     const status = message.includes("required") || message.includes("smaller") ? 400 : 500;
+    if (status === 500) {
+      console.error("employment route error:", error);
+    }
     return NextResponse.json({ error: message }, { status });
   }
 }

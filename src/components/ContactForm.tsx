@@ -4,9 +4,20 @@ import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 
 type ContactFormProps = {
   variant?: "footer" | "default" | "inset";
+  /** Overrides inferred source from variant (footer → footer, inset → eitc). */
+  source?: string;
 };
 
-export default function ContactForm({ variant = "default" }: ContactFormProps) {
+function sourceFromVariant(variant: ContactFormProps["variant"]) {
+  if (variant === "footer") return "footer";
+  if (variant === "inset") return "eitc";
+  return "contact";
+}
+
+export default function ContactForm({
+  variant = "default",
+  source,
+}: ContactFormProps) {
   const isFooter = variant === "footer";
   const isInset = variant === "inset";
   const idPrefix = useId();
@@ -16,6 +27,7 @@ export default function ContactForm({ variant = "default" }: ContactFormProps) {
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const submissionSource = source ?? sourceFromVariant(variant);
 
   const labelClassName = isFooter
     ? "mb-1 block text-[10px] font-semibold uppercase tracking-widest text-white/80"
@@ -54,6 +66,7 @@ export default function ContactForm({ variant = "default" }: ContactFormProps) {
       name: String(formData.get("name") ?? "").trim(),
       email: String(formData.get("email") ?? "").trim(),
       message: String(formData.get("message") ?? "").trim(),
+      source: submissionSource,
     };
 
     try {

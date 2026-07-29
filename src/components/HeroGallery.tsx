@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 import HeroSection from "@/components/HeroSection";
@@ -12,29 +12,12 @@ const heroImages = [
   { src: "/images/hero/hero-2.png", alt: "Students learning together at school" },
 ];
 
-const ENROLLMENT_BANNER_KEY = "scs-enrollment-banner-dismissed";
-
 export default function HeroGallery() {
   const [videoOpen, setVideoOpen] = useState(false);
-  const [bannerOpen, setBannerOpen] = useState(false);
-
-  useEffect(() => {
-    try {
-      if (sessionStorage.getItem(ENROLLMENT_BANNER_KEY) !== "1") {
-        setBannerOpen(true);
-      }
-    } catch {
-      setBannerOpen(true);
-    }
-  }, []);
+  const [bannerOpen, setBannerOpen] = useState(true);
 
   const dismissBanner = () => {
     setBannerOpen(false);
-    try {
-      sessionStorage.setItem(ENROLLMENT_BANNER_KEY, "1");
-    } catch {
-      // ignore storage failures
-    }
   };
 
   return (
