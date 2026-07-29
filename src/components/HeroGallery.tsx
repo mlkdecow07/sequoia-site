@@ -23,16 +23,16 @@ export default function HeroGallery() {
           <br />
           ARE NURTURED
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           <button
             type="button"
             onClick={() => setVideoOpen(true)}
-            className="inline-flex w-48 items-center justify-center gap-2 rounded border-2 border-white/80 bg-black/20 px-6 py-2.5 text-xs font-semibold tracking-wide text-white backdrop-blur-sm transition hover:border-white hover:bg-black/35 sm:px-8 sm:py-3 sm:text-sm"
+            className="inline-flex w-56 items-center justify-center gap-2.5 rounded border-2 border-white/80 bg-black/20 px-7 py-3.5 text-sm font-semibold tracking-wide text-white backdrop-blur-sm transition hover:border-white hover:bg-black/35 sm:w-64 sm:px-10 sm:py-4 sm:text-base"
           >
             <svg
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="h-4 w-4"
+              className="h-5 w-5"
               aria-hidden="true"
             >
               <path d="M8 5v14l11-7z" />
@@ -43,7 +43,7 @@ export default function HeroGallery() {
             href={siteConfig.applyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-48 items-center justify-center gap-2 rounded border-2 border-transparent bg-teal px-6 py-2.5 text-xs font-semibold tracking-wide text-white transition hover:bg-teal-dark sm:px-8 sm:py-3 sm:text-sm"
+            className="inline-flex w-56 items-center justify-center gap-2.5 rounded border-2 border-transparent bg-teal px-7 py-3.5 text-sm font-semibold tracking-wide text-white transition hover:bg-teal-dark sm:w-64 sm:px-10 sm:py-4 sm:text-base"
           >
             JOIN SCS
             <svg
@@ -53,7 +53,7 @@ export default function HeroGallery() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="h-4 w-4"
+              className="h-5 w-5"
               aria-hidden="true"
             >
               <path d="M7 17 17 7" />

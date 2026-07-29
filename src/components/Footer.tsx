@@ -68,8 +68,8 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-12">
-          <div className="contents md:flex md:max-w-md md:flex-col">
+        <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-stretch md:justify-between md:gap-12">
+          <div className="contents md:flex md:max-w-md md:flex-1 md:flex-col md:justify-between">
             <div className="order-1 w-full">
               <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start sm:gap-4">
                 <Link
@@ -116,7 +116,7 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="order-3 mt-6 flex w-full items-end gap-3 sm:gap-6 md:order-2">
+            <div className="order-3 mt-6 flex w-full items-end gap-3 sm:gap-6 md:order-2 md:mt-0">
               <div className="shrink-0">
                 <Image
                   src="/images/crest-white.png"

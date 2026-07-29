@@ -123,6 +123,30 @@ export default function HomeHighlightSlider({ slides }: HomeHighlightSliderProps
   return (
     <section className="mx-auto max-w-6xl px-4 pb-12 pt-6 sm:px-6 sm:pb-20 sm:pt-8">
       <div className="mx-auto w-full max-w-2xl overflow-hidden rounded-xl border border-teal/20 bg-white shadow-md">
+        <div className="grid">
+          {slides.map((slide) => {
+            const isActive = slide.id === activeSlide.id;
+
+            return (
+              <div
+                key={`image-${slide.id}`}
+                className={`col-start-1 row-start-1 relative aspect-[16/9] w-full overflow-hidden border-b border-teal/10 sm:aspect-[2/1] ${
+                  isActive ? "visible" : "invisible"
+                }`}
+                aria-hidden={!isActive}
+              >
+                <Image
+                  src={slide.image.src}
+                  alt={slide.image.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 672px"
+                />
+              </div>
+            );
+          })}
+        </div>
+
         <div
           role="tablist"
           aria-label="About Sequoia Christian School"
@@ -166,15 +190,6 @@ export default function HomeHighlightSlider({ slides }: HomeHighlightSliderProps
                 aria-hidden={!isActive}
                 className={`col-start-1 row-start-1 ${isActive ? "visible" : "invisible"}`}
               >
-                <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-teal/10 sm:aspect-[2/1]">
-                  <Image
-                    src={slide.image.src}
-                    alt={slide.image.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 672px"
-                  />
-                </div>
                 <TabContent slide={slide} />
               </div>
             );

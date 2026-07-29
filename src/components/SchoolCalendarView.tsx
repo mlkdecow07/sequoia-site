@@ -37,20 +37,20 @@ function ViewToggle({
   return (
     <div className="flex justify-center px-2">
       <div
-        className="inline-flex w-full max-w-[18rem] overflow-hidden rounded-full border border-teal/25 bg-white shadow-sm sm:max-w-[20rem]"
+        className="inline-flex w-full max-w-[18rem] divide-x divide-teal/15 overflow-hidden rounded border border-teal/15 bg-teal/10 sm:max-w-[20rem]"
         role="group"
         aria-label="Calendar display mode"
       >
-        {options.map((option, index) => (
+        {options.map((option) => (
           <button
             key={option.id}
             type="button"
             aria-pressed={view === option.id}
             onClick={() => onChange(option.id)}
-            className={`flex-1 px-3 py-2 text-center text-[10px] font-semibold uppercase tracking-widest transition-colors sm:px-4 sm:text-xs ${
-              index < options.length - 1 ? "border-r border-teal/15" : ""
-            } ${
-              view === option.id ? "bg-teal text-white" : "bg-white text-teal hover:bg-teal/5"
+            className={`min-w-0 flex-1 px-3 py-2.5 text-center font-heading text-[10px] font-semibold uppercase tracking-wide transition sm:px-4 sm:text-xs ${
+              view === option.id
+                ? "bg-white text-teal shadow-[inset_0_-2px_0_0_#408482]"
+                : "text-teal/60 hover:bg-teal/5 hover:text-teal"
             }`}
           >
             {option.label}
