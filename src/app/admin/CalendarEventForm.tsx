@@ -15,14 +15,17 @@ type CalendarEventFormProps = {
 export default function CalendarEventForm({ event }: CalendarEventFormProps) {
   const isEdit = Boolean(event);
   const [pendingDelete, setPendingDelete] = useState(false);
+  const [endDate, setEndDate] = useState(() =>
+    isEdit ? (event?.end_date ?? "") : "",
+  );
 
   const action = isEdit
     ? updateCalendarEvent.bind(null, event!.id)
     : createCalendarEvent;
 
   return (
-    <div className="space-y-6">
-      <form action={action} className="space-y-4 rounded border border-teal/15 bg-white px-5 py-5">
+    <div className="mx-auto max-w-xl space-y-6">
+      <form action={action} className="space-y-4 rounded border border-teal/15 bg-white px-5 py-5" autoComplete="off">
         <div>
           <label htmlFor="title" className="text-xs font-semibold uppercase tracking-widest text-teal">
             Title
@@ -84,7 +87,9 @@ export default function CalendarEventForm({ event }: CalendarEventFormProps) {
               id="end_date"
               name="end_date"
               type="date"
-              defaultValue={event?.end_date ?? ""}
+              autoComplete="off"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
               className="mt-1 w-full rounded border border-teal/20 px-3 py-2 text-sm text-gray-800 outline-none focus:border-teal"
             />
             <p className="mt-1 text-xs text-gray-500">Leave blank for a single-day event.</p>
@@ -138,25 +143,30 @@ export default function CalendarEventForm({ event }: CalendarEventFormProps) {
         <div className="rounded border border-red-200 bg-red-50 px-5 py-4">
           <p className="text-sm text-red-800">Delete this event from the public calendar.</p>
           {!pendingDelete ? (
-            <button
-              type="button"
-              onClick={() => setPendingDelete(true)}
-              className="mt-3 rounded border border-red-300 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-red-700 hover:bg-red-100"
-            >
-              Delete…
-            </button>
+            <div className="mt-3 flex justify-center">
+              <button
+                type="button"
+                onClick={() => setPendingDelete(true)}
+                className="w-fit rounded border border-red-300 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-red-700 hover:bg-red-100"
+              >
+                Delete…
+              </button>
+            </div>
           ) : (
-            <form action={deleteCalendarEvent.bind(null, event!.id)} className="mt-3 flex flex-wrap gap-2">
+            <form
+              action={deleteCalendarEvent.bind(null, event!.id)}
+              className="mt-3 flex flex-wrap justify-center gap-2"
+            >
               <button
                 type="submit"
-                className="rounded bg-red-700 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-white hover:bg-red-800"
+                className="w-fit rounded bg-red-700 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-white hover:bg-red-800"
               >
                 Confirm delete
               </button>
               <button
                 type="button"
                 onClick={() => setPendingDelete(false)}
-                className="rounded border border-gray-300 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-gray-600 hover:bg-white"
+                className="w-fit rounded border border-gray-300 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-gray-600 hover:bg-white"
               >
                 Cancel
               </button>
