@@ -12,10 +12,9 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
 
   return (
     <div className="mx-auto max-w-md">
-      <h1 className="font-heading text-3xl text-teal">Staff login</h1>
-      <p className="mt-2 text-sm text-gray-600">
-        Sign in to view contact messages and employment applications.
-      </p>
+      <h1 className="font-heading text-3xl uppercase tracking-widest text-teal">
+        Admin Login
+      </h1>
 
       {error ? (
         <p

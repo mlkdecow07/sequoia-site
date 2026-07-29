@@ -43,14 +43,30 @@ export default function AdminNav({ email }: { email?: string | null }) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-teal/15 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-        <Link
-          href="/admin"
-          className="font-heading text-lg text-teal"
-          onClick={() => setMenuOpen(false)}
-        >
-          SCS ADMIN
-        </Link>
+      <div className="mx-auto flex max-w-5xl items-start justify-between gap-3 px-4 py-3 sm:px-6 lg:items-center">
+        <div className="min-w-0 flex-1">
+          <Link
+            href="/admin"
+            className="font-heading text-lg text-teal"
+            onClick={() => setMenuOpen(false)}
+          >
+            SCS ADMIN
+          </Link>
+
+          <div className="mt-2 flex flex-col items-start gap-2 lg:hidden">
+            {email ? (
+              <p className="max-w-full truncate text-xs text-gray-600">{email}</p>
+            ) : null}
+            <form action={signOut}>
+              <button
+                type="submit"
+                className="rounded border border-teal/25 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-teal hover:bg-teal/5"
+              >
+                Sign out
+              </button>
+            </form>
+          </div>
+        </div>
 
         <div className="hidden items-center gap-1 lg:flex">
           <nav className="flex items-center gap-1">
@@ -79,7 +95,7 @@ export default function AdminNav({ email }: { email?: string | null }) {
 
         <button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded border border-teal/25 text-teal lg:hidden"
+          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded border border-teal/25 text-teal lg:hidden"
           aria-expanded={menuOpen}
           aria-controls="admin-mobile-menu"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -123,19 +139,6 @@ export default function AdminNav({ email }: { email?: string | null }) {
               </Link>
             ))}
           </nav>
-          <div className="mx-auto flex max-w-5xl flex-col gap-3 border-t border-teal/10 px-4 py-4 sm:px-6">
-            {email ? (
-              <p className="truncate text-sm text-gray-600">{email}</p>
-            ) : null}
-            <form action={signOut}>
-              <button
-                type="submit"
-                className="w-full rounded border border-teal/25 px-3 py-3 text-xs font-semibold uppercase tracking-widest text-teal hover:bg-teal/5"
-              >
-                Sign out
-              </button>
-            </form>
-          </div>
         </div>
       ) : null}
     </header>
