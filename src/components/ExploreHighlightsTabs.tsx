@@ -17,7 +17,7 @@ const highlights = [
   {
     id: "what-makes-us-unique",
     title: "WHAT MAKES US UNIQUE",
-    text: "Like the sequoia seed given life by fire, we believe every student carries holy capacity. We teach with a sense of wonder and use the Principle Approach so God's Word shapes every subject.",
+    text: "We believe every student carries holy capacity. We teach with a sense of wonder and use the Principle Approach, believing that God's Word shapes every subject.",
   },
   {
     id: "educational-approach",

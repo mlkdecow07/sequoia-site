@@ -88,10 +88,10 @@ export default function LinksPageClient() {
           />
         </div>
 
-        <div className="mt-5 flex flex-col gap-2">
+        <div className="mx-auto mt-5 flex w-full max-w-xs flex-col gap-2">
           {links.map((link) => {
             const className =
-              "flex w-full items-center gap-4 border border-white bg-white px-5 py-3.5 text-left shadow-sm transition hover:border-cream hover:bg-cream sm:py-4";
+              "flex w-full items-center gap-4 rounded border border-white bg-white px-5 py-3.5 text-left shadow-sm transition hover:border-cream hover:bg-cream sm:py-4";
 
             const content = (
               <>

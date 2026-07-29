@@ -2,29 +2,16 @@
 
 import { useId, useState } from "react";
 import Link from "next/link";
-
-const nextSteps = [
-  { label: "Tuition & Fees", href: "/tuition", description: "Variable tuition and financial aid" },
-  {
-    label: "Enrollment Process",
-    href: "/enrollment",
-    description: "Four steps from apply to enroll",
-  },
-  {
-    label: "Welcome Letter",
-    href: "/welcome",
-    description: "A letter from our founding pastor",
-  },
-  {
-    label: "Testimonials",
-    href: "/testimonials",
-    description: "Hear from Sequoia families",
-  },
-] as const;
+import { siteConfig } from "@/lib/site-config";
 
 export default function ExploreNextStepsTabs() {
   const baseId = useId();
   const [activeIndex, setActiveIndex] = useState(0);
+  const tabs = [
+    { id: "tuition", label: "Tuition & Access" },
+    { id: "enrollment", label: "Enrollment Process" },
+    { id: "apply", label: "Ready to become a giant dreamer?" },
+  ] as const;
 
   return (
     <div className="overflow-hidden rounded-xl border border-teal/15 bg-white shadow-sm">
@@ -37,21 +24,21 @@ export default function ExploreNextStepsTabs() {
         aria-label="Next steps"
         className="flex divide-x divide-teal/15 border-b border-teal/15 bg-teal/10"
       >
-        {nextSteps.map((step, index) => {
+        {tabs.map((tab, index) => {
           const isActive = index === activeIndex;
           const number = String(index + 1);
-          const tabId = `${baseId}-tab-${number}`;
-          const panelId = `${baseId}-panel-${number}`;
+          const tabId = `${baseId}-tab-${tab.id}`;
+          const panelId = `${baseId}-panel-${tab.id}`;
 
           return (
             <button
-              key={step.href}
+              key={tab.id}
               type="button"
               role="tab"
               id={tabId}
               aria-selected={isActive}
               aria-controls={panelId}
-              aria-label={`Step ${number}: ${step.label}`}
+              aria-label={`Step ${number}: ${tab.label}`}
               tabIndex={isActive ? 0 : -1}
               onClick={() => setActiveIndex(index)}
               className={`flex min-w-0 flex-1 items-center justify-center py-3.5 font-heading text-lg font-semibold tracking-wide transition sm:py-4 sm:text-xl ${
@@ -67,40 +54,118 @@ export default function ExploreNextStepsTabs() {
       </div>
 
       <div className="grid">
-        {nextSteps.map((step, index) => {
-          const isActive = index === activeIndex;
-          const number = String(index + 1);
-          const tabId = `${baseId}-tab-${number}`;
-          const panelId = `${baseId}-panel-${number}`;
-
-          return (
-            <div
-              key={step.href}
-              role="tabpanel"
-              id={panelId}
-              aria-labelledby={tabId}
-              aria-hidden={!isActive}
-              className={`col-start-1 row-start-1 px-5 py-5 sm:px-6 sm:py-6 ${
-                isActive ? "visible" : "invisible"
-              }`}
+        <div
+          role="tabpanel"
+          id={`${baseId}-panel-tuition`}
+          aria-labelledby={`${baseId}-tab-tuition`}
+          aria-hidden={activeIndex !== 0}
+          className={`col-start-1 row-start-1 space-y-4 px-5 py-5 sm:px-6 sm:py-6 ${
+            activeIndex === 0 ? "visible" : "invisible"
+          }`}
+        >
+          <p className="font-heading text-sm font-semibold tracking-wide text-teal sm:text-base">
+            Tuition &amp; Access
+          </p>
+          <p className="type-body-sm">
+            No student at Sequoia pays 100% of the cost of education. Every student begins with a 20%
+            discount, and variable tuition is set with your family&apos;s unique financial position in
+            mind — typically ranging from 40–80% of the full cost.
+          </p>
+          <p className="type-body-sm">
+            Financial aid scholarships are also available for eligible families. Learn more on our
+            tuition page, including EITC opportunities for businesses and individuals who want to
+            support Christian education.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/tuition"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold tracking-wide text-teal transition hover:text-teal-dark"
             >
-              <Link
-                href={step.href}
-                className="group flex items-center justify-between gap-4 transition"
-              >
-                <span>
-                  <span className="block font-heading text-sm font-semibold tracking-wide text-teal group-hover:text-teal-dark sm:text-base">
-                    {step.label}
-                  </span>
-                  <span className="type-body-sm mt-1 block text-gray-600">{step.description}</span>
-                </span>
-                <span className="shrink-0 text-teal group-hover:text-teal-dark" aria-hidden>
-                  →
-                </span>
-              </Link>
-            </div>
-          );
-        })}
+              Tuition &amp; Fees <span aria-hidden>→</span>
+            </Link>
+            <Link
+              href="/eitc"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold tracking-wide text-teal transition hover:text-teal-dark"
+            >
+              Learn about EITC <span aria-hidden>→</span>
+            </Link>
+          </div>
+        </div>
+
+        <div
+          role="tabpanel"
+          id={`${baseId}-panel-enrollment`}
+          aria-labelledby={`${baseId}-tab-enrollment`}
+          aria-hidden={activeIndex !== 1}
+          className={`col-start-1 row-start-1 space-y-4 px-5 py-5 sm:px-6 sm:py-6 ${
+            activeIndex === 1 ? "visible" : "invisible"
+          }`}
+        >
+          <p className="font-heading text-sm font-semibold tracking-wide text-teal sm:text-base">
+            Enrollment Process
+          </p>
+          <ol className="space-y-2">
+            <li className="font-heading text-sm font-semibold tracking-wide text-teal sm:text-base">
+              Step 1: Apply Online
+            </li>
+            <li className="font-heading text-sm font-semibold tracking-wide text-teal sm:text-base">
+              Step 2: Family Interview
+            </li>
+            <li className="font-heading text-sm font-semibold tracking-wide text-teal sm:text-base">
+              Step 3: Acceptance
+            </li>
+            <li className="font-heading text-sm font-semibold tracking-wide text-teal sm:text-base">
+              Step 4: Enrollment
+            </li>
+          </ol>
+          <Link
+            href="/enrollment"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold tracking-wide text-teal transition hover:text-teal-dark"
+          >
+            View full enrollment details <span aria-hidden>→</span>
+          </Link>
+        </div>
+
+        <div
+          role="tabpanel"
+          id={`${baseId}-panel-apply`}
+          aria-labelledby={`${baseId}-tab-apply`}
+          aria-hidden={activeIndex !== 2}
+          className={`col-start-1 row-start-1 px-5 py-6 text-center sm:px-6 sm:py-8 ${
+            activeIndex === 2 ? "visible" : "invisible"
+          }`}
+        >
+          <p className="font-heading text-base font-semibold uppercase leading-relaxed tracking-wide text-teal sm:text-lg">
+            Ready to become a giant dreamer?
+          </p>
+          <Link
+            href={siteConfig.applyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex items-center gap-2 rounded bg-teal px-6 py-2.5 text-xs font-semibold tracking-wide text-white transition hover:bg-teal-dark sm:px-8 sm:py-3 sm:text-sm"
+          >
+            START YOUR APPLICATION
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-4 w-4"
+              aria-hidden="true"
+            >
+              <path d="M7 17 17 7" />
+              <path d="M7 7h10v10" />
+            </svg>
+          </Link>
+          <p className="type-caption mx-auto mt-4 max-w-sm italic">
+            A non-refundable application fee of $50 is required with each application.
+          </p>
+          <p className="type-body-sm mx-auto mt-4 max-w-sm text-gray-600">
+            Please Note: New students will be charged a $100 enrollment fee per student.
+          </p>
+        </div>
       </div>
     </div>
   );

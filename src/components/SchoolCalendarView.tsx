@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 import type { SchoolCalendarMonth } from "@/lib/site-config";
+import { getCurrentSchoolYear } from "@/lib/site-config";
 import {
   WEEKDAY_LABELS,
   buildMonthGrid,
+  downloadSchoolCalendarIcs,
+  downloadSchoolCalendarPdf,
   flattenSchoolCalendar,
   isNoSchoolEvent,
   monthLabel,
@@ -62,46 +65,107 @@ function ViewToggle({
 }
 
 function ListView({ months }: { months: SchoolCalendarMonth[] }) {
+  const schoolYear = getCurrentSchoolYear();
+  const downloadButtonClass =
+    "inline-flex items-center gap-2 rounded border border-teal/20 bg-white px-4 py-2.5 text-[10px] font-semibold uppercase tracking-widest text-teal transition hover:bg-teal/5 sm:text-xs";
+
   return (
-    <div className="mx-auto max-w-2xl overflow-hidden rounded-xl border border-teal/15 bg-white shadow-sm">
-      {months.map((month, monthIndex) => (
-        <div key={month.name}>
-          {monthIndex > 0 ? <div className="border-t border-teal/10" aria-hidden="true" /> : null}
-          <div className="bg-teal/5 px-4 py-2 sm:px-5">
-            <h3 className="font-heading text-sm font-semibold uppercase tracking-wide text-teal">
-              {month.name}
-            </h3>
-          </div>
-          {month.events.map((event, eventIndex) => (
-            <div
-              key={`${month.name}-${event.title}`}
-              className={`flex gap-3 px-4 py-2.5 sm:gap-4 sm:px-5 sm:py-3 ${
-                eventIndex < month.events.length - 1 ? "border-b border-teal/10" : ""
-              }`}
-            >
-              <p className="w-24 shrink-0 font-body text-xs font-normal leading-snug text-gray-500 sm:w-28 md:text-sm md:text-gray-400">
-                {event.dates}
-              </p>
-              <div className="min-w-0 flex-1">
-                <p
-                  className={`font-heading text-sm leading-snug tracking-wide ${
-                    isNoSchoolEvent(event)
-                      ? "font-bold uppercase text-red-600"
-                      : "font-semibold text-gray-900"
-                  }`}
-                >
-                  {event.title}
-                </p>
-                {event.description ? (
-                  <p className="mt-0.5 text-sm leading-snug text-gray-600">
-                    {event.description.replace(/\.$/, "")}
-                  </p>
-                ) : null}
-              </div>
+    <div className="mx-auto max-w-2xl space-y-4">
+      <div className="overflow-hidden rounded-xl border border-teal/15 bg-white shadow-sm">
+        {months.map((month, monthIndex) => (
+          <div key={month.name}>
+            {monthIndex > 0 ? <div className="border-t border-teal/10" aria-hidden="true" /> : null}
+            <div className="bg-teal/5 px-4 py-2 sm:px-5">
+              <h3 className="font-heading text-sm font-semibold uppercase tracking-wide text-teal">
+                {month.name}
+              </h3>
             </div>
-          ))}
+            {month.events.map((event, eventIndex) => (
+              <div
+                key={`${month.name}-${event.title}`}
+                className={`flex gap-3 px-4 py-2.5 sm:gap-4 sm:px-5 sm:py-3 ${
+                  eventIndex < month.events.length - 1 ? "border-b border-teal/10" : ""
+                }`}
+              >
+                <p className="w-24 shrink-0 font-body text-xs font-normal leading-snug text-gray-500 sm:w-28 md:text-sm md:text-gray-400">
+                  {event.dates}
+                </p>
+                <div className="min-w-0 flex-1">
+                  <p
+                    className={`font-heading text-sm leading-snug tracking-wide ${
+                      isNoSchoolEvent(event)
+                        ? "font-bold uppercase text-red-600"
+                        : "font-semibold text-gray-900"
+                    }`}
+                  >
+                    {event.title}
+                  </p>
+                  {event.description ? (
+                    <p className="mt-0.5 text-sm leading-snug text-gray-600">
+                      {event.description.replace(/\.$/, "")}
+                    </p>
+                  ) : null}
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-col items-center gap-3">
+        <p className="font-heading text-[10px] font-semibold uppercase tracking-widest text-teal sm:text-xs">
+          Download
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <button
+            type="button"
+            onClick={() => downloadSchoolCalendarIcs(months)}
+            aria-label="Download calendar as .ics"
+            className={downloadButtonClass}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-3.5 w-3.5 shrink-0"
+              aria-hidden="true"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <path d="m7 10 5 5 5-5" />
+              <path d="M12 15V3" />
+            </svg>
+            .ics
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              void downloadSchoolCalendarPdf(months, schoolYear);
+            }}
+            aria-label="Download calendar as PDF"
+            className={downloadButtonClass}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-3.5 w-3.5 shrink-0"
+              aria-hidden="true"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <path d="M14 2v6h6" />
+              <path d="M12 18v-6" />
+              <path d="m9 15 3 3 3-3" />
+            </svg>
+            PDF
+          </button>
         </div>
-      ))}
+      </div>
     </div>
   );
 }

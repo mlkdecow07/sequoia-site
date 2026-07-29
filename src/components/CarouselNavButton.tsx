@@ -3,6 +3,7 @@ type CarouselNavButtonProps = {
   disabled: boolean;
   onClick: () => void;
   label?: string;
+  variant?: "circle" | "tab";
 };
 
 export default function CarouselNavButton({
@@ -10,8 +11,10 @@ export default function CarouselNavButton({
   disabled,
   onClick,
   label,
+  variant = "circle",
 }: CarouselNavButtonProps) {
   const defaultLabel = direction === "prev" ? "Previous" : "Next";
+  const isTab = variant === "tab";
 
   return (
     <button
@@ -19,7 +22,11 @@ export default function CarouselNavButton({
       aria-label={label ?? defaultLabel}
       onClick={onClick}
       disabled={disabled}
-      className="flex h-9 w-9 items-center justify-center rounded-full border border-teal/25 bg-white text-teal transition hover:bg-teal/5 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white"
+      className={
+        isTab
+          ? "inline-flex h-9 min-w-9 items-center justify-center rounded border border-teal/15 bg-teal/10 px-3 text-teal transition hover:bg-teal/5 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-teal/10"
+          : "flex h-9 w-9 items-center justify-center rounded-full border border-teal/25 bg-white text-teal transition hover:bg-teal/5 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white"
+      }
     >
       <svg
         viewBox="0 0 24 24"

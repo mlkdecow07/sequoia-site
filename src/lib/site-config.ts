@@ -343,7 +343,7 @@ export const navigation: NavItem[] = [
 ];
 
 export const faculty = [
-  { name: "Mrs. Diroll", role: "Headmaster", image: "/images/faculty/diroll.jpg" },
+  { name: "Mrs. Diroll", role: "Headmaster", image: "/images/faculty/diroll.png" },
   { name: "Mrs. Muniz", role: "Administrative Assistant", image: "/images/faculty/muniz.png" },
   { name: "Mrs. McCallum", role: "Admin & Security", image: "/images/faculty/mccallum.png" },
   { name: "Ms. Zeky", role: "Development Officer" },
