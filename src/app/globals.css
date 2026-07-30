@@ -126,11 +126,22 @@ h6 {
     animation-delay: 0.76s;
   }
 
-  /* Drop-in override for the enrollment banner (starts above, not below).
-     Nested under the verse block so it stays out of the hero flex stack. */
-  .hero-content .enrollment-banner-enter {
+  /* Drop-in for the enrollment banner (pinned to hero bottom — out of flex stack). */
+  .enrollment-banner-enter {
     opacity: 0;
     animation: enrollment-banner-drop 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.7s forwards;
+  }
+
+  .hero-headline {
+    font-size: clamp(1.15rem, 0.75rem + 2vw, 1.65rem);
+    letter-spacing: 0.02em;
+  }
+
+  @media (min-width: 768px) {
+    .hero-headline {
+      font-size: clamp(2.25rem, 0.6rem + 2.6vw, 3.75rem);
+      letter-spacing: 0.06em;
+    }
   }
 
   .testimonial-enter-next {
@@ -236,7 +247,7 @@ h6 {
   .photo-reveal-drift,
   .hero-ken-burns,
   .hero-content > *,
-  .hero-content .enrollment-banner-enter,
+  .enrollment-banner-enter,
   .testimonial-enter-next,
   .testimonial-enter-prev,
   .eitc-now-attention {

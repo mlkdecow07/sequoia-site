@@ -20,6 +20,8 @@ type HeroSectionProps = {
   centerPanelContent?: React.ReactNode;
   /** Stack multiple images vertically instead of side-by-side columns */
   stackImages?: boolean;
+  /** Full-bleed content pinned to the bottom edge of the hero (out of flex flow) */
+  bottomOverlay?: React.ReactNode;
 };
 
 type HeroImagePanelProps = {
@@ -61,6 +63,7 @@ export default function HeroSection({
   mobileTripleGrayscale = false,
   centerPanelContent,
   stackImages = false,
+  bottomOverlay,
 }: HeroSectionProps) {
   const singleImage = images.length === 1 ? images[0] : null;
   const useTripleMobile = mobileTripleGrayscale && singleImage !== null;
@@ -152,7 +155,7 @@ export default function HeroSection({
           <>
             <div className="absolute inset-0 grid h-full grid-cols-1 grid-rows-3 md:hidden">
               <div aria-hidden="true" />
-              <div className="hero-content relative flex min-h-0 flex-col items-center justify-center gap-4 px-3 pb-3">
+              <div className="hero-content relative flex min-h-0 flex-col items-center justify-center gap-3 overflow-visible px-3 pb-2 sm:gap-4 sm:pb-3">
                 {children}
                 {centerPanelContent}
               </div>
@@ -160,7 +163,7 @@ export default function HeroSection({
             </div>
             <div className="absolute inset-0 hidden flex-col md:flex">
               <div className="h-[6.25rem] shrink-0 sm:h-[6.875rem] md:h-[7.5rem]" aria-hidden="true" />
-              <div className="hero-content flex flex-1 flex-col items-center justify-center gap-4 px-6 pb-6 md:gap-5">
+              <div className="hero-content relative flex flex-1 flex-col items-center justify-center gap-4 overflow-visible px-6 pb-20 md:gap-5 md:pb-24">
                 {children}
               </div>
             </div>
@@ -182,6 +185,10 @@ export default function HeroSection({
             </div>
           </div>
         )}
+
+        {bottomOverlay ? (
+          <div className="pointer-events-auto absolute inset-x-0 bottom-0 z-10">{bottomOverlay}</div>
+        ) : null}
       </section>
     </>
   );

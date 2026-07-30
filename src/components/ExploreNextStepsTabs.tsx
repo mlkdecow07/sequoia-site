@@ -167,7 +167,8 @@ export default function ExploreNextStepsTabs() {
               A non-refundable application fee of $50 is required with each application.
             </p>
             <p className="type-body-sm mx-auto max-w-sm text-gray-600">
-              Please Note: New students will be charged a $100 enrollment fee per student.
+              <strong>PLEASE NOTE:</strong> New students will be charged a $100 enrollment fee per
+              student.
             </p>
           </div>
         </div>

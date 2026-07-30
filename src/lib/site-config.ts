@@ -15,7 +15,7 @@ export const siteConfig = {
   financialAidUrl: "/tuition",
   lifeCenterUrl: "https://lcmi.org/",
   donateUrl:
-    "https://pushpay.com/g/lifecenterministries?fnd=zYYFjhpsuhsCtke93J7-zA&lang=en&r=No&src=pcgl",
+    "https://pushpay.com/g/lifecenterministries?fnd=Sequoia%20School",
 };
 
 /** Routes with a full-viewport hero — header stays transparent until scrolled past */
@@ -51,11 +51,49 @@ export const statementOfBeliefs = [
   "We believe that normal New Testament Christianity involves the regular meeting or assembling of the believers together for the purposes of worship, prayer, instruction in the Word of God, and fellowship.",
 ];
 
+/** School wall-clock timezone (Harrisburg, PA). Prefer this over UTC for date windows. */
+export const SCHOOL_TIME_ZONE = "America/New_York";
+
+function getSchoolLocalDateParts(date = new Date()): {
+  year: number;
+  month: number;
+  day: number;
+} {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: SCHOOL_TIME_ZONE,
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+  }).formatToParts(date);
+  const value = (type: Intl.DateTimeFormatPartTypes) =>
+    Number(parts.find((part) => part.type === type)?.value);
+  return { year: value("year"), month: value("month"), day: value("day") };
+}
+
 /** Returns the enrollment school year (e.g. "2026-2027"). Updates each February 1. */
 export function getCurrentSchoolYear(date = new Date()): string {
-  const year = date.getFullYear();
-  const startYear = date.getMonth() < 1 ? year - 1 : year;
+  const { year, month } = getSchoolLocalDateParts(date);
+  const startYear = month < 2 ? year - 1 : year;
   return `${startYear}-${startYear + 1}`;
+}
+
+/**
+ * Homepage enrollment banner: visible Feb 1 – Aug 31 (inclusive) in school local time.
+ * Advertises `{Y}–{Y+1}` for the calendar year Y of that Feb–Aug window.
+ */
+export function getEnrollmentBannerState(date = new Date()): {
+  visible: boolean;
+  schoolYearLabel: string | null;
+} {
+  const { year, month } = getSchoolLocalDateParts(date);
+  const visible = month >= 2 && month <= 8;
+  if (!visible) {
+    return { visible: false, schoolYearLabel: null };
+  }
+  return {
+    visible: true,
+    schoolYearLabel: `${year}–${year + 1}`,
+  };
 }
 
 export type SchoolCalendarEvent = {
@@ -330,6 +368,7 @@ export const navigation: NavItem[] = [
     href: "#",
     children: [
       { label: "Explore", href: "/explore" },
+      { label: "Plan a Visit", href: "/visit" },
       { label: "Tuition", href: "/tuition" },
       { label: "Enrollment Process", href: "/enrollment" },
       { label: "Apply", href: "/apply" },

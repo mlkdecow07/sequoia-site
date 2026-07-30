@@ -18,6 +18,7 @@ type AccordionProps = {
   wrapTitles?: boolean;
   singleColumn?: boolean;
   singleOpen?: boolean;
+  compact?: boolean;
 };
 
 function AccordionIcon({ isOpen, compact = false }: { isOpen: boolean; compact?: boolean }) {
@@ -54,6 +55,7 @@ export default function Accordion({
   wrapTitles = false,
   singleColumn = false,
   singleOpen = false,
+  compact = false,
 }: AccordionProps) {
   const isBelief = variant === "belief";
   const beliefTitleClassName = `min-w-0 flex-1 font-heading text-[11px] font-semibold uppercase tracking-wide text-teal sm:text-xs md:text-[10px] md:tracking-normal lg:text-[11px] xl:text-xs${
@@ -102,7 +104,9 @@ export default function Accordion({
                   ? `rounded-lg border border-teal/15 p-5 shadow-sm transition-colors ${
                       itemClassName ?? "bg-white"
                     }${isOpen ? " relative z-[1]" : ""}`
-                  : `mb-2.5 p-5 transition-colors last:mb-0 ${
+                  : `mb-2.5 transition-colors last:mb-0 ${
+                      compact ? "px-4 py-2.5" : "p-5"
+                    } ${
                       itemClassName
                         ? `${itemClassName}${isOpen ? " relative z-[1]" : ""}`
                         : isOpen
@@ -126,7 +130,7 @@ export default function Accordion({
               >
                 {item.title}
               </h5>
-              <AccordionIcon isOpen={isOpen} compact={isBelief} />
+              <AccordionIcon isOpen={isOpen} compact={isBelief || compact} />
             </button>
             <div
               className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
@@ -134,7 +138,11 @@ export default function Accordion({
               }`}
             >
               <div className="overflow-hidden">
-                <div className={`${resolvedContentClassName}${isOpen ? " pt-3" : ""}`}>
+                <div
+                  className={`${resolvedContentClassName}${
+                    isOpen ? (compact ? " pt-2" : " pt-3") : ""
+                  }`}
+                >
                   {item.content}
                 </div>
               </div>

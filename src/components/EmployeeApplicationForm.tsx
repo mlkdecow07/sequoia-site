@@ -18,9 +18,15 @@ import {
 } from "@/lib/employment-uploads";
 
 const inputClass =
-  "w-full rounded border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-teal";
-const labelClass = "mb-1.5 block text-sm font-medium text-gray-800";
-const sectionClass = "space-y-4";
+  "w-full min-w-0 rounded border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-teal";
+const labelClass = "mb-1.5 block text-sm font-semibold leading-snug tracking-wide text-teal";
+const sectionClass = "space-y-5";
+const fileInputClass =
+  "block w-full min-w-0 text-sm text-gray-600 file:mr-4 file:rounded file:border-0 file:bg-teal file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-wide file:text-white hover:file:bg-teal-dark";
+const navButtonSizeClass =
+  "inline-flex min-w-[8.5rem] items-center justify-center gap-2 px-6 py-2.5 text-xs font-semibold uppercase tracking-widest sm:min-w-[9.5rem] sm:px-8 sm:text-sm";
+const primaryButtonClass = `${navButtonSizeClass} rounded bg-teal text-white transition hover:bg-teal-dark disabled:cursor-wait disabled:opacity-70`;
+const secondaryButtonClass = `${navButtonSizeClass} rounded border border-teal/25 bg-white text-teal transition hover:border-teal/40 hover:bg-teal/5 disabled:cursor-not-allowed disabled:opacity-40`;
 
 function FieldLabel({
   children,
@@ -32,7 +38,7 @@ function FieldLabel({
   return (
     <label className={labelClass}>
       {children}
-      {required ? <span className="text-teal"> *</span> : null}
+      {required ? <span aria-hidden="true"> *</span> : null}
     </label>
   );
 }
@@ -54,11 +60,14 @@ function YesNoField({
     <fieldset>
       <legend className={labelClass}>
         {label}
-        {required ? <span className="text-teal"> *</span> : null}
+        {required ? <span aria-hidden="true"> *</span> : null}
       </legend>
-      <div className="flex gap-6">
+      <div className="mt-2 flex flex-wrap gap-3 sm:gap-4">
         {(["yes", "no"] as const).map((option) => (
-          <label key={option} className="inline-flex items-center gap-2 text-sm text-gray-700">
+          <label
+            key={option}
+            className="inline-flex items-center gap-2 rounded-lg border border-teal/15 bg-cream/60 px-3.5 py-2 text-sm text-gray-700 has-[:checked]:border-teal/40 has-[:checked]:bg-teal/5"
+          >
             <input
               type="radio"
               name={name}
@@ -92,7 +101,7 @@ function EmploymentFields({
   };
 
   return (
-    <div className="space-y-4 rounded border border-gray-100 bg-cream/40 p-4 sm:p-6">
+    <div className="space-y-4 overflow-hidden rounded-xl border border-teal/15 bg-cream/40 p-4 sm:p-6">
       <h3 className="type-subsection-title">{title}</h3>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
@@ -435,12 +444,18 @@ export default function EmployeeApplicationForm() {
 
   if (submitted) {
     return (
-      <div className="mx-auto max-w-xl rounded border border-teal/20 bg-teal/5 px-6 py-10 text-center">
-        <h3 className="type-subsection-title text-teal">Application Submitted</h3>
-        <p className="type-body mt-4">
-          Thank you for your interest in joining the Sequoia Christian School team. We have received
-          your application and will be in touch.
-        </p>
+      <div className="mx-auto max-w-xl overflow-hidden rounded-xl border border-teal/15 bg-white shadow-sm">
+        <div className="border-b border-teal/10 bg-teal/5 px-5 py-4 text-center sm:px-8">
+          <p className="font-heading text-base font-semibold uppercase tracking-wide text-teal sm:text-lg">
+            Application Submitted
+          </p>
+        </div>
+        <div className="px-5 py-8 text-center sm:px-8 sm:py-10">
+          <p className="type-body">
+            Thank you for your interest in joining the Sequoia Christian School team. We have received
+            your application and will be in touch.
+          </p>
+        </div>
       </div>
     );
   }
@@ -450,24 +465,27 @@ export default function EmployeeApplicationForm() {
       ref={formRef}
       id="employee-application-form"
       onSubmit={handleSubmit}
-      className="mx-auto max-w-xl"
+      className="mx-auto max-w-xl overflow-hidden rounded-xl border border-teal/15 bg-white shadow-sm"
       noValidate
     >
-      <div className="mb-8">
-        <div className="mb-3 flex items-center justify-between text-xs text-gray-500 sm:text-sm">
-          <span>
+      <div className="border-b border-teal/10 bg-teal/5 px-5 py-4 sm:px-8">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+          <p className="font-heading text-sm font-semibold tracking-wide text-teal sm:text-base">
+            {formSteps[step].title}
+          </p>
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-500 sm:text-xs">
             Step {step + 1} of {formSteps.length}
-          </span>
-          <span>{formSteps[step].title}</span>
+          </p>
         </div>
-        <div className="h-1.5 overflow-hidden rounded-full bg-gray-200">
+        <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/80">
           <div
-            className="h-full bg-teal transition-all duration-300"
+            className="h-full rounded-full bg-teal transition-all duration-300"
             style={{ width: `${((step + 1) / formSteps.length) * 100}%` }}
           />
         </div>
       </div>
 
+      <div className="px-5 py-6 sm:px-8 sm:py-8">
       <div ref={stepRef}>
       {step === 0 && (
         <div className={sectionClass}>
@@ -709,11 +727,11 @@ export default function EmployeeApplicationForm() {
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 assignUpload(setHeadshot, e.target.files?.[0], "Headshot", "headshot")
               }
-              className="block w-full text-sm text-gray-600 file:mr-4 file:rounded file:border-0 file:bg-teal file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-teal-dark"
+              className={fileInputClass}
             />
-            <p className="mt-1 text-xs text-gray-500">JPG, PNG, WEBP, GIF, or HEIC — 4MB max.</p>
+            <p className="type-caption mt-2">JPG, PNG, WEBP, GIF, or HEIC — 4MB max.</p>
             {headshot ? (
-              <p className="mt-2 text-sm text-gray-600">Selected: {headshot.name}</p>
+              <p className="mt-2 text-sm text-teal">Selected: {headshot.name}</p>
             ) : null}
           </div>
         </div>
@@ -857,11 +875,11 @@ export default function EmployeeApplicationForm() {
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 assignUpload(setResume, e.target.files?.[0], "Resume", "resume")
               }
-              className="block w-full text-sm text-gray-600 file:mr-4 file:rounded file:border-0 file:bg-teal file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-teal-dark"
+              className={fileInputClass}
             />
-            <p className="mt-1 text-xs text-gray-500">PDF, DOC, or DOCX — 4MB max.</p>
+            <p className="type-caption mt-2">PDF, DOC, or DOCX — 4MB max.</p>
             {resume ? (
-              <p className="mt-2 text-sm text-gray-600">Selected: {resume.name}</p>
+              <p className="mt-2 text-sm text-teal">Selected: {resume.name}</p>
             ) : null}
           </div>
         </div>
@@ -934,22 +952,24 @@ export default function EmployeeApplicationForm() {
       {step === 8 && (
         <div className={sectionClass}>
           <h3 className="type-subsection-title">Certification &amp; Agreement</h3>
-          <div className="space-y-4 rounded border border-gray-200 bg-cream/30 p-4 sm:p-6">
+          <div className="space-y-4 overflow-hidden rounded-xl border border-teal/15 bg-cream/40 p-4 sm:p-6">
             {agreementStatements.map((statement) => (
               <p key={statement} className="type-body-sm text-gray-700">
                 {statement}
               </p>
             ))}
           </div>
-          <label className="flex items-start gap-3 text-sm text-gray-700">
+          <label className="flex items-start gap-3 rounded-lg border border-teal/15 bg-teal/5 px-4 py-3 text-sm text-gray-700">
             <input
               type="checkbox"
               checked={data.agreementAccepted}
               onChange={(e) => update("agreementAccepted", e.target.checked)}
               required
-              className="mt-1 h-4 w-4 accent-teal"
+              className="mt-0.5 h-4 w-4 shrink-0 accent-teal"
             />
-            <span className="font-semibold tracking-wide">I AGREE</span>
+            <span className="font-heading font-semibold uppercase tracking-wide text-teal">
+              I Agree
+            </span>
           </label>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
@@ -989,12 +1009,15 @@ export default function EmployeeApplicationForm() {
       </div>
 
       {stepError ? (
-        <p className="mt-6 rounded border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+        <p
+          className="mt-6 rounded border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+          role="alert"
+        >
           {stepError}
         </p>
       ) : null}
 
-      <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-teal/10 pt-6">
         <button
           type="button"
           onClick={() => {
@@ -1002,7 +1025,7 @@ export default function EmployeeApplicationForm() {
             setStep((current) => Math.max(0, current - 1));
           }}
           disabled={step === 0 || isSubmitting}
-          className="rounded border border-gray-300 px-5 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
+          className={secondaryButtonClass}
         >
           Back
         </button>
@@ -1014,9 +1037,22 @@ export default function EmployeeApplicationForm() {
               if (!validateCurrentStep()) return;
               setStep((current) => Math.min(formSteps.length - 1, current + 1));
             }}
-            className="rounded bg-teal px-6 py-2.5 text-sm font-semibold tracking-wide text-white transition hover:bg-teal-dark disabled:cursor-wait disabled:opacity-70"
+            className={primaryButtonClass}
           >
             Next
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-4 w-4 shrink-0"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
           </button>
         ) : (
           <button
@@ -1027,11 +1063,25 @@ export default function EmployeeApplicationForm() {
                 e.preventDefault();
               }
             }}
-            className="rounded bg-teal px-6 py-2.5 text-sm font-semibold tracking-wide text-white transition hover:bg-teal-dark disabled:cursor-wait disabled:opacity-70"
+            className={primaryButtonClass}
           >
-            {isSubmitting ? "Submitting…" : "Submit Application"}
+            {isSubmitting ? "Submitting…" : "Submit"}
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-4 w-4 shrink-0"
+              aria-hidden="true"
+            >
+              <path d="M22 2 11 13" />
+              <path d="M22 2 15 22 11 13 2 9 22 2" />
+            </svg>
           </button>
         )}
+      </div>
       </div>
     </form>
   );
