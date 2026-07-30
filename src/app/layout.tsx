@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Aleo, Source_Sans_3 } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import SiteChrome from "@/components/SiteChrome";
 import { getActiveSiteAlert } from "@/lib/site-alert-data";
 import "./globals.css";
@@ -62,6 +63,7 @@ export default async function RootLayout({
         <div className="site-shell min-h-screen bg-cream/95">
           <SiteChrome siteAlert={siteAlert}>{children}</SiteChrome>
         </div>
+        <GoogleAnalytics gaId="G-WENHKFB909" />
       </body>
     </html>
   );
