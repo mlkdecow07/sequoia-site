@@ -3,6 +3,7 @@ import {
   backgroundQuestions,
   type EmployeeApplicationData,
 } from "@/lib/employee-application-config";
+import { resolveUploadContentType } from "@/lib/employment-uploads";
 import { emailFrom, emailTo, escapeHtml, formatMultiline, resend } from "@/lib/resend";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -142,6 +143,7 @@ function fileExtension(filename: string, mimeType?: string) {
 async function parseUpload(
   entry: FormDataEntryValue | null,
   label: string,
+  kind: "headshot" | "resume",
 ) {
   if (!entry || typeof entry === "string") {
     throw new Error(`${label} is required.`);
@@ -161,10 +163,12 @@ async function parseUpload(
       ? entry.name.trim()
       : label.toLowerCase().replace(/\s+/g, "-");
 
+  const contentType = resolveUploadContentType(filename, entry.type, kind);
+
   return {
     filename,
     buffer,
-    contentType: entry.type || undefined,
+    contentType,
     // Resend JSON API requires base64 strings — raw Buffers serialize incorrectly.
     content: buffer.toString("base64"),
   };
@@ -191,8 +195,12 @@ export async function POST(request: Request) {
       );
     }
 
-    const headshot = await parseUpload(formData.get("headshot"), "Headshot");
-    const resume = await parseUpload(formData.get("resume"), "Resume");
+    const headshot = await parseUpload(
+      formData.get("headshot"),
+      "Headshot",
+      "headshot",
+    );
+    const resume = await parseUpload(formData.get("resume"), "Resume", "resume");
 
     const supabase = createAdminClient();
     const { data: row, error: insertError } = await supabase
@@ -230,11 +238,34 @@ export async function POST(request: Request) {
 
     if (headshotUpload.error || resumeUpload.error) {
       console.error("employment file upload failed:", {
+        applicationId,
+        headshotPath,
+        resumePath,
+        headshotContentType: headshot.contentType,
+        resumeContentType: resume.contentType,
         headshot: headshotUpload.error,
         resume: resumeUpload.error,
       });
+
+      // Avoid orphan rows when storage rejects files after insert.
+      const { error: cleanupError } = await supabase
+        .from("employment_applications")
+        .delete()
+        .eq("id", applicationId);
+      if (cleanupError) {
+        console.error("employment orphan cleanup failed:", cleanupError);
+      }
+
+      const storageMessage =
+        headshotUpload.error?.message || resumeUpload.error?.message || "";
+      const clientHint = /mime type|content-type/i.test(storageMessage)
+        ? " One of the files has an unsupported type. Use JPG/PNG for the headshot and PDF/DOC/DOCX for the resume."
+        : "";
+
       return NextResponse.json(
-        { error: "Unable to upload application files right now." },
+        {
+          error: `Unable to upload application files right now.${clientHint}`,
+        },
         { status: 500 },
       );
     }
@@ -294,7 +325,12 @@ export async function POST(request: Request) {
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Unable to submit your application right now.";
-    const status = message.includes("required") || message.includes("smaller") ? 400 : 500;
+    const status =
+      message.includes("required") ||
+      message.includes("smaller") ||
+      message.includes("must be a")
+        ? 400
+        : 500;
     if (status === 500) {
       console.error("employment route error:", error);
     }

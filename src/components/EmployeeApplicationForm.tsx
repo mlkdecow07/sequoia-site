@@ -11,6 +11,11 @@ import {
   type EmployeeApplicationData,
   type EmploymentRecord,
 } from "@/lib/employee-application-config";
+import {
+  HEADSHOT_ACCEPT,
+  RESUME_ACCEPT,
+  resolveUploadContentType,
+} from "@/lib/employment-uploads";
 
 const inputClass =
   "w-full rounded border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-teal";
@@ -242,6 +247,7 @@ export default function EmployeeApplicationForm() {
     setter: (file: File | null) => void,
     file: File | undefined,
     label: string,
+    kind: "headshot" | "resume",
   ) => {
     if (!file) {
       setter(null);
@@ -250,6 +256,15 @@ export default function EmployeeApplicationForm() {
     if (file.size > MAX_FILE_BYTES) {
       setter(null);
       setStepError(`${label} must be 4MB or smaller.`);
+      return;
+    }
+    try {
+      resolveUploadContentType(file.name, file.type, kind);
+    } catch (error) {
+      setter(null);
+      setStepError(
+        error instanceof Error ? error.message : `${label} file type is not supported.`,
+      );
       return;
     }
     setStepError(null);
@@ -690,12 +705,13 @@ export default function EmployeeApplicationForm() {
             <FieldLabel required>Please Upload Your Headshot</FieldLabel>
             <input
               type="file"
-              accept="image/*"
+              accept={HEADSHOT_ACCEPT}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                assignUpload(setHeadshot, e.target.files?.[0], "Headshot")
+                assignUpload(setHeadshot, e.target.files?.[0], "Headshot", "headshot")
               }
               className="block w-full text-sm text-gray-600 file:mr-4 file:rounded file:border-0 file:bg-teal file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-teal-dark"
             />
+            <p className="mt-1 text-xs text-gray-500">JPG, PNG, WEBP, GIF, or HEIC — 4MB max.</p>
             {headshot ? (
               <p className="mt-2 text-sm text-gray-600">Selected: {headshot.name}</p>
             ) : null}
@@ -837,12 +853,13 @@ export default function EmployeeApplicationForm() {
             <FieldLabel required>Please Upload Your Resume</FieldLabel>
             <input
               type="file"
-              accept=".pdf,.doc,.docx"
+              accept={RESUME_ACCEPT}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                assignUpload(setResume, e.target.files?.[0], "Resume")
+                assignUpload(setResume, e.target.files?.[0], "Resume", "resume")
               }
               className="block w-full text-sm text-gray-600 file:mr-4 file:rounded file:border-0 file:bg-teal file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-teal-dark"
             />
+            <p className="mt-1 text-xs text-gray-500">PDF, DOC, or DOCX — 4MB max.</p>
             {resume ? (
               <p className="mt-2 text-sm text-gray-600">Selected: {resume.name}</p>
             ) : null}
