@@ -36,9 +36,7 @@ export default function SiteChrome({
 
   return (
     <>
-      {showSitewideOverlay && siteAlert ? (
-        <SiteAlertBanner alert={siteAlert} variant="overlay" />
-      ) : null}
+      {showSitewideOverlay && siteAlert ? <SiteAlertBanner alert={siteAlert} /> : null}
       {chrome}
     </>
   );

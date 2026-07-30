@@ -126,8 +126,10 @@ h6 {
     animation-delay: 0.76s;
   }
 
-  /* Drop-in override for the enrollment banner (starts above, not below) */
-  .hero-content > .enrollment-banner-enter {
+  /* Drop-in override for the enrollment banner (starts above, not below).
+     Nested under the verse block so it stays out of the hero flex stack. */
+  .hero-content .enrollment-banner-enter {
+    opacity: 0;
     animation: enrollment-banner-drop 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.7s forwards;
   }
 
@@ -234,7 +236,7 @@ h6 {
   .photo-reveal-drift,
   .hero-ken-burns,
   .hero-content > *,
-  .hero-content > .enrollment-banner-enter,
+  .hero-content .enrollment-banner-enter,
   .testimonial-enter-next,
   .testimonial-enter-prev,
   .eitc-now-attention {

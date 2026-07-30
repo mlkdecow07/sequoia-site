@@ -68,7 +68,7 @@ export default function HeroGallery({ siteAlert }: { siteAlert?: SiteAlert | nul
             </svg>
           </Link>
         </div>
-        <div className="mx-auto max-w-xl px-1 text-center italic text-white/95 sm:max-w-2xl">
+        <div className="relative mx-auto max-w-xl px-1 text-center italic text-white/95 sm:max-w-2xl">
           <p className="text-sm leading-snug md:text-base lg:text-lg">
             He shall be like a tree planted by the rivers of water, that brings forth its fruit in
             its season, whose leaf also shall not wither; and whatever he does shall prosper.
@@ -76,51 +76,53 @@ export default function HeroGallery({ siteAlert }: { siteAlert?: SiteAlert | nul
           <p className="mt-1.5 text-xs tracking-widest text-white/90 not-italic md:text-sm">
             PSALM 1:3
           </p>
-        </div>
 
-        {bannerOpen ? (
-          <div className="enrollment-banner-enter relative mx-auto mt-8 w-full max-w-3xl px-2 sm:mt-10 sm:max-w-4xl sm:px-0 md:mt-12 lg:max-w-5xl">
-            <Link
-              href="/enrollment"
-              className="group flex w-full items-center justify-center gap-4 rounded border border-teal/50 bg-teal/40 px-9 py-6 pr-14 text-white backdrop-blur-md transition hover:border-teal/70 hover:bg-teal/55 sm:gap-6 sm:px-12 sm:py-8 sm:pr-16"
-            >
-              <span className="font-heading text-xl font-semibold uppercase leading-relaxed tracking-[0.2em] sm:text-2xl">
-                Enrollment is open for 2026–2027
-              </span>
-              <span className="h-8 w-px bg-white/40 sm:h-10" aria-hidden="true" />
-              <span className="inline-flex items-center font-heading text-base uppercase leading-relaxed tracking-[0.16em] text-white/90 transition group-hover:text-white sm:text-xl">
-                View process
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  className="ml-1.5 h-[1.1em] w-[1.1em] shrink-0 transition group-hover:translate-x-0.5"
+          {bannerOpen ? (
+            <div className="enrollment-banner-enter absolute left-1/2 top-full z-10 mt-8 w-[min(100vw-1rem,64rem)] -translate-x-1/2 px-2 sm:mt-10 sm:px-0 md:mt-12">
+              <div className="relative mx-auto w-full max-w-3xl sm:max-w-4xl lg:max-w-5xl">
+                <Link
+                  href="/enrollment"
+                  className="group flex w-full items-center justify-center gap-4 rounded border border-teal/50 bg-teal/40 px-9 py-6 pr-14 text-white backdrop-blur-md transition hover:border-teal/70 hover:bg-teal/55 sm:gap-6 sm:px-12 sm:py-8 sm:pr-16"
                 >
-                  <path
-                    d="M7 4.5 13 10l-6 5.5"
-                    stroke="currentColor"
-                    strokeWidth="2.25"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-            </Link>
-            <button
-              type="button"
-              onClick={dismissBanner}
-              aria-label="Dismiss enrollment banner"
-              className="absolute right-2.5 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded text-white/80 transition hover:bg-teal/30 hover:text-white sm:right-3"
-            >
-              <span aria-hidden="true" className="text-2xl leading-none">
-                ×
-              </span>
-            </button>
-          </div>
-        ) : null}
+                  <span className="font-heading text-xl font-semibold uppercase leading-relaxed tracking-[0.2em] sm:text-2xl">
+                    Enrollment is open for 2026–2027
+                  </span>
+                  <span className="h-8 w-px bg-white/40 sm:h-10" aria-hidden="true" />
+                  <span className="inline-flex items-center font-heading text-base uppercase leading-relaxed tracking-[0.16em] text-white/90 transition group-hover:text-white sm:text-xl">
+                    View process
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      className="ml-1.5 h-[1.1em] w-[1.1em] shrink-0 transition group-hover:translate-x-0.5"
+                    >
+                      <path
+                        d="M7 4.5 13 10l-6 5.5"
+                        stroke="currentColor"
+                        strokeWidth="2.25"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={dismissBanner}
+                  aria-label="Dismiss enrollment banner"
+                  className="absolute right-2.5 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded text-white/80 transition hover:bg-teal/30 hover:text-white sm:right-3"
+                >
+                  <span aria-hidden="true" className="text-2xl leading-none">
+                    ×
+                  </span>
+                </button>
+              </div>
+            </div>
+          ) : null}
+        </div>
       </HeroSection>
 
-      {siteAlert ? <SiteAlertBanner alert={siteAlert} variant="overlay" /> : null}
+      {siteAlert ? <SiteAlertBanner alert={siteAlert} /> : null}
 
       <VideoModal
         open={videoOpen}

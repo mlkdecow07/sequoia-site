@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import type { SiteAlert } from "@/lib/supabase/types";
 
 function dismissKey(alert: SiteAlert) {
@@ -19,16 +20,19 @@ function formatAlertDate(iso: string) {
 
 type SiteAlertBannerProps = {
   alert: SiteAlert;
-  onOpenChange?: (open: boolean) => void;
-  /** Fixed overlay — does not consume layout space or shift hero content */
-  variant?: "overlay";
 };
 
-export default function SiteAlertBanner({
-  alert,
-  onOpenChange,
-}: SiteAlertBannerProps) {
+/**
+ * Fixed full-viewport overlay portaled to document.body.
+ * Must never consume layout space or alter hero flex children on open/dismiss.
+ */
+export default function SiteAlertBanner({ alert }: SiteAlertBannerProps) {
+  const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     let nextOpen = true;
@@ -40,8 +44,7 @@ export default function SiteAlertBanner({
       // Show if storage unavailable.
     }
     setOpen(nextOpen);
-    onOpenChange?.(nextOpen);
-  }, [alert, onOpenChange]);
+  }, [alert]);
 
   const dismiss = () => {
     try {
@@ -50,13 +53,12 @@ export default function SiteAlertBanner({
       // Ignore.
     }
     setOpen(false);
-    onOpenChange?.(false);
   };
 
-  if (!open) return null;
+  if (!mounted || !open) return null;
 
-  return (
-    <div className="enrollment-banner-enter fixed inset-0 z-[80] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+  return createPortal(
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
       <div
         role="status"
         className="relative flex min-h-[min(70vh,36rem)] w-full max-w-5xl flex-col items-center justify-center rounded border border-red-300/90 bg-red-600/85 px-6 py-10 text-center text-white backdrop-blur-md sm:min-h-[min(72vh,40rem)] sm:px-12 sm:py-14 md:px-16"
@@ -92,6 +94,7 @@ export default function SiteAlertBanner({
           </span>
         </button>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
