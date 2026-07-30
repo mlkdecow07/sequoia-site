@@ -25,9 +25,6 @@ export default async function AdminAlertsPage() {
           <h1 className="font-heading text-3xl uppercase tracking-widest text-teal">
             Alerts
           </h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Weather closures and other urgent notices — homepage only or all pages.
-          </p>
         </div>
         <Link
           href="/admin/alerts/new"

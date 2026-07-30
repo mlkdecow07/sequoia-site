@@ -26,14 +26,7 @@ export default async function AdminContactListPage() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="text-sm text-gray-500">
-          <Link href="/admin" className="text-teal underline-offset-2 hover:underline">
-            Dashboard
-          </Link>
-          <span className="mx-2">/</span>
-          Contact Forms
-        </p>
-        <h1 className="mt-2 font-heading text-3xl uppercase tracking-widest text-teal">
+        <h1 className="font-heading text-3xl uppercase tracking-widest text-teal">
           Contact Forms
         </h1>
       </div>

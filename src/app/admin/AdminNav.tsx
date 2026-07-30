@@ -42,9 +42,9 @@ export default function AdminNav({ email }: { email?: string | null }) {
   }, [menuOpen]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-teal/15 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex max-w-5xl items-start justify-between gap-3 px-4 py-3 sm:px-6 lg:items-center">
-        <div className="min-w-0 flex-1">
+    <header className="sticky top-0 z-40 overflow-x-hidden border-b border-teal/15 bg-white/95 backdrop-blur">
+      <div className="mx-auto flex w-full min-w-0 max-w-5xl items-start justify-between gap-3 px-4 py-3 sm:px-6 lg:items-center">
+        <div className="min-w-0 flex-1 overflow-hidden">
           <Link
             href="/admin"
             className="font-heading text-lg text-teal"
@@ -53,7 +53,7 @@ export default function AdminNav({ email }: { email?: string | null }) {
             SCS ADMIN
           </Link>
 
-          <div className="mt-2 flex flex-col items-start gap-2 lg:hidden">
+          <div className="mt-2 flex min-w-0 flex-col items-start gap-2 lg:hidden">
             {email ? (
               <p className="max-w-full truncate text-xs text-gray-600">{email}</p>
             ) : null}

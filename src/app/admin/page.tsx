@@ -96,7 +96,9 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-10">
       <div>
-        <h1 className="font-heading text-3xl text-teal">Dashboard</h1>
+        <h1 className="font-heading text-3xl uppercase tracking-widest text-teal">
+          Dashboard
+        </h1>
       </div>
 
       <section className="space-y-3">
@@ -145,6 +147,9 @@ export default async function AdminDashboardPage() {
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-red-950/80">
                     {alert.message}
+                  </p>
+                  <p className="mt-3 text-xs font-semibold uppercase tracking-widest text-red-800/70">
+                    Sequoia Christian School Office
                   </p>
                 </Link>
               </li>

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteAlertForm from "@/app/admin/SiteAlertForm";
 import { createClient } from "@/lib/supabase/server";
@@ -26,13 +25,7 @@ export default async function EditSiteAlertPage({
   return (
     <div className="space-y-6">
       <div>
-        <Link
-          href="/admin/alerts"
-          className="text-sm text-teal underline-offset-2 hover:underline"
-        >
-          ← Alerts
-        </Link>
-        <h1 className="mt-3 font-heading text-3xl uppercase tracking-widest text-teal">
+        <h1 className="font-heading text-3xl uppercase tracking-widest text-teal">
           Edit Alert
         </h1>
       </div>

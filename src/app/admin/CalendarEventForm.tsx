@@ -6,6 +6,7 @@ import {
   deleteCalendarEvent,
   updateCalendarEvent,
 } from "@/app/admin/actions";
+import { adminFieldClassName } from "@/lib/admin-form-styles";
 import type { CalendarEventRow } from "@/lib/supabase/types";
 
 type CalendarEventFormProps = {
@@ -24,9 +25,13 @@ export default function CalendarEventForm({ event }: CalendarEventFormProps) {
     : createCalendarEvent;
 
   return (
-    <div className="mx-auto max-w-xl space-y-6">
-      <form action={action} className="space-y-4 rounded border border-teal/15 bg-white px-5 py-5" autoComplete="off">
-        <div>
+    <div className="mx-auto w-full min-w-0 max-w-xl space-y-6">
+      <form
+        action={action}
+        className="min-w-0 space-y-4 overflow-hidden rounded border border-teal/15 bg-white px-4 py-5 sm:px-5"
+        autoComplete="off"
+      >
+        <div className="min-w-0">
           <label htmlFor="title" className="text-xs font-semibold uppercase tracking-widest text-teal">
             Title
           </label>
@@ -35,11 +40,11 @@ export default function CalendarEventForm({ event }: CalendarEventFormProps) {
             name="title"
             required
             defaultValue={event?.title ?? ""}
-            className="mt-1 w-full rounded border border-teal/20 px-3 py-2 text-sm text-gray-800 outline-none focus:border-teal"
+            className={adminFieldClassName}
           />
         </div>
 
-        <div>
+        <div className="min-w-0">
           <label
             htmlFor="dates"
             className="text-xs font-semibold uppercase tracking-widest text-teal"
@@ -52,15 +57,15 @@ export default function CalendarEventForm({ event }: CalendarEventFormProps) {
             required
             placeholder="e.g. September 4–7"
             defaultValue={event?.dates ?? ""}
-            className="mt-1 w-full rounded border border-teal/20 px-3 py-2 text-sm text-gray-800 outline-none focus:border-teal"
+            className={adminFieldClassName}
           />
           <p className="mt-1 text-xs text-gray-500">
             Shown on the public calendar list (keep the school&apos;s preferred wording).
           </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div>
+        <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="min-w-0">
             <label
               htmlFor="start_date"
               className="text-xs font-semibold uppercase tracking-widest text-teal"
@@ -73,10 +78,10 @@ export default function CalendarEventForm({ event }: CalendarEventFormProps) {
               type="date"
               required
               defaultValue={event?.start_date ?? ""}
-              className="mt-1 w-full rounded border border-teal/20 px-3 py-2 text-sm text-gray-800 outline-none focus:border-teal"
+              className={adminFieldClassName}
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <label
               htmlFor="end_date"
               className="text-xs font-semibold uppercase tracking-widest text-teal"
@@ -90,13 +95,13 @@ export default function CalendarEventForm({ event }: CalendarEventFormProps) {
               autoComplete="off"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="mt-1 w-full rounded border border-teal/20 px-3 py-2 text-sm text-gray-800 outline-none focus:border-teal"
+              className={adminFieldClassName}
             />
             <p className="mt-1 text-xs text-gray-500">Leave blank for a single-day event.</p>
           </div>
         </div>
 
-        <div>
+        <div className="min-w-0">
           <label
             htmlFor="description"
             className="text-xs font-semibold uppercase tracking-widest text-teal"
@@ -108,11 +113,11 @@ export default function CalendarEventForm({ event }: CalendarEventFormProps) {
             name="description"
             rows={3}
             defaultValue={event?.description ?? ""}
-            className="mt-1 w-full rounded border border-teal/20 px-3 py-2 text-sm text-gray-800 outline-none focus:border-teal"
+            className={adminFieldClassName}
           />
         </div>
 
-        <div>
+        <div className="min-w-0">
           <label
             htmlFor="sort_order"
             className="text-xs font-semibold uppercase tracking-widest text-teal"
@@ -124,7 +129,7 @@ export default function CalendarEventForm({ event }: CalendarEventFormProps) {
             name="sort_order"
             type="number"
             defaultValue={event?.sort_order ?? ""}
-            className="mt-1 w-full max-w-[12rem] rounded border border-teal/20 px-3 py-2 text-sm text-gray-800 outline-none focus:border-teal"
+            className={`${adminFieldClassName} max-w-full sm:max-w-[12rem]`}
           />
           <p className="mt-1 text-xs text-gray-500">
             Optional tie-breaker when events share a start date.
@@ -133,7 +138,7 @@ export default function CalendarEventForm({ event }: CalendarEventFormProps) {
 
         <button
           type="submit"
-          className="rounded bg-teal px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white hover:bg-teal-dark"
+          className="w-full rounded bg-teal px-4 py-3 text-sm font-semibold uppercase tracking-widest text-white hover:bg-teal-dark sm:w-auto sm:py-2"
         >
           {isEdit ? "Save changes" : "Create event"}
         </button>

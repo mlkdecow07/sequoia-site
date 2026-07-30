@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
 const KNOWN_LINKS = [
@@ -137,13 +136,6 @@ export default async function AdminInfoStatsPage() {
         <h1 className="font-heading text-3xl uppercase tracking-widest text-teal">
           Social Traffic
         </h1>
-        <p className="mt-2 text-sm text-gray-600">
-          Views and link clicks on{" "}
-          <Link href="/info" className="text-teal underline-offset-2 hover:underline">
-            /info
-          </Link>
-          .
-        </p>
       </div>
 
       {loadError ? (

@@ -69,6 +69,9 @@ export default function SiteAlertBanner({
       <p className="mt-5 max-w-3xl text-base leading-relaxed text-white/95 sm:mt-6 sm:text-xl md:text-2xl">
         {alert.message}
       </p>
+      <p className="mt-6 text-sm font-semibold uppercase tracking-[0.2em] text-red-50/95 sm:mt-8 sm:text-base">
+        Sequoia Christian School Office
+      </p>
       <button
         type="button"
         onClick={dismiss}

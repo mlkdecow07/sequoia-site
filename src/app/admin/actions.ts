@@ -187,52 +187,59 @@ export async function deleteCalendarEvent(id: string) {
   redirect("/admin/calendar");
 }
 
+import {
+  midnightTomorrowLocalIso,
+  parseDateLocalToIso,
+  parseDateTimeLocalToIso,
+} from "@/lib/local-datetime";
+
 function revalidateAlertPaths() {
   revalidatePath("/", "layout");
   revalidatePath("/admin/alerts");
-}
-
-function midnightTomorrowIso() {
-  const d = new Date();
-  d.setDate(d.getDate() + 1);
-  d.setHours(0, 0, 0, 0);
-  return d.toISOString();
 }
 
 function readAlertForm(formData: FormData) {
   const title = String(formData.get("title") ?? "").trim();
   const message = String(formData.get("message") ?? "").trim();
   const isActive = formData.get("is_active") === "on";
-  const endsAtRaw = String(formData.get("ends_at") ?? "").trim();
+  const endsAtDateRaw = String(formData.get("ends_at_date") ?? "").trim();
+  const endsAtTimeRaw = String(formData.get("ends_at_time") ?? "").trim();
+  const endsAtCombined =
+    endsAtDateRaw && endsAtTimeRaw
+      ? `${endsAtDateRaw}T${endsAtTimeRaw.length === 5 ? endsAtTimeRaw : endsAtTimeRaw.slice(0, 5)}`
+      : endsAtDateRaw
+        ? `${endsAtDateRaw}T00:00`
+        : String(formData.get("ends_at") ?? "").trim();
   const createdAtRaw = String(formData.get("created_at") ?? "").trim();
   const displayScopeRaw = String(formData.get("display_scope") ?? "home").trim();
   const displayScope =
     displayScopeRaw === "all" ? ("all" as const) : ("home" as const);
+  const tzOffsetRaw = Number(formData.get("tz_offset_minutes"));
+  const timezoneOffsetMinutes = Number.isFinite(tzOffsetRaw)
+    ? tzOffsetRaw
+    : 0;
 
   if (!title || !message) {
     throw new Error("Title and message are required.");
   }
 
-  const createdAt = createdAtRaw
-    ? /^\d{4}-\d{2}-\d{2}$/.test(createdAtRaw)
-      ? new Date(`${createdAtRaw}T12:00:00`)
-      : new Date(createdAtRaw)
-    : new Date();
-  if (Number.isNaN(createdAt.getTime())) {
-    throw new Error("Display date is invalid.");
-  }
+  const created_at = createdAtRaw
+    ? parseDateLocalToIso(createdAtRaw, timezoneOffsetMinutes)
+    : parseDateLocalToIso(
+        new Date().toISOString().slice(0, 10),
+        timezoneOffsetMinutes,
+      );
 
-  const endsAt = endsAtRaw ? new Date(endsAtRaw) : new Date(midnightTomorrowIso());
-  if (Number.isNaN(endsAt.getTime())) {
-    throw new Error("Auto-expire time is invalid.");
-  }
+  const ends_at = endsAtCombined
+    ? parseDateTimeLocalToIso(endsAtCombined, timezoneOffsetMinutes)
+    : midnightTomorrowLocalIso(timezoneOffsetMinutes);
 
   return {
     title,
     message,
     is_active: isActive,
-    created_at: createdAt.toISOString(),
-    ends_at: endsAt.toISOString(),
+    created_at,
+    ends_at,
     display_scope: displayScope,
   };
 }

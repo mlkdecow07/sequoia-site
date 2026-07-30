@@ -6,6 +6,7 @@ import {
   deleteSiteAlert,
   updateSiteAlert,
 } from "@/app/admin/actions";
+import { adminFieldClassName } from "@/lib/admin-form-styles";
 import type { SiteAlert } from "@/lib/supabase/types";
 
 function pad(n: number) {
@@ -20,40 +21,49 @@ function toLocalDateValue(iso: string | null | undefined) {
 }
 
 function todayLocalDateValue() {
-  return toLocalDateValue(new Date().toISOString());
+  const d = new Date();
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 
-/** Midnight at the start of tomorrow, local time, as datetime-local value. */
-function midnightTomorrowLocal() {
+function midnightTomorrowParts() {
   const d = new Date();
   d.setDate(d.getDate() + 1);
   d.setHours(0, 0, 0, 0);
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T00:00`;
+  return {
+    date: `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`,
+    time: "00:00",
+  };
 }
 
-function toLocalDateTimeValue(iso: string | null | undefined) {
-  if (!iso) return "";
+function toLocalTimeValue(iso: string | null | undefined) {
+  if (!iso) return "00:00";
   const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return "";
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  if (Number.isNaN(d.getTime())) return "00:00";
+  return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
 export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
   const isEdit = Boolean(alert);
   const [pendingDelete, setPendingDelete] = useState(false);
+  const tomorrow = midnightTomorrowParts();
 
   const action = isEdit
     ? updateSiteAlert.bind(null, alert!.id)
     : createSiteAlert;
 
   return (
-    <div className="mx-auto max-w-xl space-y-6">
+    <div className="mx-auto w-full min-w-0 max-w-xl space-y-6">
       <form
         action={action}
-        className="space-y-4 rounded border border-teal/15 bg-white px-5 py-5"
+        className="min-w-0 space-y-4 overflow-hidden rounded border border-teal/15 bg-white px-4 py-5 sm:px-5"
         autoComplete="off"
       >
-        <div>
+        <input
+          type="hidden"
+          name="tz_offset_minutes"
+          value={String(new Date().getTimezoneOffset())}
+        />
+        <div className="min-w-0">
           <label
             htmlFor="title"
             className="text-xs font-semibold uppercase tracking-widest text-teal"
@@ -66,11 +76,11 @@ export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
             required
             placeholder="e.g. School closed tomorrow"
             defaultValue={alert?.title ?? ""}
-            className="mt-1 w-full rounded border border-teal/20 px-3 py-2 text-sm text-gray-800 outline-none focus:border-teal"
+            className={adminFieldClassName}
           />
         </div>
 
-        <div>
+        <div className="min-w-0">
           <label
             htmlFor="message"
             className="text-xs font-semibold uppercase tracking-widest text-teal"
@@ -84,11 +94,11 @@ export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
             rows={4}
             placeholder="Details for families…"
             defaultValue={alert?.message ?? ""}
-            className="mt-1 w-full rounded border border-teal/20 px-3 py-2 text-sm text-gray-800 outline-none focus:border-teal"
+            className={adminFieldClassName}
           />
         </div>
 
-        <div>
+        <div className="min-w-0">
           <label
             htmlFor="created_at"
             className="text-xs font-semibold uppercase tracking-widest text-teal"
@@ -103,33 +113,54 @@ export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
             defaultValue={
               isEdit ? toLocalDateValue(alert?.created_at) : todayLocalDateValue()
             }
-            className="mt-1 w-full rounded border border-teal/20 px-3 py-2 text-sm text-gray-800 outline-none focus:border-teal"
+            className={adminFieldClassName}
           />
           <p className="mt-1 text-xs text-gray-500">
-            Shown on the homepage alert (defaults to today; editable).
+            Shown on the alert (defaults to today; editable).
           </p>
         </div>
 
-        <div>
-          <label
-            htmlFor="ends_at"
-            className="text-xs font-semibold uppercase tracking-widest text-teal"
-          >
+        <div className="min-w-0 space-y-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-teal">
             Auto-expire
-          </label>
-          <input
-            id="ends_at"
-            name="ends_at"
-            type="datetime-local"
-            required
-            defaultValue={
-              isEdit && alert?.ends_at
-                ? toLocalDateTimeValue(alert.ends_at)
-                : midnightTomorrowLocal()
-            }
-            className="mt-1 w-full rounded border border-teal/20 px-3 py-2 text-sm text-gray-800 outline-none focus:border-teal"
-          />
-          <p className="mt-1 text-xs text-gray-500">
+          </p>
+          <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="min-w-0">
+              <label htmlFor="ends_at_date" className="sr-only">
+                Expire date
+              </label>
+              <input
+                id="ends_at_date"
+                name="ends_at_date"
+                type="date"
+                required
+                defaultValue={
+                  isEdit && alert?.ends_at
+                    ? toLocalDateValue(alert.ends_at)
+                    : tomorrow.date
+                }
+                className={adminFieldClassName}
+              />
+            </div>
+            <div className="min-w-0">
+              <label htmlFor="ends_at_time" className="sr-only">
+                Expire time
+              </label>
+              <input
+                id="ends_at_time"
+                name="ends_at_time"
+                type="time"
+                required
+                defaultValue={
+                  isEdit && alert?.ends_at
+                    ? toLocalTimeValue(alert.ends_at)
+                    : tomorrow.time
+                }
+                className={adminFieldClassName}
+              />
+            </div>
+          </div>
+          <p className="text-xs text-gray-500">
             Defaults to midnight at the start of tomorrow.
           </p>
         </div>
@@ -172,14 +203,14 @@ export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
 
         <button
           type="submit"
-          className="rounded bg-teal px-4 py-2.5 text-sm font-semibold uppercase tracking-widest text-white hover:bg-teal-dark"
+          className="w-full rounded bg-teal px-4 py-3 text-sm font-semibold uppercase tracking-widest text-white hover:bg-teal-dark sm:w-auto sm:py-2.5"
         >
           {isEdit ? "Save alert" : "Create alert"}
         </button>
       </form>
 
       {isEdit ? (
-        <div className="flex justify-center">
+        <div className="flex justify-center px-2">
           {pendingDelete ? (
             <div className="flex flex-wrap items-center justify-center gap-3">
               <p className="text-sm text-gray-600">Delete this alert?</p>

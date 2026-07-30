@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { signInWithPassword } from "@/app/admin/actions";
+import { adminLoginFieldClassName } from "@/lib/admin-form-styles";
 
 type LoginPageProps = {
   searchParams: Promise<{ error?: string; next?: string }>;
@@ -11,7 +12,7 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
   const next = params.next?.startsWith("/admin") ? params.next : "/admin";
 
   return (
-    <div className="mx-auto max-w-md">
+    <div className="mx-auto w-full min-w-0 max-w-md">
       <h1 className="font-heading text-3xl uppercase tracking-widest text-teal">
         Admin Login
       </h1>
@@ -27,7 +28,7 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
 
       <form action={signInWithPassword} className="mt-6 space-y-4">
         <input type="hidden" name="next" value={next} />
-        <div>
+        <div className="min-w-0">
           <label
             htmlFor="email"
             className="mb-1.5 block text-xs font-semibold uppercase tracking-widest text-teal"
@@ -40,10 +41,10 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
             type="email"
             required
             autoComplete="email"
-            className="w-full rounded border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-teal"
+            className={adminLoginFieldClassName}
           />
         </div>
-        <div>
+        <div className="min-w-0">
           <label
             htmlFor="password"
             className="mb-1.5 block text-xs font-semibold uppercase tracking-widest text-teal"
@@ -56,12 +57,12 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
             type="password"
             required
             autoComplete="current-password"
-            className="w-full rounded border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-teal"
+            className={adminLoginFieldClassName}
           />
         </div>
         <button
           type="submit"
-          className="w-full rounded bg-teal px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-white hover:bg-teal-dark"
+          className="w-full rounded bg-teal px-5 py-3 text-sm font-semibold uppercase tracking-widest text-white hover:bg-teal-dark"
         >
           Sign in
         </button>

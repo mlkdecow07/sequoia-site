@@ -24,23 +24,9 @@ export default async function AdminCalendarListPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-sm text-gray-500">
-            <Link href="/admin" className="text-teal underline-offset-2 hover:underline">
-              Dashboard
-            </Link>
-            <span className="mx-2">/</span>
-            Calendar
-          </p>
-          <h1 className="mt-2 font-heading text-3xl uppercase tracking-widest text-teal">
+          <h1 className="font-heading text-3xl uppercase tracking-widest text-teal">
             Calendar
           </h1>
-          <p className="mt-1 text-sm text-gray-600">
-            Edit events shown on{" "}
-            <Link href="/calendar" className="text-teal underline-offset-2 hover:underline">
-              /calendar
-            </Link>
-            .
-          </p>
         </div>
         <Link
           href="/admin/calendar/new"

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import StatusForm from "@/app/admin/StatusForm";
 import { createClient } from "@/lib/supabase/server";
@@ -79,19 +78,7 @@ export default async function AdminEmploymentDetailPage({ params }: PageProps) {
   return (
     <div className="space-y-6">
       <div>
-        <p className="text-sm text-gray-500">
-          <Link href="/admin" className="text-teal underline-offset-2 hover:underline">
-            Dashboard
-          </Link>
-          <span className="mx-2">/</span>
-          <Link
-            href="/admin/employment"
-            className="text-teal underline-offset-2 hover:underline"
-          >
-            Employment Forms
-          </Link>
-        </p>
-        <h1 className="mt-2 font-heading text-3xl text-teal">
+        <h1 className="font-heading text-3xl text-teal">
           {data.applicant_name ?? "Application"}
         </h1>
         <p className="mt-1 text-sm text-gray-600">{formatDate(data.created_at)}</p>
