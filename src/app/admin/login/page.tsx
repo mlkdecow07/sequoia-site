@@ -62,7 +62,7 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
         </div>
         <button
           type="submit"
-          className="w-full rounded bg-teal px-5 py-3 text-sm font-semibold uppercase tracking-widest text-white hover:bg-teal-dark"
+          className="inline-flex items-center justify-center rounded bg-teal px-8 py-3.5 text-sm font-semibold uppercase tracking-widest text-white transition hover:bg-teal-dark sm:px-10 sm:py-4 sm:text-base"
         >
           Sign in
         </button>

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import type { SiteAlert } from "@/lib/supabase/types";
 
@@ -60,6 +61,14 @@ export default function SiteAlertBanner({
       role="status"
       className="relative flex min-h-[min(70vh,36rem)] w-full max-w-5xl flex-col items-center justify-center rounded border border-red-300/90 bg-red-600/85 px-6 py-10 text-center text-white backdrop-blur-md sm:min-h-[min(72vh,40rem)] sm:px-12 sm:py-14 md:px-16"
     >
+      <Image
+        src="/images/scs-logo-secondary-white.png"
+        alt=""
+        width={88}
+        height={100}
+        className="mb-5 h-16 w-auto opacity-95 sm:mb-6 sm:h-20 md:h-24"
+        priority
+      />
       <p className="text-xs font-semibold uppercase tracking-[0.28em] text-red-50 sm:text-sm">
         {formatAlertDate(alert.created_at)}
       </p>

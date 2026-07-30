@@ -6,7 +6,10 @@ import {
   deleteSiteAlert,
   updateSiteAlert,
 } from "@/app/admin/actions";
-import { adminFieldClassName } from "@/lib/admin-form-styles";
+import {
+  adminDateFieldClassName,
+  adminFieldClassName,
+} from "@/lib/admin-form-styles";
 import type { SiteAlert } from "@/lib/supabase/types";
 
 function pad(n: number) {
@@ -55,7 +58,7 @@ export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
     <div className="mx-auto w-full min-w-0 max-w-xl space-y-6">
       <form
         action={action}
-        className="min-w-0 space-y-4 overflow-hidden rounded border border-teal/15 bg-white px-4 py-5 sm:px-5"
+        className="min-w-0 max-w-full space-y-4 overflow-x-hidden rounded border border-teal/15 bg-white px-4 py-5 sm:px-5"
         autoComplete="off"
       >
         <input
@@ -98,7 +101,7 @@ export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
           />
         </div>
 
-        <div className="min-w-0">
+        <div className="min-w-0 max-w-full overflow-x-hidden">
           <label
             htmlFor="created_at"
             className="text-xs font-semibold uppercase tracking-widest text-teal"
@@ -113,19 +116,19 @@ export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
             defaultValue={
               isEdit ? toLocalDateValue(alert?.created_at) : todayLocalDateValue()
             }
-            className={adminFieldClassName}
+            className={adminDateFieldClassName}
           />
           <p className="mt-1 text-xs text-gray-500">
             Shown on the alert (defaults to today; editable).
           </p>
         </div>
 
-        <div className="min-w-0 space-y-3">
+        <div className="min-w-0 max-w-full space-y-3 overflow-x-hidden">
           <p className="text-xs font-semibold uppercase tracking-widest text-teal">
             Auto-expire
           </p>
-          <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2">
-            <div className="min-w-0">
+          <div className="grid min-w-0 max-w-full grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="min-w-0 max-w-full overflow-x-hidden">
               <label htmlFor="ends_at_date" className="sr-only">
                 Expire date
               </label>
@@ -139,10 +142,10 @@ export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
                     ? toLocalDateValue(alert.ends_at)
                     : tomorrow.date
                 }
-                className={adminFieldClassName}
+                className={adminDateFieldClassName}
               />
             </div>
-            <div className="min-w-0">
+            <div className="min-w-0 max-w-full overflow-x-hidden">
               <label htmlFor="ends_at_time" className="sr-only">
                 Expire time
               </label>
@@ -156,11 +159,11 @@ export default function SiteAlertForm({ alert }: { alert?: SiteAlert }) {
                     ? toLocalTimeValue(alert.ends_at)
                     : tomorrow.time
                 }
-                className={adminFieldClassName}
+                className={adminDateFieldClassName}
               />
             </div>
           </div>
-          <p className="text-xs text-gray-500">
+          <p className="mt-1 text-xs text-gray-500">
             Defaults to midnight at the start of tomorrow.
           </p>
         </div>

@@ -6,7 +6,10 @@ import {
   deleteCalendarEvent,
   updateCalendarEvent,
 } from "@/app/admin/actions";
-import { adminFieldClassName } from "@/lib/admin-form-styles";
+import {
+  adminDateFieldClassName,
+  adminFieldClassName,
+} from "@/lib/admin-form-styles";
 import type { CalendarEventRow } from "@/lib/supabase/types";
 
 type CalendarEventFormProps = {
@@ -28,7 +31,7 @@ export default function CalendarEventForm({ event }: CalendarEventFormProps) {
     <div className="mx-auto w-full min-w-0 max-w-xl space-y-6">
       <form
         action={action}
-        className="min-w-0 space-y-4 overflow-hidden rounded border border-teal/15 bg-white px-4 py-5 sm:px-5"
+        className="min-w-0 max-w-full space-y-4 overflow-x-hidden rounded border border-teal/15 bg-white px-4 py-5 sm:px-5"
         autoComplete="off"
       >
         <div className="min-w-0">
@@ -64,8 +67,8 @@ export default function CalendarEventForm({ event }: CalendarEventFormProps) {
           </p>
         </div>
 
-        <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2">
-          <div className="min-w-0">
+        <div className="grid min-w-0 max-w-full grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="min-w-0 max-w-full overflow-x-hidden">
             <label
               htmlFor="start_date"
               className="text-xs font-semibold uppercase tracking-widest text-teal"
@@ -78,10 +81,10 @@ export default function CalendarEventForm({ event }: CalendarEventFormProps) {
               type="date"
               required
               defaultValue={event?.start_date ?? ""}
-              className={adminFieldClassName}
+              className={adminDateFieldClassName}
             />
           </div>
-          <div className="min-w-0">
+          <div className="min-w-0 max-w-full overflow-x-hidden">
             <label
               htmlFor="end_date"
               className="text-xs font-semibold uppercase tracking-widest text-teal"
@@ -95,7 +98,7 @@ export default function CalendarEventForm({ event }: CalendarEventFormProps) {
               autoComplete="off"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className={adminFieldClassName}
+              className={adminDateFieldClassName}
             />
             <p className="mt-1 text-xs text-gray-500">Leave blank for a single-day event.</p>
           </div>
