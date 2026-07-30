@@ -59,7 +59,7 @@ export default function ExploreNextStepsTabs() {
           id={`${baseId}-panel-tuition`}
           aria-labelledby={`${baseId}-tab-tuition`}
           aria-hidden={activeIndex !== 0}
-          className={`col-start-1 row-start-1 space-y-4 px-5 py-5 sm:px-6 sm:py-6 ${
+          className={`col-start-1 row-start-1 flex h-full flex-col gap-4 px-5 py-5 sm:px-6 sm:py-6 ${
             activeIndex === 0 ? "visible" : "invisible"
           }`}
         >
@@ -76,7 +76,7 @@ export default function ExploreNextStepsTabs() {
             tuition page, including EITC opportunities for businesses and individuals who want to
             support Christian education.
           </p>
-          <div className="flex flex-wrap gap-3">
+          <div className="mt-auto flex flex-wrap gap-3">
             <Link
               href="/tuition"
               className="inline-flex items-center gap-1.5 text-sm font-semibold tracking-wide text-teal transition hover:text-teal-dark"
@@ -97,7 +97,7 @@ export default function ExploreNextStepsTabs() {
           id={`${baseId}-panel-enrollment`}
           aria-labelledby={`${baseId}-tab-enrollment`}
           aria-hidden={activeIndex !== 1}
-          className={`col-start-1 row-start-1 space-y-4 px-5 py-5 sm:px-6 sm:py-6 ${
+          className={`col-start-1 row-start-1 flex h-full flex-col gap-4 px-5 py-5 sm:px-6 sm:py-6 ${
             activeIndex === 1 ? "visible" : "invisible"
           }`}
         >
@@ -120,7 +120,7 @@ export default function ExploreNextStepsTabs() {
           </ol>
           <Link
             href="/enrollment"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold tracking-wide text-teal transition hover:text-teal-dark"
+            className="mt-auto inline-flex items-center gap-1.5 text-sm font-semibold tracking-wide text-teal transition hover:text-teal-dark"
           >
             View full enrollment details <span aria-hidden>→</span>
           </Link>
@@ -131,43 +131,45 @@ export default function ExploreNextStepsTabs() {
           id={`${baseId}-panel-apply`}
           aria-labelledby={`${baseId}-tab-apply`}
           aria-hidden={activeIndex !== 2}
-          className={`col-start-1 row-start-1 space-y-4 px-5 py-5 text-center sm:px-6 sm:py-6 ${
+          className={`col-start-1 row-start-1 space-y-4 px-5 py-5 sm:px-6 sm:py-6 ${
             activeIndex === 2 ? "visible" : "invisible"
           }`}
         >
           <p className="font-heading text-sm font-semibold tracking-wide text-teal sm:text-base">
             Application
           </p>
-          <p className="font-heading text-base font-semibold uppercase leading-relaxed tracking-wide text-teal sm:text-lg">
-            Ready to become a giant dreamer?
-          </p>
-          <Link
-            href={siteConfig.applyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded bg-teal px-6 py-2.5 text-xs font-semibold tracking-wide text-white transition hover:bg-teal-dark sm:px-8 sm:py-3 sm:text-sm"
-          >
-            START YOUR APPLICATION
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-4 w-4"
-              aria-hidden="true"
+          <div className="space-y-4 text-center">
+            <p className="font-heading text-base font-semibold uppercase leading-relaxed tracking-wide text-teal sm:text-lg">
+              Ready to become a giant dreamer?
+            </p>
+            <Link
+              href={siteConfig.applyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded bg-teal px-6 py-2.5 text-xs font-semibold tracking-wide text-white transition hover:bg-teal-dark sm:px-8 sm:py-3 sm:text-sm"
             >
-              <path d="M7 17 17 7" />
-              <path d="M7 7h10v10" />
-            </svg>
-          </Link>
-          <p className="type-caption mx-auto max-w-sm italic">
-            A non-refundable application fee of $50 is required with each application.
-          </p>
-          <p className="type-body-sm mx-auto max-w-sm text-gray-600">
-            Please Note: New students will be charged a $100 enrollment fee per student.
-          </p>
+              START YOUR APPLICATION
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4"
+                aria-hidden="true"
+              >
+                <path d="M7 17 17 7" />
+                <path d="M7 7h10v10" />
+              </svg>
+            </Link>
+            <p className="type-caption mx-auto max-w-sm italic">
+              A non-refundable application fee of $50 is required with each application.
+            </p>
+            <p className="type-body-sm mx-auto max-w-sm text-gray-600">
+              Please Note: New students will be charged a $100 enrollment fee per student.
+            </p>
+          </div>
         </div>
       </div>
     </div>
