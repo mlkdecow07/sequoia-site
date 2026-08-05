@@ -5,6 +5,7 @@ import type { SchoolCalendarMonth } from "@/lib/site-config";
 import {
   WEEKDAY_LABELS,
   buildMonthGrid,
+  findDefaultMonthIndex,
   flattenSchoolCalendar,
   formatYearMonth,
   isNoSchoolEvent,
@@ -41,8 +42,8 @@ export default function FullMonthCalendar({
       );
       if (matchIndex >= 0) return matchIndex;
     }
-    return 0;
-  }, [initialMonth, initialYear, monthEntries]);
+    return findDefaultMonthIndex(months);
+  }, [initialMonth, initialYear, monthEntries, months]);
 
   const [monthIndex, setMonthIndex] = useState(defaultIndex);
   const [selectedEvent, setSelectedEvent] = useState<FlatCalendarEvent | null>(null);

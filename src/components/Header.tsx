@@ -195,7 +195,7 @@ export default function Header() {
             <div className="flex items-center justify-between gap-6 px-5 py-[1.1rem] sm:px-6 sm:py-5 md:px-10 md:py-5">
               <Link href="/" className="shrink-0" onClick={() => setMenuOpen(false)} prefetch={false}>
                 <Image
-                  src="/images/combo-logo.png"
+                  src="/images/scs-logo-primary-white.png"
                   alt="Sequoia Christian School"
                   width={280}
                   height={80}

@@ -1,11 +1,11 @@
 export const welcomeLetter = {
   heading: "WELCOME TO SEQUOIA CHRISTIAN SCHOOL.",
   author: "Rachel Diroll",
-  role: "Headmaster",
+  role: "Head of School",
   organization: "Sequoia Christian School",
   closing: "Grace and peace,",
   image: "/images/faculty/diroll.jpg",
-  imageAlt: "Rachel Diroll, Headmaster of Sequoia Christian School",
+  imageAlt: "Rachel Diroll, Head of School of Sequoia Christian School",
   paragraphs: [
     "Whether you are exploring our school for the first time or have already become part of our community, I want to personally thank you for taking the time to learn about who we are and what God is building here.",
     "At Sequoia Christian School, we believe that education is far more than the transfer of knowledge. It is the joyful calling of shaping hearts, cultivating wisdom, and preparing young people to faithfully fulfill God's purposes for their lives. Every child who walks through our doors has been uniquely created by God, carrying gifts, dreams, and untapped potential waiting to flourish.",

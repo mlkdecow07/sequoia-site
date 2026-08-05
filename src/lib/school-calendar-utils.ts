@@ -1,8 +1,19 @@
 import type { SchoolCalendarEvent, SchoolCalendarMonth } from "@/lib/site-config";
+import { SCHOOL_TIME_ZONE } from "@/lib/site-config";
 
 export type FlatCalendarEvent = SchoolCalendarEvent & {
   startDate: string;
   endDate: string;
+};
+
+/** Standard calendar quarter (Jan–Mar = 1 … Oct–Dec = 4) with months present in the school calendar. */
+export type CalendarQuarterGroup = {
+  year: number;
+  /** 1–4 */
+  quarter: number;
+  months: SchoolCalendarMonth[];
+  /** Short nav label, e.g. "Aug · Sep" */
+  shortLabel: string;
 };
 
 const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
@@ -130,6 +141,123 @@ export function getMonthEntry(
     const parsed = parseMonthName(entry.name);
     return parsed.year === year && parsed.month === month;
   });
+}
+
+/** Calendar quarter 1–4 from a 0-based month index. */
+export function getCalendarQuarter(monthIndex: number): number {
+  return Math.floor(monthIndex / 3) + 1;
+}
+
+function getSchoolLocalYearMonth(date = new Date()): { year: number; month: number } {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: SCHOOL_TIME_ZONE,
+    year: "numeric",
+    month: "numeric",
+  }).formatToParts(date);
+  const value = (type: Intl.DateTimeFormatPartTypes) =>
+    Number(parts.find((part) => part.type === type)?.value);
+  return { year: value("year"), month: value("month") - 1 };
+}
+
+/**
+ * Group school-calendar months into standard calendar quarters (Jan–Mar, Apr–Jun,
+ * Jul–Sep, Oct–Dec). Only quarters that contain at least one calendar month are returned.
+ */
+export function groupMonthsByCalendarQuarter(
+  months: SchoolCalendarMonth[],
+): CalendarQuarterGroup[] {
+  const groups = new Map<string, CalendarQuarterGroup>();
+
+  for (const entry of months) {
+    const { year, month } = parseMonthName(entry.name);
+    const quarter = getCalendarQuarter(month);
+    const key = `${year}-Q${quarter}`;
+    const existing = groups.get(key);
+    if (existing) {
+      existing.months.push(entry);
+    } else {
+      groups.set(key, {
+        year,
+        quarter,
+        months: [entry],
+        shortLabel: "",
+      });
+    }
+  }
+
+  const ordered = Array.from(groups.values()).sort((a, b) => {
+    if (a.year !== b.year) return a.year - b.year;
+    return a.quarter - b.quarter;
+  });
+
+  for (const group of ordered) {
+    group.shortLabel = group.months
+      .map((entry) => entry.name.replace(/\s+\d{4}$/, ""))
+      .join(" · ");
+  }
+
+  return ordered;
+}
+
+/**
+ * Index of the quarter containing today (school local time), or the nearest
+ * available quarter if today falls outside the calendar range.
+ */
+export function findDefaultQuarterIndex(
+  quarters: CalendarQuarterGroup[],
+  date = new Date(),
+): number {
+  if (quarters.length === 0) return 0;
+
+  const { year, month } = getSchoolLocalYearMonth(date);
+  const quarter = getCalendarQuarter(month);
+  const exact = quarters.findIndex((group) => group.year === year && group.quarter === quarter);
+  if (exact >= 0) return exact;
+
+  const targetKey = year * 4 + quarter;
+  let bestIndex = 0;
+  let bestDistance = Number.POSITIVE_INFINITY;
+
+  for (let index = 0; index < quarters.length; index += 1) {
+    const group = quarters[index];
+    const distance = Math.abs(group.year * 4 + group.quarter - targetKey);
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestIndex = index;
+    }
+  }
+
+  return bestIndex;
+}
+
+/** Index of the month containing today, or the nearest available month. */
+export function findDefaultMonthIndex(
+  months: SchoolCalendarMonth[],
+  date = new Date(),
+): number {
+  if (months.length === 0) return 0;
+
+  const { year, month } = getSchoolLocalYearMonth(date);
+  const exact = months.findIndex((entry) => {
+    const parsed = parseMonthName(entry.name);
+    return parsed.year === year && parsed.month === month;
+  });
+  if (exact >= 0) return exact;
+
+  const targetKey = year * 12 + month;
+  let bestIndex = 0;
+  let bestDistance = Number.POSITIVE_INFINITY;
+
+  for (let index = 0; index < months.length; index += 1) {
+    const parsed = parseMonthName(months[index].name);
+    const distance = Math.abs(parsed.year * 12 + parsed.month - targetKey);
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestIndex = index;
+    }
+  }
+
+  return bestIndex;
 }
 
 export function isNoSchoolEvent(event: { title: string; description?: string }): boolean {

@@ -23,51 +23,12 @@ export default function HeroGallery({ siteAlert }: { siteAlert?: SiteAlert | nul
     setBannerOpen(false);
   };
 
-  const enrollmentBanner =
-    bannerOpen && enrollmentBannerState.visible && enrollmentBannerState.schoolYearLabel ? (
-      <div className="enrollment-banner-enter relative w-full">
-        <Link
-          href="/enrollment"
-          className="group flex w-full flex-col items-center justify-center gap-1 border-t border-teal/50 bg-teal/40 px-4 py-3.5 pr-9 text-center text-white backdrop-blur-md transition hover:border-teal/70 hover:bg-teal/55 sm:flex-row sm:gap-3 sm:px-6 sm:py-4 sm:pr-12 sm:text-left md:gap-4 md:px-8 md:py-5 md:pr-14"
-        >
-          <span className="max-w-[15rem] text-balance font-heading text-[0.7rem] font-semibold uppercase leading-snug tracking-[0.08em] sm:max-w-none sm:text-xs sm:tracking-[0.1em] md:text-sm md:tracking-[0.12em] lg:text-base lg:tracking-[0.14em]">
-            Enrollment is open for {enrollmentBannerState.schoolYearLabel}
-          </span>
-          <span className="hidden h-5 w-px bg-white/40 sm:block sm:h-6" aria-hidden="true" />
-          <span className="inline-flex items-center font-heading text-[0.6rem] uppercase leading-snug tracking-[0.08em] text-white/90 transition group-hover:text-white sm:text-[0.7rem] sm:tracking-[0.1em] md:text-xs md:tracking-[0.1em] lg:text-sm lg:tracking-[0.12em]">
-            View process
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 20 20"
-              fill="none"
-              className="ml-1 h-[1em] w-[1em] shrink-0 transition group-hover:translate-x-0.5"
-            >
-              <path
-                d="M7 4.5 13 10l-6 5.5"
-                stroke="currentColor"
-                strokeWidth="2.25"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
-        </Link>
-        <button
-          type="button"
-          onClick={dismissBanner}
-          aria-label="Dismiss enrollment banner"
-          className="absolute right-1 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded text-white/80 transition hover:bg-teal/30 hover:text-white sm:right-2 sm:h-9 sm:w-9 md:right-3"
-        >
-          <span aria-hidden="true" className="text-lg leading-none sm:text-xl">
-            ×
-          </span>
-        </button>
-      </div>
-    ) : null;
+  const showEnrollmentBanner =
+    bannerOpen && enrollmentBannerState.visible && enrollmentBannerState.schoolYearLabel;
 
   return (
     <>
-      <HeroSection images={heroImages} bottomOverlay={enrollmentBanner}>
+      <HeroSection images={heroImages}>
         <p className="hero-headline max-w-full px-2 text-center font-heading leading-tight text-white sm:px-0">
           WHERE GIANT DREAMERS
           <br />
@@ -121,6 +82,48 @@ export default function HeroGallery({ siteAlert }: { siteAlert?: SiteAlert | nul
           </p>
         </div>
       </HeroSection>
+
+      {/* Fixed viewport bottom — above page content (z-10), below alerts (z-80) / modals (z-200) */}
+      {showEnrollmentBanner ? (
+        <div className="enrollment-banner-enter fixed inset-x-0 bottom-0 z-40 w-full">
+          <Link
+            href="/enrollment"
+            className="group flex w-full flex-col items-center justify-center gap-1 border-t border-teal/50 bg-teal/40 px-4 py-3.5 pr-9 text-center text-white backdrop-blur-md transition hover:border-teal/70 hover:bg-teal/55 sm:flex-row sm:gap-3 sm:px-6 sm:py-4 sm:pr-12 sm:text-left md:gap-4 md:px-8 md:py-5 md:pr-14"
+          >
+            <span className="max-w-[15rem] text-balance font-heading text-[0.7rem] font-semibold uppercase leading-snug tracking-[0.08em] sm:max-w-none sm:text-xs sm:tracking-[0.1em] md:text-sm md:tracking-[0.12em] lg:text-base lg:tracking-[0.14em]">
+              Enrollment is open for {enrollmentBannerState.schoolYearLabel}
+            </span>
+            <span className="hidden h-5 w-px bg-white/40 sm:block sm:h-6" aria-hidden="true" />
+            <span className="inline-flex items-center font-heading text-[0.6rem] uppercase leading-snug tracking-[0.08em] text-white/90 transition group-hover:text-white sm:text-[0.7rem] sm:tracking-[0.1em] md:text-xs md:tracking-[0.1em] lg:text-sm lg:tracking-[0.12em]">
+              View process
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 20 20"
+                fill="none"
+                className="ml-1 h-[1em] w-[1em] shrink-0 transition group-hover:translate-x-0.5"
+              >
+                <path
+                  d="M7 4.5 13 10l-6 5.5"
+                  stroke="currentColor"
+                  strokeWidth="2.25"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+          </Link>
+          <button
+            type="button"
+            onClick={dismissBanner}
+            aria-label="Dismiss enrollment banner"
+            className="absolute right-1 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded text-white/80 transition hover:bg-teal/30 hover:text-white sm:right-2 sm:h-9 sm:w-9 md:right-3"
+          >
+            <span aria-hidden="true" className="text-lg leading-none sm:text-xl">
+              ×
+            </span>
+          </button>
+        </div>
+      ) : null}
 
       {siteAlert ? <SiteAlertBanner alert={siteAlert} /> : null}
 

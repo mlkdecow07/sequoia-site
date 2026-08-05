@@ -126,7 +126,7 @@ h6 {
     animation-delay: 0.76s;
   }
 
-  /* Drop-in for the enrollment banner (pinned to hero bottom — out of flex stack). */
+  /* Slide-up for the fixed enrollment banner (viewport bottom). */
   .enrollment-banner-enter {
     opacity: 0;
     animation: enrollment-banner-drop 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.7s forwards;
@@ -179,7 +179,7 @@ h6 {
 @keyframes enrollment-banner-drop {
   from {
     opacity: 0;
-    transform: translateY(-1.5rem);
+    transform: translateY(1.5rem);
   }
 
   to {

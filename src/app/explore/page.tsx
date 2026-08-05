@@ -16,11 +16,6 @@ export default function ExplorePage() {
 
       <ExplorePromoVideo />
 
-      <p className="type-body mx-auto mt-8 max-w-xl text-center">
-        Discover who we are, what we believe about education, and how your family can take the next
-        step toward joining Sequoia Christian School.
-      </p>
-
       <div className="mx-auto mt-12 max-w-xl">
         <ExploreWelcomeLetter />
       </div>

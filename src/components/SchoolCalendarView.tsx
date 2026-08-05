@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { SchoolCalendarMonth } from "@/lib/site-config";
 import { getCurrentSchoolYear } from "@/lib/site-config";
 import {
@@ -8,7 +8,9 @@ import {
   buildMonthGrid,
   downloadSchoolCalendarIcs,
   downloadSchoolCalendarPdf,
+  findDefaultQuarterIndex,
   flattenSchoolCalendar,
+  groupMonthsByCalendarQuarter,
   isNoSchoolEvent,
   monthLabel,
   parseMonthName,
@@ -33,7 +35,7 @@ function ViewToggle({
 }) {
   const options: { id: CalendarView; label: string }[] = [
     { id: "month", label: "Month" },
-    { id: "grid", label: "Year" },
+    { id: "grid", label: "Quarter" },
     { id: "list", label: "List" },
   ];
 
@@ -249,20 +251,25 @@ function MonthCalendarGrid({
   );
 }
 
+function quarterGridColsClass(count: number): string {
+  if (count <= 1) return "grid-cols-1";
+  if (count === 2) return "grid-cols-2";
+  return "grid-cols-3";
+}
+
 function GridView({ months }: { months: SchoolCalendarMonth[] }) {
-  const monthsPerPage = 3;
-  const [page, setPage] = useState(0);
+  const quarters = useMemo(() => groupMonthsByCalendarQuarter(months), [months]);
+  const [page, setPage] = useState(() => findDefaultQuarterIndex(quarters));
   const [selectedEvent, setSelectedEvent] = useState<FlatCalendarEvent | null>(null);
   const events = flattenSchoolCalendar(months);
-  const totalPages = Math.ceil(months.length / monthsPerPage);
-  const pageStart = page * monthsPerPage;
-  const visibleMonths = months.slice(pageStart, pageStart + monthsPerPage);
-  const prevPage = (page - 1 + totalPages) % totalPages;
-  const nextPage = (page + 1) % totalPages;
-  const prevMonths = months.slice(prevPage * monthsPerPage, prevPage * monthsPerPage + monthsPerPage);
-  const nextMonths = months.slice(nextPage * monthsPerPage, nextPage * monthsPerPage + monthsPerPage);
-  const prevLabel = prevMonths.map((month) => month.name.replace(/\s+\d{4}$/, "")).join(" · ");
-  const nextLabel = nextMonths.map((month) => month.name.replace(/\s+\d{4}$/, "")).join(" · ");
+  const totalPages = quarters.length;
+  const currentQuarter = quarters[page] ?? quarters[0];
+  const visibleMonths = currentQuarter?.months ?? [];
+  const prevPage = totalPages > 0 ? (page - 1 + totalPages) % totalPages : 0;
+  const nextPage = totalPages > 0 ? (page + 1) % totalPages : 0;
+  const prevLabel = quarters[prevPage]?.shortLabel ?? "";
+  const nextLabel = quarters[nextPage]?.shortLabel ?? "";
+  const desktopCols = quarterGridColsClass(visibleMonths.length);
 
   const sideButtonClass =
     "flex h-10 w-8 shrink-0 items-center justify-center self-center rounded border border-teal/20 bg-white text-teal shadow-sm transition hover:bg-teal/5 disabled:cursor-not-allowed disabled:opacity-35 sm:h-12 sm:w-9";
@@ -276,7 +283,7 @@ function GridView({ months }: { months: SchoolCalendarMonth[] }) {
           type="button"
           onClick={() => setPage(prevPage)}
           className={sideButtonClass}
-          aria-label={`Previous: ${prevLabel}`}
+          aria-label={`Previous quarter: ${prevLabel}`}
         >
           <svg
             viewBox="0 0 24 24"
@@ -315,12 +322,12 @@ function GridView({ months }: { months: SchoolCalendarMonth[] }) {
 
         {/* Desktop: continuous headers; cream gap only between date grids */}
         <div className="hidden md:block">
-          <div className="grid grid-cols-3">
+          <div className={`grid ${desktopCols}`}>
             {visibleMonths.map((month) => (
               <MonthCalendarHeader key={`header-${month.name}`} month={month} />
             ))}
           </div>
-          <div className="grid grid-cols-3 gap-2 bg-cream/80">
+          <div className={`grid ${desktopCols} gap-2 bg-cream/80`}>
             {visibleMonths.map((month) => (
               <MonthCalendarGrid
                 key={`grid-${month.name}`}
@@ -338,7 +345,7 @@ function GridView({ months }: { months: SchoolCalendarMonth[] }) {
               type="button"
               onClick={() => setPage(prevPage)}
               className="flex min-w-0 flex-1 items-center gap-1.5 px-2 py-1.5 text-left transition hover:bg-teal/10 sm:px-2.5"
-              aria-label={`Previous: ${prevLabel}`}
+              aria-label={`Previous quarter: ${prevLabel}`}
             >
               <svg
                 viewBox="0 0 24 24"
@@ -363,11 +370,11 @@ function GridView({ months }: { months: SchoolCalendarMonth[] }) {
             </button>
 
             <div className="flex items-center justify-center gap-1 border-x border-teal/15 px-2">
-              {Array.from({ length: totalPages }, (_, index) => (
+              {quarters.map((quarter, index) => (
                 <button
-                  key={index}
+                  key={`${quarter.year}-Q${quarter.quarter}`}
                   type="button"
-                  aria-label={`Go to page ${index + 1}`}
+                  aria-label={`Go to ${quarter.shortLabel}`}
                   aria-current={index === page ? "true" : undefined}
                   onClick={() => setPage(index)}
                   className={`h-1.5 rounded-full transition-all ${
@@ -381,7 +388,7 @@ function GridView({ months }: { months: SchoolCalendarMonth[] }) {
               type="button"
               onClick={() => setPage(nextPage)}
               className="flex min-w-0 flex-1 items-center justify-end gap-1.5 px-2 py-1.5 text-right transition hover:bg-teal/10 sm:px-2.5"
-              aria-label={`Next: ${nextLabel}`}
+              aria-label={`Next quarter: ${nextLabel}`}
             >
               <span className="min-w-0">
                 <span className="block text-[8px] font-semibold uppercase tracking-widest text-teal/50">
@@ -413,7 +420,7 @@ function GridView({ months }: { months: SchoolCalendarMonth[] }) {
           type="button"
           onClick={() => setPage(nextPage)}
           className={sideButtonClass}
-          aria-label={`Next: ${nextLabel}`}
+          aria-label={`Next quarter: ${nextLabel}`}
         >
           <svg
             viewBox="0 0 24 24"

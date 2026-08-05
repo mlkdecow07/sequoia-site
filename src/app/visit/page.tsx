@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Accordion from "@/components/Accordion";
 import VisitInquiryForm from "@/components/VisitInquiryForm";
+import VisitOptionsTabs from "@/components/VisitOptionsTabs";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -93,42 +94,7 @@ export default function VisitPage() {
       </p>
 
       <section className="mx-auto mt-12 max-w-xl" aria-label="Visit options">
-        <div className="overflow-hidden rounded-xl border border-teal/15 bg-white shadow-sm">
-          <div className="border-b border-teal/10 bg-teal/5 px-5 py-4">
-            <p className="font-heading font-semibold tracking-wide text-teal">CAMPUS VISIT</p>
-          </div>
-          <div className="space-y-4 px-5 py-5 sm:px-6 sm:py-6">
-            <p className="type-body">
-              Reach out and we&apos;ll arrange a time for your family to visit. When possible, we
-              recommend coming during the school day so you can see learning in action and get a
-              clearer sense of classroom life at Sequoia.
-            </p>
-            <a
-              href="#schedule-a-visit"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold tracking-wide text-teal transition hover:text-teal-dark"
-            >
-              Schedule a visit <span aria-hidden>→</span>
-            </a>
-          </div>
-
-          <div className="border-t border-teal/10">
-            <div className="border-b border-teal/10 bg-teal/5 px-5 py-4">
-              <p className="font-heading font-semibold tracking-wide text-teal">OPEN HOUSE</p>
-            </div>
-            <div className="space-y-4 px-5 py-5 sm:px-6 sm:py-6">
-              <p className="type-body">
-                Join us for Open House — a welcoming way to meet our team, see classrooms, and learn
-                more about life at Sequoia. Check the school calendar for the next date.
-              </p>
-              <Link
-                href="/calendar"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold tracking-wide text-teal transition hover:text-teal-dark"
-              >
-                View school calendar <span aria-hidden>→</span>
-              </Link>
-            </div>
-          </div>
-        </div>
+        <VisitOptionsTabs />
       </section>
 
       <section
