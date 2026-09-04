@@ -64,6 +64,14 @@ const provides = [
 
 const highlightSlides = [
   {
+    id: "around-here-we-provide",
+    title: "WHAT IS OUR VISION?",
+    image: sectionImages.aroundHereWeProvide,
+    variant: "provides" as const,
+    intro: providesIntro,
+    provides,
+  },
+  {
     id: "why-christian-education",
     title: "WHY CHRISTIAN EDUCATION?",
     image: sectionImages.whyChristianEducation,
@@ -76,14 +84,6 @@ const highlightSlides = [
     image: sectionImages.whatMakesUsUnique,
     variant: "list" as const,
     items: uniqueSections,
-  },
-  {
-    id: "around-here-we-provide",
-    title: "WHAT IS OUR VISION?",
-    image: sectionImages.aroundHereWeProvide,
-    variant: "provides" as const,
-    intro: providesIntro,
-    provides,
   },
 ];
 
